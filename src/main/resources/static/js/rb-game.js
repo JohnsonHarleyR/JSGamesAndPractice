@@ -15,14 +15,6 @@ function setPage() {
 	main.appendChild(game);
 	
 	
-	//Add a "new board" button so they don't have to refresh
-	newBoardBtn = document.createElement("button");
-	newBoardBtn.id = "new-board-btn";
-	newBoardBtn.className = "button";
-	newBoardBtn.innerText = "New Board";
-	newBoardBtn.addEventListener("click", setPage);
-	game.appendChild(newBoardBtn);
-	
 	
 	//set up board
 	board = document.createElement("table");
@@ -95,6 +87,30 @@ function setPage() {
 		}
 	}
 	
+	//add button section
+	var btnSection = document.createElement("section");
+	btnSection.id = "btn-section";
+	btnSection.innerHTML = "";
+	game.appendChild(btnSection);
+	
+	//Add a "new board" button so they don't have to refresh
+	newBoardBtn = document.createElement("button");
+	newBoardBtn.id = "new-board-btn";
+	newBoardBtn.className = "button";
+	newBoardBtn.innerText = "New Board";
+	newBoardBtn.addEventListener("click", setPage);
+	btnSection.appendChild(newBoardBtn);
+	
+	var breakLine = document.createElement("br");
+	btnSection.appendChild(breakLine);
+	
+	//Add a "clear markers" button
+	clearMarkersBtn = document.createElement("button");
+	clearMarkersBtn.id = "clear-markers-btn";
+	clearMarkersBtn.className = "button";
+	clearMarkersBtn.innerText = "Clear Markers";
+	clearMarkersBtn.addEventListener("click", clearMarkers);
+	btnSection.appendChild(clearMarkersBtn);
 	
 }
 
@@ -130,6 +146,21 @@ function isNotUsed(strings, newString) {
 	return notUsed;
 }
 
+//clear all markers
+function clearMarkers() {
+	
+	for (var r = 0; r < rows; r++) {
+
+		for (var c = 0; c < cols; c++) {
+			
+			var cell = board.rows[r].cells[c];
+			cell.setAttribute('marked', false);
+			cell.innerHTML = cell.getAttribute('text');
+			
+		}
+	}
+}
+
 
 
 //variables
@@ -151,6 +182,7 @@ var game;
 var board;
 
 var newBoardBtn;
+var clearMarkersBtn;
 
 var body = document.getElementById('body');
 var main = document.getElementById('main');
