@@ -14,5 +14,6 @@ Then look under resources/static/js to find the JavaScript files, or look under 
 <ul>
   <li>Tic Tac Toe</li>
   <li>Minesweeper</li>
-  <li>Roadside Bingo <i>(not finished)</i></li>
+  <li>Roadside Bingo</li>
+  <li>Sudoku <i>(not finished)</i></li>
 </ul>
