@@ -30,9 +30,9 @@
 </div>
 
 <h1 id="title">Minesweeper</h1>
-
 <br>
-<table id="game">
+<br>
+<table id="start">
 		
 		<tr>
 		<td>

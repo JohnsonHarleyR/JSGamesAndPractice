@@ -10,3 +10,8 @@
 #board {
 	margin-bottom: 40px;
 }
+
+#game {
+	background-color: #9282f9;
+	border: 2px solid #0d1325;
+}
