@@ -43,6 +43,8 @@ Click these links to see different practice projects:
 	<!-- <li><a href=""></a></li> -->
 </ul>
 
+<b>More to come!</b>
+
 <br><br>
 <div id="comments" style="text-align:left;content:left;">
 	<hr>

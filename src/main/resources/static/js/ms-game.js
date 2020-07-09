@@ -17,7 +17,7 @@ function endGame() {
 function askLevel() {
 	main.innerHTML = "<div id='navigation'><a href='/'>Go Back</a></div>" +
 	"<h1 id='title'>Minesweeper</h1>" + "Right clicking will place a flag over a square.<br>" +
-	"<i><b>Note:</b> I know it's hard to right click on a phone. I may add a solution later.</i>";
+	"<i><b>Note:</b> I know it's hard to right click on a phone. I may add a solution later.</i><br>";
 	
 	start = document.createElement("div");
 	game.id = "start";
@@ -25,7 +25,7 @@ function askLevel() {
 	main.appendChild(start);
 	
 	console.log("Ask level");
-	start.innerHTML = "<h2>Which level?</h2>";
+	start.innerHTML = "<br><h2>Which level?</h2>";
 	
 	easyBtn = document.createElement("button");
 	easyBtn.id = "easy";
