@@ -39,8 +39,15 @@ function loadPage() {
 	testing = document.createElement("div");
 	testing.id = "testing";
 	testing.class = "testing";
-	testing.innerHTML = "";
+	testing.innerHTML = "Testing buttons:<br>";
 	main.appendChild(testing);
+	
+	
+	solveBtn = document.createElement("button");
+	solveBtn.id = "solve-btn";
+	solveBtn.innerText = "Solve";
+	//solveBtn.addEventListener("click", resetCells);
+	testing.appendChild(solveBtn);
 	
 	
 	resetBoardBtn = document.createElement("button");
@@ -149,10 +156,9 @@ var solved; //solved board
 var unsolved; //unsolved board
 
 //test buttons
-var easyPuzzleBtn1;
-
-
+var solveBtn;
 var resetBoardBtn;
+var easyPuzzleBtn1;
 
 
 

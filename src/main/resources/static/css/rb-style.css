@@ -1,0 +1,19 @@
+.cell-blue {
+	width:100px;
+	height:100px;
+	border: 2px solid black;
+	text-align: center;
+	background-color: #DDFEFD;
+}
+
+.cell-green {
+	width:100px;
+	height:100px;
+	border: 2px solid black;
+	text-align: center;
+	background-color: #DDFEE4;
+}
+
+.marker {
+	width:90px;
+}

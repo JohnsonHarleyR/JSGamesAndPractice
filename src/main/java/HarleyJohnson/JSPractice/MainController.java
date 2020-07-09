@@ -48,6 +48,7 @@ public class MainController {
 		return "comments";
 	}
 	
+	
 	@RequestMapping("/comment/submit")
 	public String submitComment(
 			@RequestParam(name = "topic") String top,
@@ -90,12 +91,14 @@ public class MainController {
 		return "redirect:/comments";
 	}
 	
+	
 	@RequestMapping("/TicTacToe")
 	public String ticTacToe(Model model) {
 		
 		
 		return "tic-tac-toe";
 	}
+	
 	
 	@RequestMapping("/minesweeper")
 	public String mineSweeper(Model model) {
@@ -104,6 +107,7 @@ public class MainController {
 		return "minesweeper";
 	}
 	
+	
 	@RequestMapping("/roadside-bingo")
 	public String roadsideBingo(Model model) {
 		
@@ -111,10 +115,13 @@ public class MainController {
 		return "roadside-bingo";
 	}
 	
+	
 	@RequestMapping("/sudoku")
 	public String sudoku(Model model) {
 		
 		return "sudoku";
 	}
+	
+	
 
 }
