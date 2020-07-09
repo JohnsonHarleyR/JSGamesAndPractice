@@ -1,0 +1,116 @@
+@charset "ISO-8859-1";
+
+
+/* Tic Tac Toe */
+
+.ttt-square {
+	width: 75px;
+}
+
+.ttt-select {
+	width: 60px;
+	border: 2px solid black;
+}
+
+#title {
+	text-align: center;
+	font-size: 50px;
+}
+
+#instructions {
+	text-align: center;
+}
+
+#game {
+	padding-top: 30px;
+	float:left;
+}
+
+
+.xwins {
+	color: red;
+	font-size: 30px;
+}
+.owins {
+	color: blue;
+}
+
+.nowins {
+	color: orange;
+}
+
+.def {
+	color: grey;
+	font-size: 30px;
+}
+
+#message {
+	text-align: center;
+	margin-top: -10px;
+	padding-bottom: 5px;
+}
+
+#navigation {
+	float: bottom;
+}
+
+#side {
+	float: left;
+	display: flex;
+  	flex-wrap: wrap;
+  	flex-direction: column;
+	margin-top: 130px;
+	padding-left: 40px;
+}
+
+#selector-label {
+	padding-right: 10px;
+}
+
+#tdA1 {
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+#tdA2 {
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+#tdA3 {
+	border-left: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+#tdB1 {
+	border-right: 2px solid black;
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+#tdB2 {
+	border: 2px solid black;
+}
+
+#tdB3 {
+	border-left: 2px solid black;
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+#tdC1 {
+	border-right: 2px solid black;
+	border-top: 2px solid black;
+}
+
+#tdC2 {
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+	border-top: 2px solid black;
+}
+
+#tdC3 {
+	border-left: 2px solid black;
+	border-top: 2px solid black;
+}
