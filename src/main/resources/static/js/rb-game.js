@@ -1,18 +1,38 @@
 //functions
 
 //Load page
-function loadPage() {
-	console.log("Loading page...");
-	//set up board
+function setPage() {
+	//console.log("Loading page...");
 	
+	//clear main to reload it
+	main.innerHTML = start;
+	
+	//add a div
+	game = document.createElement("div");
+	game.id = "game";
+	game.className = "game";
+	game.innerHTML = "";
+	main.appendChild(game);
+	
+	
+	//Add a "new board" button so they don't have to refresh
+	newBoardBtn = document.createElement("button");
+	newBoardBtn.id = "new-board-btn";
+	newBoardBtn.className = "button";
+	newBoardBtn.innerText = "New Board";
+	newBoardBtn.addEventListener("click", setPage);
+	game.appendChild(newBoardBtn);
+	
+	
+	//set up board
 	board = document.createElement("table");
 	board.id = "board";
-	board.class = "table";
+	//board.className = "table";
 	board.innerHTML = "";
-	main.appendChild(board);
+	game.appendChild(board);
 	
 	
-	console.log("Setting up board");
+	//console.log("Setting up board");
 	//fill the cell texts
 	var cellTexts = [25];
 	for (var i = 0; i < 25; i++) {
@@ -125,15 +145,22 @@ var texts = ['A bridge.', 'A state border sign.', 'California license plate.', '
 	'A honking semi.', 'A car accident.', 'Roadkill.', 'An Amish person.', 'A tiny car.', 'A live wild animal.',
 	'A horse.', 'A cow.', 'A motorhome.', 'Teenagers having fun.', 'A limo.', 'A helicopter.', 'A lake.',
 	'A skyscraper.', 'A school bus.', 'A brewery sign.', 'New York license plate.', 'Someone watching tv.',
-	'A sign for a zoo.'];
+	'A sign for a zoo.', 'Crazy looking people.'];
 
 var game;
 var board;
 
+var newBoardBtn;
+
 var body = document.getElementById('body');
 var main = document.getElementById('main');
+
+var start = "<div id='navigation'><a href='/'>Go Back</a></div>" +
+		"<h1>Roadside Bingo</h1>" + "The start of a project for my mom.<br>" +
+		"I hope to either develop this into an android app or a realtime web game.<br>" +
+		"<i>(There is more to add but the basics are done.)</i>" + "<br><br>";
 
 
 
 //Event handlers
-body.onload = loadPage;
+body.onload = setPage;
