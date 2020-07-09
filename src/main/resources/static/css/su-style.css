@@ -1,0 +1,42 @@
+@charset "ISO-8859-1";
+
+.cell {
+	display: flex;
+	justify-content: center;
+	margin: 0px;
+	text-align: center;
+	font-size: larger;
+	font-weight: bold;
+	align-items: center;
+    background: #ffffff;
+    width: 4vw;
+    height: 4vw;
+    border: 1px solid black;
+    margin: 0px;
+}
+
+.square {
+	width: 4vw;
+    height: 4vw;
+    border: 1px solid black;
+    margin: 0px;
+}
+
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+#c13, #c16, #c23, #c26, #c43, #c46, #c53, #c56, #c73, #c76, #c83, #c86, #c93, #c96 {
+	border-right:4px solid black;
+}
+
+#c33, #c36, #c63, #c66 {
+	border-bottom:4px solid black;
+	border-right:4px solid black;
+}
+
+#c31, #c32, #c34, #c35, #c37, #c38, #c39, #c61, #c62, #c64, #c65, #c67, #c68, #c69 {
+	border-bottom:4px solid black;
+}

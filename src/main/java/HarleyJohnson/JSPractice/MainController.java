@@ -110,5 +110,11 @@ public class MainController {
 		
 		return "roadside-bingo";
 	}
+	
+	@RequestMapping("/sudoku")
+	public String sudoku(Model model) {
+		
+		return "sudoku";
+	}
 
 }

@@ -40,6 +40,7 @@ Click these links to see different practice projects:
 	<li><a href="/TicTacToe">Tic Tac Toe</a></li>
 	<li><a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>--> </li>
 	<li><a href="/roadside-bingo">Roadside Bingo</a> <i>(not finished)</i></li>
+	<li><a href="/sudoku">Sudoku</a> <i>(not finished)</i></li>
 	<!-- <li><a href=""></a></li> -->
 </ul>
 
