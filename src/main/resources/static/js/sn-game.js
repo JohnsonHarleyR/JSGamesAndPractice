@@ -30,10 +30,10 @@ function drawMainSprite(x, y) { //test
 
 //Move main sprite
 function moveSprite() {
-	var newX = parseInt(mainSprite.getAttribute('x')) + moveX;
-	var newY = parseInt(mainSprite.getAttribute('y')) + moveY;
+	//var newX = parseInt(mainSprite.getAttribute('x')) + moveX;
+	//var newY = parseInt(mainSprite.getAttribute('y')) + moveY;
 	
-	drawMainSprite(newX, newY);
+	//drawMainSprite(newX, newY);
 }
 
 
