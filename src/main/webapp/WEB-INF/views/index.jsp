@@ -41,6 +41,7 @@ Click these links to see different practice projects:
 	<li><a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>--> </li>
 	<li><a href="/roadside-bingo">Roadside Bingo</a></li>
 	<li><a href="/sudoku">Sudoku</a> <i>(not finished)</i></li>
+	<li><a href="/snake-game">Snake Game</a> <i>(not finished)</i></li>
 	<!-- <li><a href=""></a></li> -->
 </ul>
 
@@ -62,6 +63,8 @@ Click these links to see different practice projects:
 			<option value="ttt">Tic Tac Toe</option>
 			<option value="ms">Minesweeper</option>
 			<option value="rb">Roadside Bingo</option>
+			<option value="su">Sudoku</option>
+			<option value="sg">Snake Game</option>
 		</select>
 		<br>
 		<label>Your Name: </label>

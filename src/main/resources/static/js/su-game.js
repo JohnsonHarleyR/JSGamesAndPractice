@@ -17,7 +17,7 @@ function loadPage() {
 			
 			var cell = row.insertCell(c);
 			cell.id = "c" + a + "" + b;
-			cell.class = "cell";
+			cell.className = "cell";
 			
 			var val = document.createAttribute("value", 0); //default is 0
 		    cell.setAttributeNode(val);
@@ -38,7 +38,7 @@ function loadPage() {
 	//set test buttons
 	testing = document.createElement("div");
 	testing.id = "testing";
-	testing.class = "testing";
+	testing.className = "testing";
 	testing.innerHTML = "Testing buttons:<br>";
 	main.appendChild(testing);
 	

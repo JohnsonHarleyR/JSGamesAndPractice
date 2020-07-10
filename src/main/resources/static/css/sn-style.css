@@ -1,0 +1,30 @@
+@charset "ISO-8859-1";
+
+body {
+	margin-left: 100px;
+}
+
+#board {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 3px solid #FF39A2;
+}
+
+#buttons {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 30px;
+}
+
+#center-btns {
+	flex-direction: row;
+}
+
+
+
+.sprite {
+	width: 15px;
+	height: 15px;
+}

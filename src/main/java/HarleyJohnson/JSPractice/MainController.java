@@ -78,6 +78,11 @@ public class MainController {
 		case "rb":
 			topic = "Roadside Bingo";
 			break;
+		case "su":
+			topic = "Sudoku";
+			break;
+		case "sg":
+			topic = "Snake Game";
 		default:
 			topic = "General";
 			break;
@@ -120,6 +125,12 @@ public class MainController {
 	public String sudoku(Model model) {
 		
 		return "sudoku";
+	}
+	
+	@RequestMapping("/snake-game")
+	public String snakeGame(Model model) {
+		
+		return "snake-game";
 	}
 	
 	

@@ -41,6 +41,8 @@
 			<option value="ttt">Tic Tac Toe</option>
 			<option value="ms">Minesweeper</option>
 			<option value="rb">Roadside Bingo</option>
+			<option value="su">Sudoku</option>
+			<option value="sg">Snake Game</option>
 		</select>
 		<br>
 		<label>Your Name: </label>
