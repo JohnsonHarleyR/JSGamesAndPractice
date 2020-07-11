@@ -56,6 +56,19 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				<b>Type:</b> ${pet.type}<br>
 				<b>Color:</b> ${pet.color}<br>
 				<b>Pet ID:</b> ${pet.id}<br>
+				<br>
+				
+				<!-- Put buttons here too -->
+				<c:choose>
+				<c:when test="${stage == 1}">
+					<button id="feed">Warm the Egg</button>
+				</c:when>
+				<c:otherwise>
+					<button id="feed">Feed</button>
+					<button id="feed">Play</button>
+					<button id="feed">Cuddle</button>
+				</c:otherwise>
+				</c:choose>
 			</p>
 		
 			
@@ -91,7 +104,7 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				<label id="progress-label">Progress</label>
 				<br>
 				<div class="progress">
-				  <div id="progress" class="progress-bar bg-success" role="progressbar" style="width: ${pet.progress}%" aria-valuenow="${pet.progress}"
+				  <div id="progress" class="progress-bar bg-success" role="progressbar" style="width: ${pet.percent}%" aria-valuenow="${pet.progress}"
 				   aria-valuemin="${pet.minProgress}" aria-valuemax="${pet.maxProgress}"></div>
 				</div>
 				</c:if>

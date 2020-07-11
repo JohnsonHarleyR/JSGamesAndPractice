@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
@@ -51,6 +50,8 @@ public class Pet {
 	private int play;
 	private int love;
 	private int progress; //this will depend on the level
+	@Transient
+	private int percent;
 	@Transient
 	private int minProgress;
 	@Transient
@@ -256,6 +257,7 @@ public class Pet {
 		}
 		
 		System.out.println("\nKind: " + kind);
+		System.out.println("Stage: " + stage);
 		System.out.println("Start amount: " + startAmount);
 		System.out.println("Last time: " + last);
 		System.out.println("Decay rate: " + decayRate);
@@ -281,9 +283,6 @@ public class Pet {
 		double expon = -(decayRate * time);
 		finalAmount = (int) (startAmount * Math.exp(-decayRate * time));
 		
-		System.out.println("y=" + startAmount + "(1-" + decayRate + ")" + time);
-		System.out.println(finalAmount + "=" + startAmount + "(1-" + decayRate + ")" + time);
-		
 		System.out.println("Pet amount: " + finalAmount);
 		
 		//now make sure final amount isn't below 0
@@ -307,6 +306,8 @@ public class Pet {
 	public int getMinProgress() {
 		calculateStage();
 		
+		System.out.println("Stage: " + stage);
+		
 		if (stage == 1) {
 			minProgress = 0;
 		} else if (stage == 2) {
@@ -314,19 +315,27 @@ public class Pet {
 		} else {
 			minProgress = 500;
 		}
+		
+		System.out.println("Getting min progress: " + minProgress);
+		
 		return minProgress;
 	}
 	
 	public int getMaxProgress() {
 		calculateStage();
 		
+		System.out.println("Stage: " + stage);
+		
 		if (stage == 1) {
-			maxProgress = 0;
-		} else if (stage == 2) {
 			maxProgress = 50;
-		} else {
+		} else if (stage == 2) {
 			maxProgress = 500;
+		} else {
+			maxProgress = 1300;
 		}
+		System.out.println("Getting max progress: " + maxProgress);
+		System.out.println("Current progress: " + progress);
+		
 		return maxProgress;
 	}
 	
@@ -345,7 +354,7 @@ public class Pet {
 		//if it's a baby, set the hunger to 50. Keep it there until it's a child
 		//don't worry about hunger and play until then
 		if (stage == 1) {
-			hunger = 50;
+			hunger = 80;
 		} else {
 			hunger = calculateAfterDecay("hunger");
 		}
@@ -410,8 +419,50 @@ public class Pet {
 	}
 	
 	
-	//ADDING POINTS
+	//@return GET percent
+	public int getPercent() {
+		
+		double startAmount = progress - getMinProgress();
+		double endAmount = getMaxProgress() - getMinProgress();
+		double temp;
+		
+		temp = (startAmount / endAmount) * 100;
+		System.out.println("\nTemp: " + temp);
+		percent = (int) (temp);
+		System.out.println(startAmount + " out of " + endAmount + " is about " + percent + "%");
+		
+		
+		return percent;
+	}
+
 	
+	//@param SET percent
+	public void setPercent(int percent) {
+		this.percent = percent;
+	}
+
+	
+	//@param SET lastFeed
+	public void setLastFeed(LocalDateTime lastFeed) {
+		this.lastFeed = lastFeed;
+	}
+
+	
+	//@param SET lastPlay
+	public void setLastPlay(LocalDateTime lastPlay) {
+		this.lastPlay = lastPlay;
+	}
+
+	
+	//@param SET lastLove
+	public void setLastLove(LocalDateTime lastLove) {
+		this.lastLove = lastLove;
+	}
+	
+	
+	
+	//ADDING POINTS
+
 	public void addHungerPoints(int points) {
 		hunger += points;
 		progress += points;
@@ -494,6 +545,7 @@ public class Pet {
 	
 	//@return GET stage
 	public int getStage() {
+		calculateStage();
 		return stage;
 	}
 
