@@ -1,0 +1,13 @@
+#pet-home {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 3px solid #FF39A2;
+	margin-right: 30px;
+	width: 300px;
+	height: 200px;
+}
+
+#stats {
+	width: 300px;
+}

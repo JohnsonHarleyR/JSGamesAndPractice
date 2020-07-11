@@ -43,6 +43,7 @@
 			<option value="rb">Roadside Bingo</option>
 			<option value="su">Sudoku</option>
 			<option value="sg">Snake Game</option>
+			<option value="fp">Feedable Pet</option>
 		</select>
 		<br>
 		<label>Your Name: </label>

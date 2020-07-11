@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import HarleyJohnson.JSPractice.entity.Comment;
 
-public interface CommentDao extends JpaRepository<Comment,Long>{
+public interface CommentDao extends JpaRepository<Comment,Long> {
 	
 	Optional<Comment> findById(Long id);
 	List<Comment> findByDatetime(LocalDateTime datetime);
