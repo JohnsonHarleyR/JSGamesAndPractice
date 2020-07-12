@@ -64,14 +64,17 @@ public class Pet {
 	private LocalDateTime lastPlay;
 	private LocalDateTime lastLove;
 	
+	private String environment;
+	
 	public Pet() {}
 	
-	public Pet(String name, String type, String gender, String color) {
+	public Pet(String name, String type, String gender, String color, String environment) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.gender = gender;
 		this.color = color;
+		this.environment = environment;
 		
 		hunger = 80;
 		play = 80;
@@ -105,15 +108,16 @@ public class Pet {
 		
 		int amount = (int) (Math.random() * (max - min) + min);
 		
-		//add it to the amount
-		hunger += amount;
 		
-		
+		System.out.println("Hunger increase: " + amount);
 		
 		//check if it's over 100 or play is less than 0
 		if (hunger > 100) {
 			amount = hunger - 100;
 			hunger = 100;
+		} else {
+			//add it to the amount
+			hunger += amount;
 		}
 		
 		//add to progress too
@@ -138,10 +142,9 @@ public class Pet {
 		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
 		
 		
-		//add it to the amount
-		play += amount;
 		
-		//System.out.println("Play increase: " + amount);
+		
+		System.out.println("Play increase: " + amount);
 		
 		//also take away hunger, they want to play more after eating
 		int hungerAmount = (int)(amount / 1.5);
@@ -152,6 +155,9 @@ public class Pet {
 		if (play > 100) {
 			amount = play - 100;
 			play = 100;
+		} else {
+			//add it to the amount
+			play += amount;
 		}
 		if (hunger < 0) {
 			hunger = 0;
@@ -159,6 +165,8 @@ public class Pet {
 		
 		//add to progress too
 		progress += amount;
+		
+		//add player points here too
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
@@ -175,16 +183,18 @@ public class Pet {
 		
 		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
 		
-		//System.out.println("Love increase: " + amount);
+		System.out.println("Love increase: " + amount);
 		
 		//check if it's over 100
 		if (love > 100) {
 			amount = love - 100;
 			love = 100;
+		} else {
+			//add it to the amount
+			love += amount;
 		}
 		
-		//add it to the amount
-		love += amount;
+		//add player points here too
 		
 		//add to progress too
 		progress += amount;
@@ -323,7 +333,7 @@ public class Pet {
 		
 		LocalDateTime today = LocalDateTime.now();
 		long days = ChronoUnit.DAYS.between(birthday, today);
-		System.out.println("Days since birth: " + days);
+		//System.out.println("Days since birth: " + days);
 		
 		if (progress < 70 || days < 1) { //also check time since birthday
 			stage = 1;
@@ -337,7 +347,7 @@ public class Pet {
 	public int getMinProgress() {
 		calculateStage();
 		
-		System.out.println("Stage: " + stage);
+		//System.out.println("Stage: " + stage);
 		
 		if (stage == 1) {
 			minProgress = 0;
@@ -585,8 +595,22 @@ public class Pet {
 	public void setStage(int stage) {
 		this.stage = stage;
 	}
+	
+	
 
 	
+	
+	//@return GET environment
+	public String getEnvironment() {
+		return environment;
+	}
+
+	
+	//@param SET environment
+	public void setEnvironment(String environment) {
+		this.environment = environment;
+	}
+
 	//@return GET color
 	public String getColor() {
 		return color;
@@ -716,10 +740,13 @@ public class Pet {
 	public String toString() {
 		return "Pet [id=" + id + ", name=" + name + ", birthday=" + birthday + ", type=" + type + ", gender=" + gender
 				+ ", stage=" + stage + ", color=" + color + ", mood=" + mood + ", image=" + image + ", hunger=" + hunger
-				+ ", play=" + play + ", love=" + love + ", progress=" + progress + ", minProgress=" + minProgress
-				+ ", maxProgress=" + maxProgress + ", lastFeed=" + lastFeed + ", lastPlay=" + lastPlay + ", lastLove="
-				+ lastLove + "]";
+				+ ", play=" + play + ", love=" + love + ", progress=" + progress + ", percent=" + percent
+				+ ", minProgress=" + minProgress + ", maxProgress=" + maxProgress + ", progressNumber=" + progressNumber
+				+ ", lastFeed=" + lastFeed + ", lastPlay=" + lastPlay + ", lastLove=" + lastLove + ", environment="
+				+ environment + "]";
 	}
+
+	
 	
 	
 	

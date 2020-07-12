@@ -177,10 +177,11 @@ public class PetController {
 			@RequestParam(name = "type") String type,
 			@RequestParam(name = "gender") String gender,
 			@RequestParam(name = "color") String color
+			//add environment
 			) {
 		boolean successful = true;
 		
-		Pet newPet = new Pet(name, type, gender, color);
+		Pet newPet = new Pet(name, type, gender, color, "default"); //change default after I have environments
 		
 		//now save to a repo
 		petRepo.save(newPet);

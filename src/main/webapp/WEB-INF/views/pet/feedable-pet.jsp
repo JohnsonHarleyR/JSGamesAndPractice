@@ -47,7 +47,7 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 		<c:when test="${exists}">
 		
 		
-		<canvas id="pet-home">
+		<canvas id="home-${pet.environment}">
 			</canvas>
 			
 			<p id="information">
@@ -60,15 +60,19 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				
 				<!-- Put buttons here too -->
 				<c:choose>
-				<c:when test="${stage == 1}">
-					<button id="feed">Warm the Egg</button>
+				<c:when test="${pet.stage == 1}">
+					<a href="/love?id=${pet.id}"><button id="feed">Warm the Egg</button></a>
+					<br>
 				</c:when>
 				<c:otherwise>
 					<a href="/feed?id=${pet.id}&min=10&max=30"><button id="feed">Feed</button></a>
-					<a href="/play?id=${pet.id}"><button id="feed">Play</button></a>
-					<a href="/love?id=${pet.id}"><button id="feed">Cuddle</button></a>
+					<a href="/play?id=${pet.id}"><button id="play">Play</button></a>
+					<a href="/love?id=${pet.id}"><button id="love">Cuddle</button></a>
+					<br>
 				</c:otherwise>
 				</c:choose>
+				
+
 			</p>
 		
 			
@@ -78,6 +82,7 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				<!-- Only show the first two if it's not an egg. You can't feed an egg and you shouldn't play with it lol. -->
 				<div id="bars">
 				<c:if test="${pet.stage != 1}">
+					<br>
 					<label id="hunger-label">Hunger</label>
 					<br>
 					<div class="progress">
@@ -108,6 +113,9 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				   aria-valuemin="${pet.minProgress}" aria-valuemax="${pet.maxProgress}"></div>
 				</div>
 				</c:if>
+				
+				<br>
+				<a href="/load-pet"><button id="load-pet">Load a Pet</button></a>
 				</div>
 			</div>
 		</c:when>
