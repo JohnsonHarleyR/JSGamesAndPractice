@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -100,74 +101,99 @@ public class Pet {
 	//Baby should take at least 5 days and 500 pts
 	//Child is permanent for now - add more stages later
 	
-	public void feedPet(int amount) {
+	public void feedPet(int min, int max) {
+		
+		int amount = (int) (Math.random() * (max - min) + min);
 		
 		//add it to the amount
 		hunger += amount;
 		
-		//also take away play, they want to play more after eating
-		int playAmount = amount / 2;
-		play -= playAmount;
+		
 		
 		//check if it's over 100 or play is less than 0
 		if (hunger > 100) {
+			amount = hunger - 100;
 			hunger = 100;
 		}
-		if (play < 0) {
-			play = 0;
-		}
+		
+		//add to progress too
+		progress += amount;
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
 		lastFeed = LocalDateTime.from(formatter.parse(timestampString));
+		
+		
 	}
 	
 	
-	public void playWithPet(int amount) {
+	public void playWithPet() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
+		final int MAX = 20;
+		final int MIN = 7;
+		
+		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
+		
 		
 		//add it to the amount
 		play += amount;
+		
+		//System.out.println("Play increase: " + amount);
 		
 		//also take away hunger, they want to play more after eating
 		int hungerAmount = (int)(amount / 1.5);
 		hunger -= hungerAmount;
 		
+		
 		//check if it's over 100 or hunger is less than 0
 		if (play > 100) {
+			amount = play - 100;
 			play = 100;
 		}
 		if (hunger < 0) {
 			hunger = 0;
 		}
 		
+		//add to progress too
+		progress += amount;
+		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
-		lastFeed = LocalDateTime.from(formatter.parse(timestampString));
+		lastPlay = LocalDateTime.from(formatter.parse(timestampString));
 	}
 	
-	public void showPetLove(int amount) {
+	public void showPetLove() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
+		final int MAX = 20;
+		final int MIN = 7;
+		
+		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
+		
+		//System.out.println("Love increase: " + amount);
+		
+		//check if it's over 100
+		if (love > 100) {
+			amount = love - 100;
+			love = 100;
+		}
 		
 		//add it to the amount
 		love += amount;
 		
-		//check if it's over 100
-		if (love > 100) {
-			love = 100;
-		}
+		//add to progress too
+		progress += amount;
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		String timestampString = new SimpleDateFormat(pattern).format(timestamp);
-		lastFeed = LocalDateTime.from(formatter.parse(timestampString));
+		lastLove = LocalDateTime.from(formatter.parse(timestampString));
 	}
 	
 	public double getHungerDecayRate() {
@@ -280,10 +306,10 @@ public class Pet {
 		
 		//double result = Math.pow(4,2); //reference
 		//a * FastMath.exp(-numCall * oneOverB);
-		double expon = -(decayRate * time);
+		//double expon = -(decayRate * time);
 		finalAmount = (int) (startAmount * Math.exp(-decayRate * time));
 		
-		System.out.println("Pet amount: " + finalAmount);
+		//System.out.println("Pet amount: " + finalAmount);
 		
 		//now make sure final amount isn't below 0
 		if (finalAmount < 0) {
@@ -294,11 +320,16 @@ public class Pet {
 	}
 	
 	public void calculateStage() {
-		if (progress < 70) { //also check time since birthday
+		
+		LocalDateTime today = LocalDateTime.now();
+		long days = ChronoUnit.DAYS.between(birthday, today);
+		System.out.println("Days since birth: " + days);
+		
+		if (progress < 70 || days < 1) { //also check time since birthday
 			stage = 1;
-		} else if (progress < 700) { //also check time since birthday - 1 day for egg, 5 days for baby
+		} else if (progress < 700 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
 			stage = 2;
-		} else {
+		} else if (days >= 5 && progress > 700) { //find next stage up still
 			stage = 3;
 		}
 	}
@@ -316,7 +347,7 @@ public class Pet {
 			minProgress = 500;
 		}
 		
-		System.out.println("Getting min progress: " + minProgress);
+		//System.out.println("Getting min progress: " + minProgress);
 		
 		return minProgress;
 	}
@@ -333,8 +364,8 @@ public class Pet {
 		} else {
 			maxProgress = 1300;
 		}
-		System.out.println("Getting max progress: " + maxProgress);
-		System.out.println("Current progress: " + progress);
+		//System.out.println("Getting max progress: " + maxProgress);
+		//System.out.println("Current progress: " + progress);
 		
 		return maxProgress;
 	}
@@ -427,9 +458,9 @@ public class Pet {
 		double temp;
 		
 		temp = (startAmount / endAmount) * 100;
-		System.out.println("\nTemp: " + temp);
+		//System.out.println("\nTemp: " + temp);
 		percent = (int) (temp);
-		System.out.println(startAmount + " out of " + endAmount + " is about " + percent + "%");
+		//System.out.println(startAmount + " out of " + endAmount + " is about " + percent + "%");
 		
 		
 		return percent;

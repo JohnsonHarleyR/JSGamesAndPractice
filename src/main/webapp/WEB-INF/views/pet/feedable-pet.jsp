@@ -64,9 +64,9 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 					<button id="feed">Warm the Egg</button>
 				</c:when>
 				<c:otherwise>
-					<button id="feed">Feed</button>
-					<button id="feed">Play</button>
-					<button id="feed">Cuddle</button>
+					<a href="/feed?id=${pet.id}&min=10&max=30"><button id="feed">Feed</button></a>
+					<a href="/play?id=${pet.id}"><button id="feed">Play</button></a>
+					<a href="/love?id=${pet.id}"><button id="feed">Cuddle</button></a>
 				</c:otherwise>
 				</c:choose>
 			</p>
