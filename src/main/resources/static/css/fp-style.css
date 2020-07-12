@@ -1,13 +1,22 @@
-#home-default {
+.home-default {
 	float:left;
-	background-color: black;
+	background-color: #ECFFE9;
 	color: white;
-	border: 3px solid #FF39A2;
+	border: 5px solid #13A521;
 	margin-right: 30px;
 	width: 275px;
 	height: 200px;
 }
 
+#td {
+	display: flex;
+	justify-content: center;
+}
+
 #stats {
 	width: 275px;
+}
+
+#pet-image {
+	height: 199px;
 }

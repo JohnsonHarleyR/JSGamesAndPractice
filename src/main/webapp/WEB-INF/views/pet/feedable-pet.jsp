@@ -15,7 +15,7 @@
 <meta charset="ISO-8859-1">
 <title>Feedable Pet</title>
 </head>
-<body>
+<body id="body">
 
 <!-- Header -->
 <section class="header">
@@ -26,6 +26,7 @@
 
 <!-- MainBody -->
 <main class="container">
+
 
 <div id="navigation">
 	<a href="/">Go Back</a>
@@ -41,16 +42,24 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 <hr>
 <br>
 
+<input type="hidden" id="exists" value="${exists}"/>
+
 <section id="pet">
 	
 	<c:choose>
 		<c:when test="${exists}">
 		
 		
-		<canvas id="home-${pet.environment}">
-			</canvas>
+			<table id="pet-home" class="home-${pet.environment}">
+				<tr>
+				<td id="td">
+				<img id="pet-image" src="${pet.image}"/>
+				</td>
+				</tr>
+			</table>
 			
 			<p id="information">
+			
 				<b>Pet Name:</b> ${pet.name}<br>
 				<b>Gender:</b> ${pet.gender}<br>
 				<b>Type:</b> ${pet.type}<br>
@@ -115,7 +124,8 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 				</c:if>
 				
 				<br>
-				<a href="/load-pet"><button id="load-pet">Load a Pet</button></a>
+				<a href="/load-pet"><button id="load-pet">Load a Pet</button></a><br>
+				<a href="/create-pet"><button id="create-pet">Create Pet</button></a>
 				</div>
 			</div>
 		</c:when>

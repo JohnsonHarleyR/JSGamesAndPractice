@@ -106,18 +106,17 @@ public class Pet {
 	
 	public void feedPet(int min, int max) {
 		
-		int amount = (int) (Math.random() * (max - min) + min);
+		int amount = (int) ((Math.random() * (max - min)) + min);
+		int orig = hunger;
 		
+		hunger += amount;
 		
 		System.out.println("Hunger increase: " + amount);
 		
 		//check if it's over 100 or play is less than 0
-		if (hunger > 100) {
-			amount = hunger - 100;
+		if (hunger >= 100) {
+			amount = 100 - orig;
 			hunger = 100;
-		} else {
-			//add it to the amount
-			hunger += amount;
 		}
 		
 		//add to progress too
@@ -136,13 +135,14 @@ public class Pet {
 	public void playWithPet() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
-		final int MAX = 20;
-		final int MIN = 7;
+		final int MAX = 30;
+		final int MIN = 10;
 		
-		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
+		int amount = (int) ((Math.random() * (MAX - MIN)) + MIN);
+		int orig = play;
 		
-		
-		
+		//add it to the amount
+		play += amount;
 		
 		System.out.println("Play increase: " + amount);
 		
@@ -152,13 +152,11 @@ public class Pet {
 		
 		
 		//check if it's over 100 or hunger is less than 0
-		if (play > 100) {
-			amount = play - 100;
+		if (play >= 100) {
+			amount = 100 - orig;
 			play = 100;
-		} else {
-			//add it to the amount
-			play += amount;
-		}
+		} 
+		
 		if (hunger < 0) {
 			hunger = 0;
 		}
@@ -178,20 +176,20 @@ public class Pet {
 	public void showPetLove() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
-		final int MAX = 20;
-		final int MIN = 7;
+		final int MAX = 30;
+		final int MIN = 10;
 		
-		int amount = (int) (Math.random() * (MAX - MIN) + MIN);
+		int amount = (int) ((Math.random() * (MAX - MIN)) + MIN);
+		int orig = play;
+		
+		love += amount;
 		
 		System.out.println("Love increase: " + amount);
 		
 		//check if it's over 100
-		if (love > 100) {
-			amount = love - 100;
+		if (love >= 100) {
+			amount = 100 - orig;
 			love = 100;
-		} else {
-			//add it to the amount
-			love += amount;
 		}
 		
 		//add player points here too
@@ -254,14 +252,14 @@ public class Pet {
 	
 	public void calculateMood() {
 		//take the average of the three needs
-		double average = hunger + play + love / 3;
+		double average = (hunger + play + love) / 3;
 		
 		//now match the number according to mood
-		if (average >= 90) {
+		if (average >= 75) {
 			mood = "great";
-		} else if ( average >= 65) {
+		} else if ( average >= 50) {
 			mood = "good";
-		} else if (average >= 30) {
+		} else if (average >= 25) {
 			mood = "okay";
 		} else {
 			mood = "bad";
@@ -335,11 +333,11 @@ public class Pet {
 		long days = ChronoUnit.DAYS.between(birthday, today);
 		//System.out.println("Days since birth: " + days);
 		
-		if (progress < 70 || days < 1) { //also check time since birthday
+		if (progress < 150 || days < 1) { //also check time since birthday
 			stage = 1;
-		} else if (progress < 700 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
+		} else if (progress < 800 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
 			stage = 2;
-		} else if (days >= 5 && progress > 700) { //find next stage up still
+		} else if (days >= 5 && progress > 800) { //find next stage up still
 			stage = 3;
 		}
 	}
@@ -443,10 +441,11 @@ public class Pet {
 	
 	public String getImage() {
 		calculateMood(); //make sure the mood is up to date
+		calculateStage();
 		String url = "";
 		
 		//if it's an egg, there is no mood
-		if (stage == 1) {
+		if (stage != 1) {
 			url = "/fp/" + type + "/" + color + "/" + stage + "/"  + mood + ".png";
 		} else {
 			url = "/fp/" + type + "/" + color + "/" + stage + "/"  + "egg.png";
@@ -471,6 +470,14 @@ public class Pet {
 		//System.out.println("\nTemp: " + temp);
 		percent = (int) (temp);
 		//System.out.println(startAmount + " out of " + endAmount + " is about " + percent + "%");
+		
+		
+		//if progress is over max, then reset progress percent to 90% because if it's showing, then the pet
+		//hasn't been alive long enough to level up, so keep it at 90.
+		calculateStage();
+		if (percent >= 100) {
+			percent = 90;
+		}
 		
 		
 		return percent;
@@ -625,6 +632,7 @@ public class Pet {
 	
 	//@return GET mood
 	public String getMood() {
+		calculateMood();
 		return mood;
 	}
 
@@ -637,6 +645,9 @@ public class Pet {
 	
 	//@return GET progress
 	public int getProgress() {
+		
+		
+		
 		return progress;
 	}
 

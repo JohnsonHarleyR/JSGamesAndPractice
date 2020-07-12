@@ -70,8 +70,12 @@ public class PetController {
 		Optional<Pet> tempPet = petRepo.findById(id);
 		pet = tempPet.get();
 		
+		System.out.println("\nHunger before: " + pet.getHunger());
+		
 		System.out.println("Feeding pet");
 		pet.feedPet(min, max);
+		
+		System.out.println("Hunger after: " + pet.getHunger());
 		
 		session.setAttribute("pet", pet);
 		
@@ -88,8 +92,13 @@ public class PetController {
 		Optional<Pet> tempPet = petRepo.findById(id);
 		pet = tempPet.get();
 		
+		
+		System.out.println("\nPlay before: " + pet.getPlay());
+		
 		System.out.println("Playing with pet");
 		pet.playWithPet();
+		
+		System.out.println("Play after: " + pet.getPlay());
 		
 		session.setAttribute("pet", pet);
 		
@@ -106,8 +115,12 @@ public class PetController {
 		Optional<Pet> tempPet = petRepo.findById(id);
 		pet = tempPet.get();
 		
+		System.out.println("\nLove before: " + pet.getLove());
+		
 		System.out.println("Showing love");
 		pet.showPetLove();
+		
+		System.out.println("Love after: " + pet.getLove());
 		
 		session.setAttribute("pet", pet);
 		
