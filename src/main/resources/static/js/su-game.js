@@ -104,6 +104,13 @@ function loadPage() {
 	testing.appendChild(easyPuzzleBtn1);
 	
 	
+	hardPuzzleBtn1 = document.createElement("button");
+	hardPuzzleBtn1.id = "hard-puzzle-btn-1";
+	hardPuzzleBtn1.innerText = "Test: Hard 1";
+	hardPuzzleBtn1.addEventListener("click", hardPuzzle1);
+	testing.appendChild(hardPuzzleBtn1);
+	
+	
 }
 
 //Set the number and also change the image
@@ -754,59 +761,26 @@ function easyPuzzle1() {
 	
 	isBlank = false;
 	
-	//MORE TESTS
-	/*
-	//check if 6 is valid for cell 3-3 -works
-	var valid = checkValidInSet(1, 3, 6, allRows[2]);
-	console.log("Testing checkValidInSet() for cell 2-4 with value 6: " + valid);
-	//check solution finder for cell - works
-	var solutions = getCellSolutions(1, 3);
-	console.log("Testing getCellSolutions() for cell 2-4: ");
-	for (var i = 0; i < solutions.length; i++) {
-		console.log(solutions[i]);
-	}
-	//test the solveSingleSolutions();
-	console.log("Solving for all single solution cells.");
-	var test1 = solveSingleSolutions();
-	console.log("Anything found?: " + test1);
-	console.log("");
-	console.log("Done solving single solution cells.");
-	//test solveForSingleZeros
-	console.log("Solving single zeros for r3.");
-	var test2 = solveForSingleZeros(r3);
-	console.log("Anything found?: " + test2);
-	//test solveSetSingles
-	console.log("");
-	console.log("Testing solveSetSingles for group g32");
-	var test3 = solveSetSingles(g32);
-	console.log("Anything found?: " + test3);
-	//test solveBySets
-	console.log("");
-	console.log("Testing solveBySets");
-	var test4 = solveBySets();
-	console.log("Anything found?: " + test4);
-	*/
-	//test solveByLogic
-	/*
-	console.log("");
-	console.log("Testing solveByLogic");
-	var test5 = solveByLogic();
-	console.log("Anything found?: " + test5);
+}
+
+function hardPuzzle1() {
+	//reset board just in case
+	resetCells();
 	
-	//test why 5-3 didn't find a solution
-	var cell = board.rows[4].cells[2];
-	console.log("");
-	console.log("Testing for 5-3... Value: " + cell.getAttribute("value"));
-	var test6 = solveSingleSolutions();
-	console.log("Anything found?: " + test6);
-	console.log("Getting solutions for 5-3...");
-	var solutionsTest = getCellSolutions(4, 2);
-	console.log("Solutions:");
-	for (var i = 0; i < solutionsTest.length; i++) {
-		console.log(solutionsTest[i]);
-	}
-	*/
+	console.log('testing');
 	
+	//now set up a puzzle for the board
+	setValue(4, 0, 0, "black");
+	setValue(9, 1, 5, "black");
+	setValue(7, 2, 6, "black"); setValue(8, 2, 7, "black"); setValue(5, 2, 8, "black");
+	setValue(7, 3, 2, "black"); setValue(4, 3, 4, "black"); setValue(8, 3, 5, "black"); setValue(5, 3, 7, "black");
+	setValue(1, 4, 2, "black"); setValue(3, 4, 3, "black");
+	setValue(6, 5, 2, "black"); setValue(7, 5, 4, "black");
+	setValue(8, 6, 0, "black"); setValue(6, 6, 1, "black"); setValue(9, 6, 6, "black"); setValue(3, 6, 8, "black");
+	setValue(7, 7, 0, "black"); setValue(5, 7, 5, "black"); setValue(6, 7, 7, "black"); setValue(2, 7, 8, "black");
+	setValue(3, 8, 2, "black"); setValue(7, 8, 3, "black");
+	
+	isBlank = false;
 }
 
 
