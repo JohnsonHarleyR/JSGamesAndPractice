@@ -2,6 +2,8 @@
 
 //solveByLogic - loops through all the following methods as long as anything is solved
 
+//findNakedPair - returns true or false, depending if it finds anything - searches a set for naked pairs
+
 //solveBySets - method that uses the following two methods on all rows, 
 //columns and groups. Repeats until nothing was solved.
 
@@ -368,8 +370,8 @@ function solveByLogic() {
 	
 	//don't attempt if board is blank
 	if (!isBlank) {
-		console.log("");
-		console.log("Solving by logic.");
+		//console.log("");
+		//console.log("Solving by logic.");
 		
 		//returns true if anything is solved at all.
 		
@@ -379,15 +381,15 @@ function solveByLogic() {
 		
 		do {
 			solutionsFound = false;
-			console.log("");
-			console.log("looping through...")
+			//console.log("");
+			//console.log("looping through...")
 			
 			//use these other methods to keep solving as long as anything is found
 			
-			console.log("Solving single solutions...");
+			//console.log("Solving single solutions...");
 			//found helps determine when to keep going
 			var found = solveSingleSolutions();
-			console.log("Solutions found?: " + found);
+			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -395,9 +397,9 @@ function solveByLogic() {
 			}
 			
 			//now solveBySet
-			console.log("Solving by sets...");
+			//console.log("Solving by sets...");
 			found = solveBySets();
-			console.log("Solutions found?: " + found);
+			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -411,6 +413,8 @@ function solveByLogic() {
 			}
 		} while (solutionsFound);
 		
+		console.log("Finished solving by logic.")
+		
 		return anythingFound;
 	}
 	
@@ -421,8 +425,8 @@ function solveByLogic() {
 //columns and groups. Repeats until nothing was solved.
 function solveBySets() {
 	
-	console.log("");
-	console.log("Solving by sets.");
+	//console.log("");
+	//console.log("Solving by sets.");
 	
 	//returns true if anything is solved at all.
 	var anythingFound = false;
@@ -432,11 +436,11 @@ function solveBySets() {
 	
 	do {
 		solutionsFound = false;
-		console.log("");
+		//console.log("");
 		
 		//solve all rows
 		for (var r = 0; r < allRows.length; r++) {
-			console.log("Solving rows.");
+			//console.log("Solving rows.");
 			var set = allRows[r];
 			//first solveSetSingles
 			var found = solveSetSingles(set);
@@ -459,7 +463,7 @@ function solveBySets() {
 		
 		//solve all columns
 		for (var c = 0; c < allCols.length; c++) {
-			console.log("Solving columns.");
+			//console.log("Solving columns.");
 			var set = allCols[c];
 			//first solveSetSingles
 			var found = solveSetSingles(set);
@@ -482,7 +486,7 @@ function solveBySets() {
 		
 		//solve all groups
 		for (var g = 0; g < allGroups.length; g++) {
-			console.log("Solving groups.");
+			//console.log("Solving groups.");
 			var set = allGroups[g];
 			//first solveSetSingles
 			var found = solveSetSingles(set);
@@ -503,7 +507,7 @@ function solveBySets() {
 			
 		}
 		
-		console.log("Anything found?: " + solutionsFound);
+		//console.log("Anything found?: " + solutionsFound);
 		
 		
 		//if solutionsFound is true, set anythingFound to true;
@@ -541,8 +545,8 @@ function solveSetSingles(set) {
 			var cellRow;
 			var cellCol;
 			
-			console.log("");
-			console.log("Checking set for value " + value);
+			//console.log("");
+			//console.log("Checking set for value " + value);
 			
 			//loop through cells in the set, counting up how many times a cell in that set contains that solution
 			for (var i = 0; i < set.length; i++) {
@@ -551,7 +555,7 @@ function solveSetSingles(set) {
 					var col = parseInt(set[i].getAttribute("col"));
 					var solutions = getCellSolutions(row, col);
 					
-					console.log("Cell " + (row + 1) + "-" + (col + 1));
+					//console.log("Cell " + (row + 1) + "-" + (col + 1));
 					
 					//check if solutions contains the value
 					
@@ -567,15 +571,15 @@ function solveSetSingles(set) {
 			if (timesFound === 1) {
 				setValue(value, cellRow, cellCol, "black");
 				found = true;
-				console.log("Value only found once. Setting cell " + (cellRow + 1) + "-" + (cellCol + 1) + 
-						" to " + value + ".");
+				//console.log("Value only found once. Setting cell " + (cellRow + 1) + "-" + (cellCol + 1) + 
+					//	" to " + value + ".");
 			} else {
-				console.log("Value found " + timesFound + " times.");
+		//		console.log("Value found " + timesFound + " times.");
 			}
 		}
 		
 	}
-	console.log("Solutions found?: " + found);
+//	console.log("Solutions found?: " + found);
 	return found;
 }
 
@@ -603,19 +607,19 @@ function solveForSingleZeros(set) {
 	//console.log("Zeros in set: " + numZeros);
 	//if there's only one number equal to 0, figure out the solution to that cell
 	if (numZeros === 1) {
-		console.log("Only one zero found in set.")
+		//console.log("Only one zero found in set.")
 		var row = parseInt(cell.getAttribute("row"));
 		var col = parseInt(cell.getAttribute("col"));
 		var solutions = getCellSolutions(row, col);
-		console.log("Number of solutions found: " + solutions.length);
-		console.log("Cell " + (row + 1) + "-" + (col + 1));
+		//console.log("Number of solutions found: " + solutions.length);
+		//console.log("Cell " + (row + 1) + "-" + (col + 1));
 		if (solutions.length === 1) {
 			setValue(solutions[0], row, col, "black");
 		}
 		//cell.setAttribute("value", solutions[0]);
 		found = true;
 	} else {
-		console.log("No single zeros found in set.")
+	//	console.log("No single zeros found in set.")
 	}
 	return found;
 	
@@ -634,8 +638,8 @@ function solveSingleSolutions() {
 	
 	do {
 		solutionsFound = false; //reset
-		console.log("");
-		console.log("Going through board to solve single solutions.");
+	//	console.log("");
+	//	console.log("Going through board to solve single solutions.");
 		
 		//start looping through all cells
 		for (var r = 0; r < 9; r++) {
@@ -648,9 +652,9 @@ function solveSingleSolutions() {
 					var solutions = getCellSolutions(r, c);
 					var row = parseInt(cell.getAttribute("row"));
 					var col = parseInt(cell.getAttribute("col"));
-					console.log("Cell " + (row + 1) + "-" + (col + 1) + " solutions found: " + solutions.length);
+			//		console.log("Cell " + (row + 1) + "-" + (col + 1) + " solutions found: " + solutions.length);
 					for (var a = 0; a < solutions.length; a++) {
-						console.log(solutions[a]);
+					//	console.log(solutions[a]);
 					}
 					
 					//if the length of solutions is 1, then set that cell to it and solutionsFound to true
@@ -658,19 +662,19 @@ function solveSingleSolutions() {
 						setValue(solutions[0], r, c, "black");
 						solutionsFound = true;
 						anythingFound = true;
-						console.log("Only one solution found for cell " + (r + 1) + "-" + (c + 1));
+				//		console.log("Only one solution found for cell " + (r + 1) + "-" + (c + 1));
 					} else {
 						//console.log(solutions.length + " solutions found for cell " + (r + 1) + "-" + (c + 1));
 					}
 					if (solutions[0] === -1){
-						console.log("Something went wrong.");
+			//			console.log("Something went wrong.");
 					}
 				}
 				
 			}
 		}
 		
-		console.log("Single solutions found on board?: " + solutionsFound);
+//		console.log("Single solutions found on board?: " + solutionsFound);
 		
 	} while (solutionsFound);
 	return anythingFound;
@@ -738,6 +742,8 @@ function checkValidInSet(row, col, value, set) {
 	return valid;
 	
 }
+
+//Setting impossibles and naked pairs
 
 
 
