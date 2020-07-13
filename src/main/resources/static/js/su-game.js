@@ -64,6 +64,10 @@ function loadPage() {
 		    cell.setAttributeNode(cellCol);
 		    cellCol.value = c;
 		    
+		    var imps = document.createAttribute("impossibles", ""); //default is 0
+		    cell.setAttributeNode(imps);
+		    imps.value = "";
+		    
 		    cell.innerHTML = "<img id='" + "i" + a + b + "' class='square' src='" + cell.getAttribute('src') + "'/>";
 		}
 	}
@@ -744,6 +748,46 @@ function checkValidInSet(row, col, value, set) {
 }
 
 //Setting impossibles and naked pairs
+
+//Get impossible solutions stored in a cell
+function getImpossibles(cell) {
+	//get string from cell
+	var string = cell.getAttribute("impossibles");
+	var sImps = string.split("~"); //not sure that I can parse as integers right this sec
+	
+	//check if first array string is empty, meaning there were no impossibles
+	//if it is, just set that one to 0
+	if (sImps[0] === "" || sImps[0] === null) {
+		sImps[0] = "0";
+	}
+	
+	//parse strings to ints
+	var imps = [];
+	for (var i = 0; i < sImps.length; i++) {
+		imps.push(parseInt(sImps[i]));
+	}
+	
+	//return the array with impossibles
+	return imps;
+}
+
+//save impossible solutions to a cell
+function saveImpossibles(cell, set) {
+	var impString = "";
+	
+	for (var i = 0; i < set.length; i++) {
+		impString += set[i]
+		
+		//if it's not the last cell, add a '~'
+		if (i !== set.length - 1) {
+			impString += "~";
+		}
+	}
+	console.log("Imp string: " + impString);
+	
+	//set string to cell
+	cell.setAttribute("impossibles", impString);
+}
 
 
 
