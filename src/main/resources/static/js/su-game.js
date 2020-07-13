@@ -427,8 +427,26 @@ function solveByLogic() {
 		
 		console.log("Finished solving by logic.")
 		
+		
+		//Test
+	console.log("Test - solutions for 9-6: ");
+	var sols = getCellSolutions(8,5);
+	for (var i = 0; i < sols.length; i++) {
+		console.log(sols[i]);
+	}
+	
+	console.log("Test - impossibles for 9-6: ");
+	var imps = getImpossibles(board.rows[8].cells[5]);
+	for (var i = 0; i < imps.length; i++) {
+		console.log(imps[i]);
+	}
+		
+		
+		
 		return anythingFound;
 	}
+	
+	
 	
 	
 }
@@ -697,6 +715,14 @@ function solveSingleSolutions() {
 function getCellSolutions(row, col) {
 	//list of all solutions for cell
 	var solutions = [];
+	//impossible solutions stored in the cell
+	var impossibles = getImpossibles(board.rows[row].cells[col]);
+	
+	/*console.log ("Cell " + (row + 1) + "-" + (col + 1));
+	console.log("Impossibles:");
+	for (var i = 0; i < impossibles.length; i++) {
+		console.log(impossibles[i]);
+	}*/
 	
 	//get the row cells, col cells, and group cells
 	var rowCells = allRows[row];
@@ -711,8 +737,12 @@ function getCellSolutions(row, col) {
 				checkValidInSet(row, col, VALUES[v], colCells) &&
 				checkValidInSet(row, col, VALUES[v], groupCells)) {
 				
-				//console.log("All is valid for solution " + VALUES[v] + " in cell " + (row + 1) + "-" + (col + 1));
-				solutions.push(VALUES[v]);
+				//also check the impossibles
+				if(!impossibles.includes(VALUES[v])){
+					//console.log("All is valid for solution " + VALUES[v] + " in cell " + (row + 1) + "-" + (col + 1));
+					solutions.push(VALUES[v]);
+			    } 
+				
 			} else {
 				//console.log("Not valid for solution " + VALUES[v] + " in cell " + (row + 1) + "-" + (col + 1));
 			}
@@ -849,7 +879,8 @@ function getImpossibles(cell) {
 	//parse strings to ints
 	var imps = [];
 	for (var i = 0; i < sImps.length; i++) {
-		imps.push(parseInt(sImps[i]));
+		//imps.push(parseInt(sImps[i])); //try a different way
+		imps.push(sImps[i] + ""); //THIS ONE WORKED FINALLY!!!!
 	}
 	
 	//return the array with impossibles
@@ -922,92 +953,11 @@ function hardPuzzle1() {
 	
 	//TESTS
 	
-	/*
-	//test impossible solution methods. - USE SOMETHING LIKE THIS IN NAKED PAIR METHOD
-	//2 & 1 , r7
-		var imps = getImpossibles(board.rows[8].cells[5]);
-		
-		console.log("Testing impossibles for cell " + board.rows[8].cells[5].id);
-		
-		//add to it
-		if (!imps.includes(1)) {
-			imps.push(1);
-		}
-		if (!imps.includes(2)) {
-			imps.push(2);
-		}
-		
-	//in nakedPair method, get the cell's group through a getCellGroup(row, col);
+	//testing impossibles
+	var imps = [1,2];
+	saveImpossibles(board.rows[8].cells[5], imps);
 	
-	//Do the same thing in that cells group
-	//2 & 1 , g32
-	for (var n = 0; n < g32.length; n++) {
-		//get impossibles list
-		var imps = getImpossibles(g32[n]);
-		
-		console.log("Testing impossibles for cell " + g32[n].id);
-		
-		if (g32[n].getAttribute("col") !== "3" &&
-				g32[n].getAttribute("col") !== "4") {
-			
-			//add to it
-			if (!imps.includes(1)) {
-				imps.push(1);
-			}
-			if (!imps.includes(2)) {
-				imps.push(2);
-			}
-			
-		} else {
-			if (!imps.includes(3)) {
-				imps.push(3);
-			}
-			if (!imps.includes(4)) {
-				imps.push(4);
-			}
-			if (!imps.includes(5)) {
-				imps.push(5);
-			}
-			if (!imps.includes(6)) {
-				imps.push(6);
-			}
-			if (!imps.includes(7)) {
-				imps.push(7);
-			}
-			if (!imps.includes(8)) {
-				imps.push(8);
-			}
-			if (!imps.includes(9)) {
-				imps.push(9);
-			}
-		}
-		//now save the impossibles again
-		saveImpossibles(g32[n], imps);
-		
-		//test print
-		console.log("Impossibles: ");
-		for (var i = 0; i < imps.length; i++) {
-			console.log(imps[i]);
-		}
-	}
 	
-	//now testing excludeImpossibles with those numbers for getSolutions
-	console.log("Now test excludeImpossibles by solving puzzle... See if it helps");
-	
-	//test
-	console.log("");
-	console.log("Solving");
-	solveByLogic();
-	console.log("Solutions for 7-4:");
-	var sols1 = getCellSolutions(6, 3);
-	
-	console.log("Solutions for 7-5:");
-	var sols2 = getCellSolutions(6, 4);
-	
-	console.log("Solutions for 9-6:");
-	var sols3 = getCellSolutions(8, 5);
-	
-	*/
 }
 
 
