@@ -27,6 +27,14 @@
 
 //setAllSets() - set all cols, rows, groups - do this upon loading
 
+
+//getImpossibles(cell)
+//saveImpossibles(cell, set)
+//excludeImpossibles(cell, set) //returns solution set without impossibles
+//excludeInSameGroup(cell)
+
+
+
 function loadPage() {
 	//set up an empty sudoku board	
 	board = document.createElement("table");
@@ -702,6 +710,7 @@ function getCellSolutions(row, col) {
 			if (checkValidInSet(row, col, VALUES[v], rowCells) && //if it's valid for corresponding row, col, and group, add to array
 				checkValidInSet(row, col, VALUES[v], colCells) &&
 				checkValidInSet(row, col, VALUES[v], groupCells)) {
+				
 				//console.log("All is valid for solution " + VALUES[v] + " in cell " + (row + 1) + "-" + (col + 1));
 				solutions.push(VALUES[v]);
 			} else {
@@ -711,6 +720,38 @@ function getCellSolutions(row, col) {
 	} else {
 		solutions.push(board.rows[row].cells[col].getAttribute("value"));
 	}
+	
+	//now exclude the impossible solutions
+	
+	
+	//test
+	/*
+	console.log("");
+	console.log("Solutions before excluding: ");
+	for (var k = 0; k < solutions.length; k++) {
+		console.log(solutions[k]);
+	}*/
+	
+	
+	//test
+	/*console.log("Impossibles:");
+	var tempImp = getImpossibles(board.rows[row].cells[col]);
+	for (var k = 0; k < tempImp.length; k++) {
+		console.log(tempImp[k]);
+	}*/
+	
+	/*
+	
+	var solutions1 = excludeImpossibles(board.rows[row].cells[col], solutions);
+	
+	//test
+	console.log("");
+	console.log("Solutions after excluding: ");
+	for (var k = 0; k < solutions1.length; k++) {
+		console.log(solutions1[k]);
+	}
+	
+	*/
 	
 	//if there are no solutions in the list, add -1 meaning no solutions
 	if (solutions.length < 1) {
@@ -749,8 +790,52 @@ function checkValidInSet(row, col, value, set) {
 
 //Setting impossibles and naked pairs
 
-//Get impossible solutions stored in a cell
+//Exclude impossible solutions - FUNKY
+function excludeImpossibles(cell, set) {
+	
+	console.log("eliminating impossibles");
+	//get list of impossible solutions as an array of numbers
+	var imps = getImpossibles(cell);
+	
+	console.log("Impossibles: ");
+	for (var i = 0; i < imps.length; i++) {
+		console.log(imps[i]);
+	}
+	
+	//to store new solutionList
+	var newSols = [];
+	
+	//loop through set, don't include anything in new array that is in imps
+	//for (var i = 0; i < imps.length; i++) {
+	//	var removed = set.splice(imps[i]);
+	//}
+	for (var i = 0; i < set.length; i++) {
+		var a = parseInt(set[i]);
+		if(imps.indexOf(a) === -1){
+			newSols.push(a);
+	    }
+	}
+	
+	/*//if the set is empty, add -1 to show something went wrong
+	if (newSols.length === 0) {
+		newSols.push(-1);
+	}*/
+	
+	/*
+	console.log("new solutions: ");
+	for (var i = 0; i < newSols.length; i++) {
+		console.log(newSols[i]);
+	}*/
+	
+	//return the set without the impossibles
+	return newSols;
+}
+
+
+//Get impossible solutions stored in a cell -WORKS
 function getImpossibles(cell) {
+	//console.log("Getting impossibles for cell.");
+	
 	//get string from cell
 	var string = cell.getAttribute("impossibles");
 	var sImps = string.split("~"); //not sure that I can parse as integers right this sec
@@ -771,7 +856,7 @@ function getImpossibles(cell) {
 	return imps;
 }
 
-//save impossible solutions to a cell
+//save impossible solutions to a cell - WORKS
 function saveImpossibles(cell, set) {
 	var impString = "";
 	
@@ -783,11 +868,14 @@ function saveImpossibles(cell, set) {
 			impString += "~";
 		}
 	}
-	console.log("Imp string: " + impString);
+	//console.log("Imp string: " + impString);
 	
 	//set string to cell
 	cell.setAttribute("impossibles", impString);
 }
+
+
+
 
 
 
@@ -831,6 +919,95 @@ function hardPuzzle1() {
 	setValue(3, 8, 2, "black"); setValue(7, 8, 3, "black");
 	
 	isBlank = false;
+	
+	//TESTS
+	
+	/*
+	//test impossible solution methods. - USE SOMETHING LIKE THIS IN NAKED PAIR METHOD
+	//2 & 1 , r7
+		var imps = getImpossibles(board.rows[8].cells[5]);
+		
+		console.log("Testing impossibles for cell " + board.rows[8].cells[5].id);
+		
+		//add to it
+		if (!imps.includes(1)) {
+			imps.push(1);
+		}
+		if (!imps.includes(2)) {
+			imps.push(2);
+		}
+		
+	//in nakedPair method, get the cell's group through a getCellGroup(row, col);
+	
+	//Do the same thing in that cells group
+	//2 & 1 , g32
+	for (var n = 0; n < g32.length; n++) {
+		//get impossibles list
+		var imps = getImpossibles(g32[n]);
+		
+		console.log("Testing impossibles for cell " + g32[n].id);
+		
+		if (g32[n].getAttribute("col") !== "3" &&
+				g32[n].getAttribute("col") !== "4") {
+			
+			//add to it
+			if (!imps.includes(1)) {
+				imps.push(1);
+			}
+			if (!imps.includes(2)) {
+				imps.push(2);
+			}
+			
+		} else {
+			if (!imps.includes(3)) {
+				imps.push(3);
+			}
+			if (!imps.includes(4)) {
+				imps.push(4);
+			}
+			if (!imps.includes(5)) {
+				imps.push(5);
+			}
+			if (!imps.includes(6)) {
+				imps.push(6);
+			}
+			if (!imps.includes(7)) {
+				imps.push(7);
+			}
+			if (!imps.includes(8)) {
+				imps.push(8);
+			}
+			if (!imps.includes(9)) {
+				imps.push(9);
+			}
+		}
+		//now save the impossibles again
+		saveImpossibles(g32[n], imps);
+		
+		//test print
+		console.log("Impossibles: ");
+		for (var i = 0; i < imps.length; i++) {
+			console.log(imps[i]);
+		}
+	}
+	
+	//now testing excludeImpossibles with those numbers for getSolutions
+	console.log("Now test excludeImpossibles by solving puzzle... See if it helps");
+	
+	//test
+	console.log("");
+	console.log("Solving");
+	solveByLogic();
+	console.log("Solutions for 7-4:");
+	var sols1 = getCellSolutions(6, 3);
+	
+	console.log("Solutions for 7-5:");
+	var sols2 = getCellSolutions(6, 4);
+	
+	console.log("Solutions for 9-6:");
+	var sols3 = getCellSolutions(8, 5);
+	
+	*/
 }
 
 
