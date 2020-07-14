@@ -943,8 +943,8 @@ function findNakedPair(set) {
 			}
 				
 			//now do the same thing for the cells group! - if they're the same one
-			var group1 = getCellGroup(row1, row2);
-			var group2 = getCellGroup(otherRow, otherCol);
+			var group1 = getCellGroup(row1, col1);
+			var group2 = getCellGroup(row2, col2);
 			
 			console.log("Looking at their groups...");
 			
@@ -1091,6 +1091,16 @@ function hardPuzzle1() {
 	var imps = [1,2];
 	saveImpossibles(board.rows[8].cells[5], imps);
 	
+	//test group retrieval
+	console.log("");
+	console.log("Testing group retrieval.")
+	for (var r = 0; r < 9; r++) {
+		for (var c = 0; c < 9; c++) {
+			console.log("Cell " + board.rows[r].cells[c].id);
+			console.log("Group: " + getCellGroup(r, c).id);
+			console.log("");
+		}
+	}
 	
 	
 }
