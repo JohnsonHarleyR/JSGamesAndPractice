@@ -39,6 +39,9 @@ It will include JavaScript, anyway.
 The egg stage only needs "love". Once it hatches, you can feed and play with it.
 <br>(Feel free to look up Pet ID #1 to see a pet that isn't an egg.)
 <br>
+<br>
+Also, an egg takes at least a day to level up and a baby takes 5 days. This is true no matter the progress.
+<br>
 <hr>
 <br>
 
@@ -139,6 +142,14 @@ The egg stage only needs "love". Once it hatches, you can feed and play with it.
 
 <br>
 <br>
+
+<i>(Things to do: <br>1. Make the meters go up more when you feed/play/love.
+<br>2. Add the real pet images.
+<br>3. Make the progress bar go up more slowly.
+<br>4. Fix the images so that the correct one always displays depending on mood.
+<br>5. Create alerts when the pet levels up
+<br>6. Allow user to change the pet's environment.
+<br>7. Create copy and paste code so people can display their pets elsewhere.)<br><br></i>
 
 </main>
 
