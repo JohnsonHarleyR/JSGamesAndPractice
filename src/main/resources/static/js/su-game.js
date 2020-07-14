@@ -337,6 +337,10 @@ function setAllSets() {
 	
 	allGroups = [g11, g12, g13, g21, g22, g23, g31, g32, g33];
 	
+	g11.id = "g11"; g12.id = "g12"; g13.id = "g13"; 
+	g21.id = "g21"; g22.id = "g22"; g23.id = "g23"; 
+	g31.id = "g31"; g32.id = "g32"; g33.id = "g33"; 
+	
 	//test
 	//console.log("Test set setting: group 1, cell 2-2: " + allGroups[0][1].getAttribute("value"));
 }
@@ -494,6 +498,9 @@ function solveBySets() {
 				solutionsFound = true;
 			}
 			
+			//then findNakedPair
+			findNakedPair(set);
+			
 			
 		}
 		
@@ -517,6 +524,8 @@ function solveBySets() {
 				solutionsFound = true;
 			}
 			
+			//then findNakedPair
+			findNakedPair(set);
 			
 		}
 		
@@ -527,6 +536,7 @@ function solveBySets() {
 			//first solveSetSingles
 			var found = solveSetSingles(set);
 			
+		
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -539,6 +549,9 @@ function solveBySets() {
 			if (found === true) {
 				solutionsFound = true;
 			}
+			
+			//then findNakedPair
+			findNakedPair(set);
 			
 			
 		}
@@ -827,11 +840,10 @@ function checkValidInSet(row, col, value, set) {
 //Setting impossibles and naked pairs
 
 
-//findNakedPair - returns true or false, depending if it finds anything - searches a set for naked pairs
+//findNakedPair -  searches a set for naked pairs
 function findNakedPair(set) {
 	//array to hold cells with only two solutions
 	var cellsWithTwo = [];
-	var found = false;
 	
 	//var success = false; //if successful, break out of loop.
 	
@@ -849,8 +861,9 @@ function findNakedPair(set) {
 	}
 	
 	//now if the list of cells has at least two, proceed
-	if (cellsWithTwo.length >= 2) {
+	if (cellsWithTwo.length === 2) {
 		var match = false;
+		var found = false;
 		var other;
 		var otherRow;
 		var otherCol;
@@ -868,9 +881,14 @@ function findNakedPair(set) {
 		var col2 = parseInt(cellsWithTwo[1].getAttribute("col"));
 		var sols2 = getCellSolutions(row2, col2);
 		
+		console.log("First: " + sols1[0] + " and " + sols1[1]);
+		console.log("Second: " + sols2[0] + " and " + sols2[1]);
+		
 		var solutions = sols1;
 		
 		if (sols2.includes(sols1[0]) && sols2.includes(sols1[1])) { //if the solutions are the same
+			
+			console.log("Found to be the same");
 			
 			//make sure it's not the same cell
 			if ((row2 === row1 && col2 === col1)) {
@@ -882,7 +900,7 @@ function findNakedPair(set) {
 				otherCol = col2;
 				
 				
-				var found = true;
+				
 				success = true;
 				console.log("A naked pair was found.");
 				console.log(solutions[0] + " and " + solutions[1] + " for cells " + (row1 + 1) + "-" +
@@ -900,62 +918,81 @@ function findNakedPair(set) {
 				var setRow = parseInt(set[n].getAttribute("row"));
 				var setCol = parseInt(set[n].getAttribute("col"));
 				
-				//make sure it's not equal to the two other cells
-				if ((setRow !== row1 || setCol !== col1) &&
-						(setRow !== otherRow || setCol !== otherCol)) {
-					//add those solutions to impossibles
-					var imps = getImpossibles(board.rows[setRow].cells[setCol]);
-					console.log("Imps:");
-					for (var v = 0; v < solutions.length; v++) {
-						if (!imps.includes(solutions[v])) {
-							imps.push(solutions[v]); //add solutions to list as long as it's not already there
-							console.log(solutions[v]);
-						}
+				//only worry about it if the value is 0
+				if (board.rows[setRow].cells[setCol].getAttribute("value") === "0") {
 					
-						saveImpossibles(board.rows[setRow].cells[setCol], imps);
+					//make sure it's not equal to the two other cells
+					if ((setRow !== row1 || setCol !== col1) &&
+							(setRow !== otherRow || setCol !== otherCol)) {
+						//add those solutions to impossibles
+						var imps = getImpossibles(board.rows[setRow].cells[setCol]);
+						console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
+						for (var v = 0; v < solutions.length; v++) {
+							if (!imps.includes(solutions[v])) {
+								imps.push(solutions[v]); //add solutions to list as long as it's not already there
+								console.log(solutions[v]);
+							}
 						
+							saveImpossibles(board.rows[setRow].cells[setCol], imps);
+							
+							
+						}
 						
 					}
-					
 				}
 			}
-			
+				
 			//now do the same thing for the cells group! - if they're the same one
 			var group1 = getCellGroup(row1, row2);
 			var group2 = getCellGroup(otherRow, otherCol);
 			
 			console.log("Looking at their groups...");
 			
+			console.log(group1.id);
+			console.log(group2.id);
+			
 			//if the ids are the same, repeat in that group
 			if (group1.id === group2.id) {
 				console.log("They are in the same groups.");
+				
 				for (var n = 0; n < group1.length; n++) {
 					var setRow = parseInt(group1[n].getAttribute("row"));
 					var setCol = parseInt(group1[n].getAttribute("col"));
 					
-					//make sure it's not equal to the two other cells
-					if ((setRow === row1 && setCol === row2) ||
-							(setRow === otherRow && setCol === otherCol)) {
-						//nothing
-					} else {
-						//add those solutions to impossibles
-						var imps = getImpossibles(board.rows[setRow].cells[setCol]);
-						for (var v = 0; v < solutions.length; v++) {
-							if (!imps.includes(solutions[v])) {
-								imps.push(solutions[v]); //add solutions to list as long as it's not already there
+					//only worry about it if the value is 0
+					if (board.rows[setRow].cells[setCol].getAttribute("value") === "0") {
+						
+						//make sure it's not equal to the two other cells
+						if ((setRow !== row1 || setCol !== col1) &&
+								(setRow !== otherRow || setCol !== otherCol)) {
+							//add those solutions to impossibles
+							var imps = getImpossibles(board.rows[setRow].cells[setCol]);
+							console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
+							for (var v = 0; v < solutions.length; v++) {
+								if (!imps.includes(solutions[v])) {
+									imps.push(solutions[v]); //add solutions to list as long as it's not already there
+									console.log(solutions[v]);
+								}
+							
+								saveImpossibles(board.rows[setRow].cells[setCol], imps);
+								
+								
 							}
+							
 						}
-						saveImpossibles(board.rows[setRow].cells[setCol], imps);
 					}
 				}
 			}
 			
 		}
 		
+			
+		}
+	
 		
 	}
-	return found;
-}
+	
+
 
 
 
