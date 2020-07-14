@@ -8,6 +8,9 @@ function loadPage() {
 	//set up main sprite
 	drawMainSprite(10, 150);
 	
+	//TEST
+	//move = setInterval(moveSprite, 3000);
+	
 	startGame();
 }
 
@@ -20,25 +23,56 @@ function drawMainSprite(x, y) { //test
 	var ctx = c.getContext("2d");
 	mainSprite = document.getElementById("sprite");
 
-	
-
-	//mainSprite.width = "50px";
-	//mainSprite.height = HEIGHT;
 	ctx.drawImage(mainSprite, x, y, WIDTH, HEIGHT);
 	}
 
-
-//Move main sprite
-function moveSprite() {
-	//var newX = parseInt(mainSprite.getAttribute('x')) + moveX;
-	//var newY = parseInt(mainSprite.getAttribute('y')) + moveY;
+function component(width, height, color, x, y) {
+	this.width = width;
+	this.height = height;
+	this.color = color;
+	this.x = x;
+	this.y = y;
+	this.speedX = 0;
+	this.speedY = 0;
 	
-	//drawMainSprite(newX, newY);
+	this.update = function() {
+		ctx = board.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	}
+	
+	this.newPos = function() {
+		this.x += this.speedX;
+		this.y += this.speedY;
+	}
+}
+
+function updateBoard() {
+	board.clear();
+	board.newPos();
+	board.update();
+}
+
+function moveUp() {
+	board.speedY -= SPEED;
+}
+
+function moveDown() {
+	board.speedY += SPEED;
+}
+
+function moveLeft() {
+	board.speedX -= SPEED;
+}
+
+function moveRight() {
+	board.speedX += SPEED;
 }
 
 
+
 //Create
-function createSprite(xPos, yPos) {
+function createSprite() {
 	var sprite = document.createElement('img');
 	sprite.className = "sprite";
 	sprite.width = WIDTH;
@@ -97,13 +131,15 @@ var gameSnake = [];
 var gameOver;
 var score;
 
+var move;
+
 var moveX = 0;
 var moveY = 0;
 
 
 //Event Listeners
 body.onload = loadPage; //change this eventually so it doesn't start as soon as it loads
-upBtn.onclick = changeDirection("up");
-leftBtn.onclick = changeDirection("left");
-rightBtn.onclick = changeDirection("right");
-downBtn.onclick = changeDirection("down");
+upBtn.onclick = moveUp;
+leftBtn.onclick = moveLeft;
+rightBtn.onclick = moveRight;
+downBtn.onclick = moveDown;

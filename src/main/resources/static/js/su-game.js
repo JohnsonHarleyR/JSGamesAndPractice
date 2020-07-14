@@ -1,5 +1,15 @@
 //FUNCTIONS TO CHOOSE FROM
 
+//fullSolve(color) - solves the board fully - first uses the solveByLogic. If that fails, it uses brute force.
+
+//buttonSolver() - for the solve button to call
+
+//checkForZeros() - returns true if any zeros are left on the board
+
+//setBoardToNewGrid(grid, color)
+
+//solveByBruteForce(grid) - used if solveByLogic fails, and perhaps also in generating a new board
+
 //solveByLogic - loops through all the following methods as long as anything is solved
 
 //findNakedPair - returns true or false, depending if it finds anything - searches a set for naked pairs
@@ -11,11 +21,11 @@
 //figure out the missing number and set that missing  cell to it. Repeat until no single zeros is found.
 //(this one may actually be redundant and solvable with the single solutions method)
 
-//solveSetSingles - will take cells in a row, column or group. It loops through 1-9, checking whether 
+//solveSetSingles(color) - will take cells in a row, column or group. It loops through 1-9, checking whether 
 //(if a cell equals 0) it can have that number. If only one cell in the group has it as a solution, 
 //set that cell to that number. Look through the numbers again every time a solution is solved.
 
-//solveSingleSolutions(row, col) - will loop through grid, finding solutions for each cell. Anytime a cell has only
+//solveSingleSolutions(color) - will loop through grid, finding solutions for each cell. Anytime a cell has only
 //one solution, that cell is set to that solution. It will loop through the grid again as long as a cell
 //is changed.
 
@@ -27,7 +37,7 @@
 //printGrid(newGrid) - show the grid in the console
 //turnIntoBoard() - turn a grid back into a board
 
-//setAllSets() - set all cols, rows, groups - do this upon loading
+//setAllSets(color) - set all cols, rows, groups - do this upon loading
 
 
 //getImpossibles(cell)
@@ -35,8 +45,17 @@
 //excludeImpossibles(cell, set) //returns solution set without impossibles
 //excludeInSameGroup(cell)
 
+//Functions for buttons
+
+//A test method for now.
+function buttonSolver() { //JUST FOR BUTTON
+
+	fullSolve("blue"); //the solve button solves in blue
+	
+}
 
 
+//On page load
 function loadPage() {
 	//set up an empty sudoku board	
 	board = document.createElement("table");
@@ -44,6 +63,8 @@ function loadPage() {
 	board.class = "table";
 	board.innerHTML = "";
 	main.appendChild(board);
+	
+	difficultyIndex = 0;
 	
 	//create all cells on the board
 	for (var r = 0; r < 9; r++) {
@@ -87,9 +108,6 @@ function loadPage() {
 	
 	
 	
-	//function to set everything to 0 again
-	
-	
 	
 	//set test buttons
 	testing = document.createElement("div");
@@ -102,7 +120,7 @@ function loadPage() {
 	solveBtn = document.createElement("button");
 	solveBtn.id = "solve-btn";
 	solveBtn.innerText = "Solve";
-	solveBtn.addEventListener("click", solveByLogic);
+	solveBtn.addEventListener("click", buttonSolver);
 	testing.appendChild(solveBtn);
 	
 	
@@ -182,6 +200,7 @@ function getImage(row, col, color) {
 
 //reset the value of all cells to 0
 function resetCells() {
+	difficultyIndex = 0;
 	for (var r = 0; r < 9; r++) {
 		for (var c = 0; c < 9; c++) {
 			setValue(0, r, c, "black");
@@ -383,8 +402,344 @@ function getCellGroup(row, col) {
 
 //SOLVING METHODS
 
+//FULL SOLVE - using solveByLogic until it can't find solutions. Then use the brute force solver as backup.
+//(Logic Solver should be able to solve easy and medium puzzles, at least.)
+function fullSolve(color) {
+	//first solve by logic
+	solveByLogic(color);
+	
+	//check if there are any zeros left
+	if (checkForZeros()) {
+		console.log("Now solving by brute force.");
+		//if any zeros are left, use brute force
+		let grid = turnIntoArray(); //turn the board into a grid to solve with
+		let solved = solveBruteForce(grid);
+		
+		if (solved) {
+			setBoardToNewGrid(grid, color);
+			console.log("Solve was successful.");
+		} else {
+			console.log("Error in solving.");
+		}
+	}
+	
+}
+
+
+//Brute Force Solver
+
+//Important methods:
+
+//checkValidFromGrid(row, col, set, grid)
+//getArrayGroupCells(group, grid) - get all the cells in a cell's group
+//getCellGroupName(row, col) - get the name of a cell's group
+//validateCellFull(row, col, grid) - returns true if a cell is valid, checks all contraints
+
+//turnIntoArray() - get an array version of the board
+//printGrid(newGrid) - show the grid in the console
+//turnIntoBoard() - turn a grid back into a board
+
+
+//WORKS
+//solveBruteForce() - returns true if successful, THEN STORES THE GRID INTO endGrid AT END OF CODE IF SO;
+function solveBruteForce(grid) { // you must turn it into a grid before passing
+	//console.log("");
+	//console.log("Solving brute force...");
+	
+	//loop through cells
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			//make sure the value is 0
+			if (grid[r][c] == 0) { //not sure if it will come as string or not, it should be an integer though
+				//console.log("Cell " + (r + 1) + "-" + (c + 1) + " is empty.");
+				//now loop through values
+				for (let n = 1; n <= 9; n++) {
+					//console.log("Testing it with value " + n);
+					grid[r][c] = n;
+					if (validateCellFull(r, c, grid) && solveBruteForce(grid)) {
+						//console.log("Cell is valid, returning true");
+						return true;
+					}
+					//console.log("Not valid, setting it back to 0.");
+					grid[r][c] = 0;
+				}
+				//console.log("Not valid.");
+				return false;
+			}
+		}
+	}
+	//this is probably where I should set the bottom grid and print it to the console
+	endGrid = grid;
+	printGrid(grid);
+	return true;
+	
+}
+
+//Set board to new grid found with solveBruteForce
+function setBoardToNewGrid(grid, color) {
+	//only change the board's cell to the grid if it's 0
+	//that way it can be decided what color to solve the remaining cells with
+	
+	//setValue(value, cellRow, cellCol, "black");
+	
+	//loop through board and grid
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			//if the board number is 0, set it to the grid value
+			if (board.rows[r].cells[c].getAttribute("value") === "0") {
+				setValue(grid[r][c], r, c, color);
+			}
+			
+		}
+	}
+	
+}
+
+//validateCellFull(row, col, grid)
+function validateCellFull(row, col, grid) {
+	//console.log("");
+	//console.log("Validating cell...");
+	//get the cell group
+	var groupName = getCellGroupName(row, col);
+	var groupSet = getArrayGroupCells(groupName, grid);
+	//store the cell's row
+	var rowSet = grid[row];
+	//store the cell's col
+	var colSet = [grid[0][col], grid[1][col], grid[2][col], grid[3][col], grid[4][col],
+					grid[5][col], grid[6][col], grid[7][col], grid[8][col]];
+	
+	//storing variables first for the sake of testing
+	var groupValid = checkValidFromGrid(row, col, groupSet, grid);
+	//console.log("Group " + groupName + " valid?: " + groupValid);
+	var rowValid = checkValidFromGrid(row, col, rowSet, grid);
+	//console.log("Row " + (row + 1) + " valid?: " + rowValid);
+	var colValid = checkValidFromGrid(row, col, colSet, grid);
+	//console.log("Col " + (col + 1) + " valid?: " + colValid);
+	
+	//validate each of these, return true if it works
+	if (groupValid && rowValid && colValid) {
+		//return true if it works
+		//console.log("All valid?: true");
+		return true;
+	} else {
+		//console.log("All valid?: false");
+		return false;
+	}
+	
+}
+
+
+//getArrayGroupCells(group, grid) - get the group of cells while solving for an array with brute force
+function getArrayGroupCells(group, grid) {
+	var groupCells = [9];
+	
+	//add according to grid name
+	switch (group) {
+		case "g11":
+			groupCells = [grid[0][0], grid[0][1], grid[0][2],
+						  grid[1][0], grid[1][1], grid[1][2],
+						  grid[2][0], grid[2][1], grid[2][2]];
+			break;
+		case "g12":
+			groupCells = [grid[0][3], grid[0][4], grid[0][5],
+						  grid[1][3], grid[1][4], grid[1][5],
+						  grid[2][3], grid[2][4], grid[2][5]];
+			break;
+		case "g13":
+			groupCells = [grid[0][6], grid[0][7], grid[0][8],
+						  grid[1][6], grid[1][7], grid[1][8],
+						  grid[2][6], grid[2][7], grid[2][8]];
+			break;
+		case "g21":
+			groupCells = [grid[3][0], grid[3][1], grid[3][2],
+						  grid[4][0], grid[4][1], grid[4][2],
+						  grid[5][0], grid[5][1], grid[5][2]];
+			break;
+		case "g22":
+			groupCells = [grid[3][3], grid[3][4], grid[3][5],
+						  grid[4][3], grid[4][4], grid[4][5],
+						  grid[5][3], grid[5][4], grid[5][5]];
+			break;
+		case "g23":
+			groupCells = [grid[3][6], grid[3][7], grid[3][8],
+						  grid[4][6], grid[4][7], grid[4][8],
+						  grid[5][6], grid[5][7], grid[5][8]];
+			break;
+		case "g31":
+			groupCells = [grid[6][0], grid[6][1], grid[6][2],
+						  grid[7][0], grid[7][1], grid[7][2],
+						  grid[8][0], grid[8][1], grid[8][2]];
+			break;
+		case "g32":
+			groupCells = [grid[6][3], grid[6][4], grid[6][5],
+						  grid[7][3], grid[7][4], grid[7][5],
+						  grid[8][3], grid[8][4], grid[8][5]];
+			break;
+		case "g33":
+			groupCells = [grid[6][6], grid[6][7], grid[6][8],
+						  grid[7][6], grid[7][7], grid[7][8],
+						  grid[8][6], grid[8][7], grid[8][8]];
+			break;
+	}
+	
+	return groupCells;
+}
+
+
+
+function printGrid(newGrid) {
+	for (var r = 0; r < 9; r++) {
+		var row = newGrid[r];
+		console.log(row[0] + " " + row[1] + " " + row[2] + " " + row[3] + " " + row[4]
+		 + " " + row[5] + " " + row[6] + " " + row[7] + " " + row[8]);
+	}
+}
+
+//get a grid with all the values
+function turnIntoArray() {
+	
+	var newGrid = [9];
+	
+	for (var r = 0; r < 9; r++) {
+		var cells = [9];
+		newGrid[r] = cells;
+		var row = allRows[r];
+		for (var c = 0; c < 9; c++) {
+			cells[c] = parseInt(row[c].getAttribute("value"));
+		}
+		
+	}
+	
+	return newGrid;
+}
+
+//Check if a solution is valid for a particular set of cells
+function checkValidFromGrid(row, col, set, grid) {
+	
+	//console.log("");
+	//console.log("Validating cell " + (row + 1) + "-" + (col + 1) + " from grid.");
+	
+	//console.log("Set values: " + set[0] + ", " + set[1] + ", " + set[2] + ", " + set[3] + ", " +
+		//	set[4] + ", " + set[5] + ", " + set[6] + ", " + set[7] + ", " + set[8]);
+	
+	//get value
+	var value = grid[row][col];
+	//console.log("Value: " + value);
+	
+	//set variable for true or false
+	var valid = true;
+	//console.log("Valid?: " + valid);
+	
+	//loop through other cells in the set to see if any of them have that value
+	let numTimes = 0;
+	for (var i = 0; i < set.length; i++) {
+		if (set[i] === value) {
+			//if it has been found more than once (because one cell WILL have that value (same cell))
+			if (numTimes >= 1) {
+				//console.log("Cell had some value...");
+				valid = false;
+			} else {
+				//console.log("Same cell...");
+			}
+			numTimes++;
+		} else {
+			//console.log("Cell did not have same value...");
+		}
+	}
+	//console.log("End result: Valid = " + valid);
+	//return result
+	//console.log("Returning valid...");
+	return valid;
+	
+}
+
+//turn an array back into a board
+function turnIntoBoard(grid) {
+	//set up an empty sudoku board	
+	var newB = document.createElement("table");
+	newB.id = "board";
+	newB.class = "table";
+	newB.innerHTML = "";
+	
+	//create all cells on the board
+	for (var r = 0; r < 9; r++) {
+		
+		var row = newB.insertRow(r);
+		for (var c = 0; c < 9; c++) {
+			
+			var a = r + 1;
+			var b = c + 1;
+			
+			var value = parseInt(board.rows[r].cells[c].getAttribute("value"));
+			
+			var cell = row.insertCell(c);
+			cell.id = "nc" + a + "" + b;
+			//cell.class = "cell";
+			
+			var val = document.createAttribute("value", value); //default is 0
+		    cell.setAttributeNode(val);
+		    val.value = 0;
+		    
+		    var src = document.createAttribute("src", "su/blank.png"); //default is 0
+		    cell.setAttributeNode(src);
+		    src.value = "su/blank.png";
+		    
+		    var cellRow = document.createAttribute("row", r);
+		    cell.setAttributeNode(cellRow);
+		    cellRow.value = r;
+		    
+		    var cellCol = document.createAttribute("col", c);
+		    cell.setAttributeNode(cellCol);
+		    cellCol.value = c;
+		    
+		    var imps = document.createAttribute("impossibles", ""); //default is 0
+		    cell.setAttributeNode(imps);
+		    imps.value = "";
+		    
+		    cell.innerHTML = "<img id='" + "i" + a + b + "' class='square' src='" + cell.getAttribute('src') + "'/>";
+		}
+	}
+	return newB;
+}
+
+//get group set for a cell - returns an array
+function getCellGroupName(row, col) {
+	if (row <= 2 && col <= 2) { //using two equals since it might compare a string with a digit
+		//console.log("Cell's group: g11");
+		return "g11";
+	} else if (row <= 2 && col > 2 && col <= 5) {
+		//console.log("Cell's group: g12");
+		return "g12";
+	} else if (row <= 2 && col > 5) {
+		//console.log("Cell's group: g13");
+		return "g13";
+	} else if (row > 2 && row <= 5 && col <= 2) {
+		//console.log("Cell's group: g21");
+		return "g21";
+	} else if (row > 2 && row <= 5 && col > 2 && col <= 5) {
+		//console.log("Cell's group: g22");
+		return "g22";
+	} else if (row > 2 && row <= 5 && col > 5) {
+		//console.log("Cell's group: g23");
+		return "g23";
+	}  else if (row > 5 && col <= 2) {
+		//console.log("Cell's group: g31");
+		return "g31";
+	} else if (row > 5 && col > 2 && col <= 5) {
+		//console.log("Cell's group: g32");
+		return "g32";
+	} else if (row > 5 && col > 2 && col > 5) {
+		//console.log("Cell's group: g11");
+		return "g33";
+	}
+}
+
+
+
+
+
 //solveByLogic - loops through all the following methods as long as anything is solved
-function solveByLogic() {
+function solveByLogic(color) {
 	
 	var anythingFound = false;
 	
@@ -408,7 +763,7 @@ function solveByLogic() {
 			
 			//console.log("Solving single solutions...");
 			//found helps determine when to keep going
-			var found = solveSingleSolutions();
+			var found = solveSingleSolutions(color);
 			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
@@ -418,7 +773,7 @@ function solveByLogic() {
 			
 			//now solveBySet
 			//console.log("Solving by sets...");
-			found = solveBySets();
+			found = solveBySets(color);
 			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
@@ -459,7 +814,7 @@ function solveByLogic() {
 
 //solveBySets - method that uses the following two methods on all rows, 
 //columns and groups. Repeats until nothing was solved.
-function solveBySets() {
+function solveBySets(color) {
 	
 	//console.log("");
 	//console.log("Solving by sets.");
@@ -484,7 +839,7 @@ function solveBySets() {
 			findNakedPair(set);
 			
 			//first solveSetSingles
-			var found = solveSetSingles(set);
+			var found = solveSetSingles(set, color);
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -493,7 +848,7 @@ function solveBySets() {
 			
 			
 			//then solveForSingleZeros
-			found = solveForSingleZeros(set);
+			found = solveForSingleZeros(set, color);
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -513,7 +868,7 @@ function solveBySets() {
 			
 			
 			//first solveSetSingles
-			var found = solveSetSingles(set);
+			var found = solveSetSingles(set, color);
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -522,7 +877,7 @@ function solveBySets() {
 			
 			
 			//then solveForSingleZeros
-			found = solveForSingleZeros(set);
+			found = solveForSingleZeros(set, color);
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -541,7 +896,7 @@ function solveBySets() {
 			findNakedPair(set);
 			
 			//first solveSetSingles
-			var found = solveSetSingles(set);
+			var found = solveSetSingles(set, color);
 			
 		
 			//if found is true, set solutionsFound to true
@@ -551,7 +906,7 @@ function solveBySets() {
 			
 			
 			//then solveForSingleZeros
-			found = solveForSingleZeros(set);
+			found = solveForSingleZeros(set, color);
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -576,7 +931,7 @@ function solveBySets() {
 //solveSetSingles - will take cells in a row, column or group. It loops through 1-9, checking whether 
 //(if a cell equals 0) it can have that number. If only one cell in the group has it as a solution, 
 //set that cell to that number. Look through the numbers again every time a solution is solved.
-function solveSetSingles(set) {
+function solveSetSingles(set, color) {
 	//returns true or false to say if anything was found
 	var found = false;
 	
@@ -622,7 +977,7 @@ function solveSetSingles(set) {
 			}
 			//check if it was found only once. If so, set that cell to that value.
 			if (timesFound === 1) {
-				setValue(value, cellRow, cellCol, "black");
+				setValue(value, cellRow, cellCol, color);
 				found = true;
 				//console.log("Value only found once. Setting cell " + (cellRow + 1) + "-" + (cellCol + 1) + 
 					//	" to " + value + ".");
@@ -642,7 +997,7 @@ function solveSetSingles(set) {
 //SolveForSingleZeros - look through the set to see if only one cell equals zero. If only one does, 
 //figure out the missing number and set that missing  cell to it. Repeat until no single zeros is found.
 //(this one may actually be redundant and solvable with the single solutions method)
-function solveForSingleZeros(set) {
+function solveForSingleZeros(set, color) {
 	//returns true if any solutions were found
 	var found = false;
 	
@@ -667,7 +1022,7 @@ function solveForSingleZeros(set) {
 		//console.log("Number of solutions found: " + solutions.length);
 		//console.log("Cell " + (row + 1) + "-" + (col + 1));
 		if (solutions.length === 1) {
-			setValue(solutions[0], row, col, "black");
+			setValue(solutions[0], row, col, color);
 		}
 		//cell.setAttribute("value", solutions[0]);
 		found = true;
@@ -681,7 +1036,7 @@ function solveForSingleZeros(set) {
 
 //Find solutions for all cells. Anytime it finds only one, set that cell to that solution. Keep looping
 //until no single solutions are found for any of the cells
-function solveSingleSolutions() {
+function solveSingleSolutions(color) {
 	
 	//returns whether or noth anything was found
 	var anythingFound = false;
@@ -712,7 +1067,7 @@ function solveSingleSolutions() {
 					
 					//if the length of solutions is 1, then set that cell to it and solutionsFound to true
 					if (solutions.length === 1) {
-						setValue(solutions[0], r, c, "black");
+						setValue(solutions[0], r, c, color);
 						solutionsFound = true;
 						anythingFound = true;
 				//		console.log("Only one solution found for cell " + (r + 1) + "-" + (c + 1));
@@ -1043,81 +1398,21 @@ function saveImpossibles(cell, set) {
 	cell.setAttribute("impossibles", impString);
 }
 
-
-function printGrid(newGrid) {
-	for (var r = 0; r < 9; r++) {
-		var row = newGrid[r];
-		console.log(row[0] + " " + row[1] + " " + row[2] + " " + row[3] + " " + row[4]
-		 + " " + row[5] + " " + row[6] + " " + row[7] + " " + row[8]);
-	}
-}
-
-//get a grid with all the values
-function turnIntoArray() {
-	
-	var newGrid = [9];
-	
-	for (var r = 0; r < 9; r++) {
-		var cells = [9];
-		newGrid[r] = cells;
-		var row = allRows[r];
-		for (var c = 0; c < 9; c++) {
-			cells[c] = parseInt(row[c].getAttribute("value"));
-		}
-		
-	}
-	
-	return newGrid;
-}
-
-//turn an array back into a board
-function turnIntoBoard(grid) {
-	//set up an empty sudoku board	
-	var newB = document.createElement("table");
-	newB.id = "board";
-	newB.class = "table";
-	newB.innerHTML = "";
-	
-	//create all cells on the board
-	for (var r = 0; r < 9; r++) {
-		
-		var row = newB.insertRow(r);
-		for (var c = 0; c < 9; c++) {
-			
-			var a = r + 1;
-			var b = c + 1;
-			
-			var value = parseInt(board.rows[r].cells[c].getAttribute("value"));
-			
-			var cell = row.insertCell(c);
-			cell.id = "nc" + a + "" + b;
-			//cell.class = "cell";
-			
-			var val = document.createAttribute("value", value); //default is 0
-		    cell.setAttributeNode(val);
-		    val.value = 0;
-		    
-		    var src = document.createAttribute("src", "su/blank.png"); //default is 0
-		    cell.setAttributeNode(src);
-		    src.value = "su/blank.png";
-		    
-		    var cellRow = document.createAttribute("row", r);
-		    cell.setAttributeNode(cellRow);
-		    cellRow.value = r;
-		    
-		    var cellCol = document.createAttribute("col", c);
-		    cell.setAttributeNode(cellCol);
-		    cellCol.value = c;
-		    
-		    var imps = document.createAttribute("impossibles", ""); //default is 0
-		    cell.setAttributeNode(imps);
-		    imps.value = "";
-		    
-		    cell.innerHTML = "<img id='" + "i" + a + b + "' class='square' src='" + cell.getAttribute('src') + "'/>";
+//Check if there are still zeros on the board. Returns true or false.
+function checkForZeros() {
+	let exist = false;
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			if (board.rows[r].cells[c].getAttribute("value") === "0") {
+				exist = true;
+			}
 		}
 	}
-	return newB;
+	
+	return exist;
 }
+
+
 
 //Test methods
 function easyPuzzle1() {
@@ -1144,13 +1439,34 @@ function easyPuzzle1() {
 	var grid = turnIntoArray();
 	printGrid(grid);
 	
-	var copy = turnIntoBoard(grid);
+	//var copy = turnIntoBoard(grid);
 	//change something then see if it changes the board
-	copy.rows[0].cells[1].setAttribute("value", 3);
-	var grid2 = turnIntoArray();
-	console.log("");
-	printGrid(grid2);
+	//copy.rows[0].cells[1].setAttribute("value", 3);
+	//var grid2 = turnIntoArray();
+	//console.log("");
+	//printGrid(grid2);
 	//IT is successfully copied, the copy did not change the original
+	
+	/*
+	//validateCellFull(row, col, grid) - WORKING
+	console.log("");
+	grid[4][4] = 1;
+	var test1 = validateCellFull(4, 4, grid);
+	console.log("Is " + grid[4][4] + " valid is cell 5-5?: " + test1);
+	//grid[4][4] = 2;
+	//var test2 = validateCellFull(4, 4, grid);
+	//console.log("Is " + grid[4][4] + " valid is cell 5-5?: " + test2);
+	
+	//test solveBruteForce(grid); - WORKS
+	console.log("Testing solveBruteForce()");
+	var test2 = solveBruteForce(grid);
+	console.log("Return result: " + test2);
+	
+	//If it comes back true, store it back into the main board
+	if (test2) {
+		setBoardToNewGrid(grid, "blue");
+	}
+	*/
 	
 }
 
@@ -1182,8 +1498,8 @@ function hardPuzzle1() {
 	*/
 	
 	//testing grid
-	var grid = turnIntoArray();
-	printGrid(grid);
+	//var grid = turnIntoArray();
+	//printGrid(grid);
 	
 	
 }
@@ -1197,6 +1513,9 @@ var main = document.getElementById('main');
 var board;
 var solved; //solved board
 var unsolved; //unsolved board
+
+var difficultyIndex = 0; //this is to help measure difficulty of solving a puzzle
+var endGrid; //this gets stored if the brute force solver comes into play
 
 var isBlank = true;
 
