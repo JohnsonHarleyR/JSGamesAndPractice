@@ -853,6 +853,8 @@ function findNakedPair(set) {
 		var otherRow;
 		var otherCol;
 		
+		console.log("Found a possible match... They both have 2 solutions...");
+		
 		//loop through to see if solutions are the same
 		for (var i = 0; i < cellsWithTwo.length; i++) {
 			var row1 = parseInt(cellsWithTwo[i].getAttribute("row"));
@@ -863,18 +865,41 @@ function findNakedPair(set) {
 			
 			
 			//now check the other variables in the list
-			for (var n = 0; n < cellsWithTwo.length; n++) {
+			var l;
+			if (i !== cellsWithTwo.length - 1) {
+				l = i + 1;
+			} else {
+				l = i;
+			}
+			for (var l = 0; n < cellsWithTwo.length; n++) {
 				var row2 = parseInt(cellsWithTwo[n].getAttribute("row"));
 				var col2 = parseInt(cellsWithTwo[n].getAttribute("col"));
 				var sols2 = getCellSolutions(row2, col2);
 				
 				if (sols2.includes(sols1[0]) && sols2.includes(sols1[1])) { //if the solutions are the same
 					
-					match = true;
-					other = cellsWithTwo[n];
-					otherRow = row2;
-					otherCol = col2;
-					break;
+					//make sure it's not the same cell
+					if ((row2 === row1 && col2 === col1)) {
+						
+					} else {
+						match = true;
+						other = cellsWithTwo[n];
+						otherRow = row2;
+						otherCol = col2;
+						
+						
+						var found = true;
+						success = true;
+						console.log("A naked pair was found.");
+						console.log(solutions[0] + " and " + solutions[1] + " for cells " + (row1 + 1) + "-" +
+								(col1 + 1) + " and cell " + (row2 + 1) + "-" + (col2 + 1) + ".");
+						
+						
+						
+						break;
+					}
+					
+					
 				}
 			}
 			
@@ -885,21 +910,22 @@ function findNakedPair(set) {
 					var setCol = parseInt(set[n].getAttribute("col"));
 					
 					//make sure it's not equal to the two other cells
-					if ((setRow !== row1 || setCol !== row2) &&
+					if ((setRow !== row1 || setCol !== col1) &&
 							(setRow !== otherRow || setCol !== otherCol)) {
 						//add those solutions to impossibles
 						var imps = getImpossibles(board.rows[setRow].cells[setCol]);
+						console.log("Imps:");
 						for (var v = 0; v < solutions.length; v++) {
 							if (!imps.includes(solutions[v])) {
 								imps.push(solutions[v]); //add solutions to list as long as it's not already there
+								console.log(solutions[v]);
 							}
+						
+							saveImpossibles(board.rows[setRow].cells[setCol], imps);
+							
+							
 						}
-						var found = true;
-						success = true;
-						console.log("A naked pair was found.");
-						console.log(solutions[0] + " and " + solutions[1] + " for cells " + (row1 + 1) + "-" +
-								(row2 + 1) + " and cell " + (setRow + 1) + "-" + (setCol + 1) + ".");
-						saveImpossibles(board.rows[setRow].cells[setCol], imps);
+						
 					}
 				}
 				
