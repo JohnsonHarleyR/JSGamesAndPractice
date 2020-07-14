@@ -448,12 +448,6 @@ function solveByLogic() {
 		console.log(imps[i]);
 	}*/
 		
-	//testing naked pair
-	console.log("Testing naked pairs.");
-	var exists = findNakedPair(r7);
-	console.log("Anything found for r7?: " + exists);
-		
-		return anythingFound;
 	}
 	
 	
@@ -482,6 +476,11 @@ function solveBySets() {
 		for (var r = 0; r < allRows.length; r++) {
 			//console.log("Solving rows.");
 			var set = allRows[r];
+			
+			
+			//then findNakedPair
+			findNakedPair(set);
+			
 			//first solveSetSingles
 			var found = solveSetSingles(set);
 			
@@ -497,9 +496,6 @@ function solveBySets() {
 			if (found === true) {
 				solutionsFound = true;
 			}
-			
-			//then findNakedPair
-			findNakedPair(set);
 			
 			
 		}
@@ -508,6 +504,12 @@ function solveBySets() {
 		for (var c = 0; c < allCols.length; c++) {
 			//console.log("Solving columns.");
 			var set = allCols[c];
+			
+			
+			//then findNakedPair
+			findNakedPair(set);
+			
+			
 			//first solveSetSingles
 			var found = solveSetSingles(set);
 			
@@ -523,9 +525,7 @@ function solveBySets() {
 			if (found === true) {
 				solutionsFound = true;
 			}
-			
-			//then findNakedPair
-			findNakedPair(set);
+
 			
 		}
 		
@@ -533,6 +533,11 @@ function solveBySets() {
 		for (var g = 0; g < allGroups.length; g++) {
 			//console.log("Solving groups.");
 			var set = allGroups[g];
+			
+			
+			//then findNakedPair
+			findNakedPair(set);
+			
 			//first solveSetSingles
 			var found = solveSetSingles(set);
 			
@@ -549,9 +554,6 @@ function solveBySets() {
 			if (found === true) {
 				solutionsFound = true;
 			}
-			
-			//then findNakedPair
-			findNakedPair(set);
 			
 			
 		}
@@ -868,9 +870,9 @@ function findNakedPair(set) {
 		var otherRow;
 		var otherCol;
 		
-		console.log("Found a possible match... They have 2 solutions...");
+	//	console.log("Found a possible match... They have 2 solutions...");
 		for (var i = 0; i < cellsWithTwo.length; i++) {
-			console.log(cellsWithTwo[i].id);
+	//		console.log(cellsWithTwo[i].id);
 		}
 		
 		var row1 = parseInt(cellsWithTwo[0].getAttribute("row"));
@@ -881,14 +883,14 @@ function findNakedPair(set) {
 		var col2 = parseInt(cellsWithTwo[1].getAttribute("col"));
 		var sols2 = getCellSolutions(row2, col2);
 		
-		console.log("First: " + sols1[0] + " and " + sols1[1]);
-		console.log("Second: " + sols2[0] + " and " + sols2[1]);
+//		console.log("First: " + sols1[0] + " and " + sols1[1]);
+	//	console.log("Second: " + sols2[0] + " and " + sols2[1]);
 		
 		var solutions = sols1;
 		
 		if (sols2.includes(sols1[0]) && sols2.includes(sols1[1])) { //if the solutions are the same
 			
-			console.log("Found to be the same");
+//			console.log("Found to be the same");
 			
 			//make sure it's not the same cell
 			if ((row2 === row1 && col2 === col1)) {
@@ -902,9 +904,9 @@ function findNakedPair(set) {
 				
 				
 				success = true;
-				console.log("A naked pair was found.");
-				console.log(solutions[0] + " and " + solutions[1] + " for cells " + (row1 + 1) + "-" +
-						(col1 + 1) + " and cell " + (row2 + 1) + "-" + (col2 + 1) + ".");
+		//		console.log("A naked pair was found.");
+		//		console.log(solutions[0] + " and " + solutions[1] + " for cells " + (row1 + 1) + "-" +
+			//			(col1 + 1) + " and cell " + (row2 + 1) + "-" + (col2 + 1) + ".");
 
 			}
 			
@@ -926,11 +928,11 @@ function findNakedPair(set) {
 							(setRow !== otherRow || setCol !== otherCol)) {
 						//add those solutions to impossibles
 						var imps = getImpossibles(board.rows[setRow].cells[setCol]);
-						console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
+				//		console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
 						for (var v = 0; v < solutions.length; v++) {
 							if (!imps.includes(solutions[v])) {
 								imps.push(solutions[v]); //add solutions to list as long as it's not already there
-								console.log(solutions[v]);
+			//					console.log(solutions[v]);
 							}
 						
 							saveImpossibles(board.rows[setRow].cells[setCol], imps);
@@ -946,14 +948,14 @@ function findNakedPair(set) {
 			var group1 = getCellGroup(row1, col1);
 			var group2 = getCellGroup(row2, col2);
 			
-			console.log("Looking at their groups...");
+//			console.log("Looking at their groups...");
 			
-			console.log(group1.id);
-			console.log(group2.id);
+		//	console.log(group1.id);
+		//	console.log(group2.id);
 			
 			//if the ids are the same, repeat in that group
 			if (group1.id === group2.id) {
-				console.log("They are in the same groups.");
+	//			console.log("They are in the same groups.");
 				
 				for (var n = 0; n < group1.length; n++) {
 					var setRow = parseInt(group1[n].getAttribute("row"));
@@ -967,11 +969,11 @@ function findNakedPair(set) {
 								(setRow !== otherRow || setCol !== otherCol)) {
 							//add those solutions to impossibles
 							var imps = getImpossibles(board.rows[setRow].cells[setCol]);
-							console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
+			//				console.log("Adding imps for " + (setRow + 1) + "-" + (setCol + 1) + ": ");
 							for (var v = 0; v < solutions.length; v++) {
 								if (!imps.includes(solutions[v])) {
 									imps.push(solutions[v]); //add solutions to list as long as it's not already there
-									console.log(solutions[v]);
+	//								console.log(solutions[v]);
 								}
 							
 								saveImpossibles(board.rows[setRow].cells[setCol], imps);
@@ -1087,20 +1089,11 @@ function hardPuzzle1() {
 	
 	//TESTS
 	
+	/*
 	//testing impossibles
 	var imps = [1,2];
 	saveImpossibles(board.rows[8].cells[5], imps);
-	
-	//test group retrieval
-	console.log("");
-	console.log("Testing group retrieval.")
-	for (var r = 0; r < 9; r++) {
-		for (var c = 0; c < 9; c++) {
-			console.log("Cell " + board.rows[r].cells[c].id);
-			console.log("Group: " + getCellGroup(r, c).id);
-			console.log("");
-		}
-	}
+	*/
 	
 	
 }
