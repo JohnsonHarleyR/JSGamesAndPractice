@@ -23,7 +23,9 @@
 //getCellGroup(row, col) - returns array - get all the cells in a cell's group
 //checkValidInSet(row, col, set) - return bookean - check if a cell solution is valid in a particular set
 
-
+// turnIntoArray() - get an array version of the board
+//printGrid(newGrid) - show the grid in the console
+//turnIntoBoard() - turn a grid back into a board
 
 //setAllSets() - set all cols, rows, groups - do this upon loading
 
@@ -1042,9 +1044,80 @@ function saveImpossibles(cell, set) {
 }
 
 
+function printGrid(newGrid) {
+	for (var r = 0; r < 9; r++) {
+		var row = newGrid[r];
+		console.log(row[0] + " " + row[1] + " " + row[2] + " " + row[3] + " " + row[4]
+		 + " " + row[5] + " " + row[6] + " " + row[7] + " " + row[8]);
+	}
+}
 
+//get a grid with all the values
+function turnIntoArray() {
+	
+	var newGrid = [9];
+	
+	for (var r = 0; r < 9; r++) {
+		var cells = [9];
+		newGrid[r] = cells;
+		var row = allRows[r];
+		for (var c = 0; c < 9; c++) {
+			cells[c] = parseInt(row[c].getAttribute("value"));
+		}
+		
+	}
+	
+	return newGrid;
+}
 
-
+//turn an array back into a board
+function turnIntoBoard(grid) {
+	//set up an empty sudoku board	
+	var newB = document.createElement("table");
+	newB.id = "board";
+	newB.class = "table";
+	newB.innerHTML = "";
+	
+	//create all cells on the board
+	for (var r = 0; r < 9; r++) {
+		
+		var row = newB.insertRow(r);
+		for (var c = 0; c < 9; c++) {
+			
+			var a = r + 1;
+			var b = c + 1;
+			
+			var value = parseInt(board.rows[r].cells[c].getAttribute("value"));
+			
+			var cell = row.insertCell(c);
+			cell.id = "nc" + a + "" + b;
+			//cell.class = "cell";
+			
+			var val = document.createAttribute("value", value); //default is 0
+		    cell.setAttributeNode(val);
+		    val.value = 0;
+		    
+		    var src = document.createAttribute("src", "su/blank.png"); //default is 0
+		    cell.setAttributeNode(src);
+		    src.value = "su/blank.png";
+		    
+		    var cellRow = document.createAttribute("row", r);
+		    cell.setAttributeNode(cellRow);
+		    cellRow.value = r;
+		    
+		    var cellCol = document.createAttribute("col", c);
+		    cell.setAttributeNode(cellCol);
+		    cellCol.value = c;
+		    
+		    var imps = document.createAttribute("impossibles", ""); //default is 0
+		    cell.setAttributeNode(imps);
+		    imps.value = "";
+		    
+		    cell.innerHTML = "<img id='" + "i" + a + b + "' class='square' src='" + cell.getAttribute('src') + "'/>";
+		}
+	}
+	return newB;
+}
 
 //Test methods
 function easyPuzzle1() {
@@ -1065,6 +1138,19 @@ function easyPuzzle1() {
 	setValue(3, 8, 0, "black"); setValue(4, 8, 3, "black"); setValue(5, 8, 6, "black"); setValue(8, 8, 8, "black");
 	
 	isBlank = false;
+	
+	
+	//testing grid
+	var grid = turnIntoArray();
+	printGrid(grid);
+	
+	var copy = turnIntoBoard(grid);
+	//change something then see if it changes the board
+	copy.rows[0].cells[1].setAttribute("value", 3);
+	var grid2 = turnIntoArray();
+	console.log("");
+	printGrid(grid2);
+	//IT is successfully copied, the copy did not change the original
 	
 }
 
@@ -1094,6 +1180,10 @@ function hardPuzzle1() {
 	var imps = [1,2];
 	saveImpossibles(board.rows[8].cells[5], imps);
 	*/
+	
+	//testing grid
+	var grid = turnIntoArray();
+	printGrid(grid);
 	
 	
 }
