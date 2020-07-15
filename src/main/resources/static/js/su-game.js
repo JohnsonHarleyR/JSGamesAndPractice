@@ -2,17 +2,21 @@
 
 //DONT FORGET ISBLANK
 
+//difficultyIndex - this increases as the computer searches for solutions. (To try to match the brute 
+//force algorithm - which is likely to rack up a lot of points, the logic solver will do it after every type of 
+//guess.)
+
 //TODO Add to function that changes the cell's icon... upon calling it, check if the user changed it...
 //if they did, compare the user's answer to what it should be... if it's wrong, make the image red
 
 //TODO A function that compares the user's incomplete board to the correct answers, tells the user if an answer
 //is wrong by turning it red. If it's right, set that board cell to the user's answer, stop allowing it to change
 
-//TODO make it so you can only change a cell if it's value is set to 0
+//setValue(value, row, col, color)
 
-//generatPuzzle()
+//generatPuzzle() - the method that gets called to - first - generate the full grid
 
-//generateNew(grid) - the method that creates a generated puzzle
+//generateNew(grid) - the method that creates a generated grid
 
 //fullSolve(color) - solves the board fully - first uses the solveByLogic. If that fails, it uses brute force.
 //set the solved grid to this to use it later
@@ -23,7 +27,7 @@
 
 //setBoardToNewGrid(grid, color)
 
-//solveByBruteForce(grid) - used if solveByLogic fails, and perhaps also in generating a new board
+//solveBruteForce(grid) - used if solveByLogic fails, and perhaps also in generating a new board
 
 //solveByLogic - loops through all the following methods as long as anything is solved
 
@@ -63,6 +67,17 @@
 //excludeImpossibles(cell, set) //returns solution set without impossibles
 //excludeInSameGroup(cell)
 
+//TEST METHODS
+//easyPuzzle1();
+//mediumPuzzle1();
+//hardPuzzle1();
+
+//clickTestMode();
+//clickLogicSolveTest() 
+//clearBlue() - clears all blue numbers while in test mode
+
+//logicSolveTest() - to test if a grid can be solved with just the logic solver
+
 
 //USER METHODS
 
@@ -73,16 +88,32 @@
 
 //Change a blank button on the board
 function changeCell() {
-	if (this.getAttribute("value") === "0") { //only do it if the value is blank
-		//first check if it's the blank one
-		if (selectVal === 0) {
-			this.innerHTML = "<img class='square' src='/su/blank.png'/>";
-		} else {
-			//we will only be changing the IMAGE until later when we compare the answers to the solved version
-			this.innerHTML = "<img class='square' src='/su/blue" + selectVal + ".png'/>";
+	
+	//if test mode is on, do it this way
+	if (testMode) {
+		//(value, row, col, color)
+		let r = parseInt(this.getAttribute("row"));
+		let c = parseInt(this.getAttribute("col"));
+		setValue(selectVal, r, c, "red");
+		
+		isBlank = false;
+		
+		//otherwise do it the normal way
+	} else {
+		if (this.getAttribute("value") === "0") { //only do it if the value is blank
+			
+			//first check if it's the blank one
+			if (selectVal === 0) {
+				this.innerHTML = "<img class='square' src='/su/blank.png'/>";
+			} else {
+				//we will only be changing the IMAGE until later when we compare the answers to the solved version
+				this.innerHTML = "<img class='square' src='/su/blue" + selectVal + ".png'/>";
+			}
+			
 		}
 		
 	}
+	
 }
 
 //Select a button on the side
@@ -98,16 +129,56 @@ function selectBtn() {
 	this.className = "selected-btn";
 }
 
+//test mode
+function clickTestMode() {
+	if (testMode) {
+		testMode = false;
+		this.id = "test-mode-off";
+	} else {
+		testMode = true;
+		this.id = "test-mode-on";
+	}
+}
+
 //A test method for now.
 function buttonSolver() { //JUST FOR BUTTON
 		
 	if (!isBlank) {
 		fullSolve("blue"); //the solve button solves in blue
 	}
-
-	
 	
 }
+
+//bruteBtnSolve() - this uses only the brute force solver - potentially useful for figuring out the difficulty index of a puzzle
+function bruteBtnSolve() {
+	let grid = turnIntoArray();
+	difficultyIndex = 0;
+	
+	console.log("");
+	solveBruteForce(grid);
+	console.log("Difficulty Index: " + difficultyIndex);
+	setBoardToNewGrid(grid, "blue");
+	
+}
+
+function clickLogicSolveTest() {
+	logicSolveTest();
+}
+
+//A testMode method - this should only happen in test mode
+function clearBlue() {
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			//if the board innerhtml contains "blue", then reset it to 0
+			let string = board.rows[r].cells[c].innerHTML;
+			if (string.includes("blue")) {
+				//setValue(value, row, col, color)
+				setValue(0, r, c, "black");
+			}
+		}
+	}
+}
+
 
 //On page load
 function loadPage() {
@@ -119,6 +190,7 @@ function loadPage() {
 	//main.appendChild(board);
 	
 	difficultyIndex = 0;
+	testMode = false;
 	
 	//selection buttons
 	btn1 = document.getElementById("b1");
@@ -259,12 +331,41 @@ function loadPage() {
 	var breakLine = document.createElement("br");
 	testing.appendChild(breakLine);
 	
+	testModeBtn = document.createElement("button");
+	testModeBtn.id = "test-mode-btn";
+	testModeBtn.innerText = "(test mode)";
+	testModeBtn.addEventListener("click", clickTestMode);
+	testing.appendChild(testModeBtn);
+	
+	bruteForceBtn = document.createElement("button");
+	bruteForceBtn.id = "brute-force-solve-btn";
+	bruteForceBtn.innerText = "(brute solve)";
+	bruteForceBtn.addEventListener("click", bruteBtnSolve);
+	testing.appendChild(bruteForceBtn);
+	
+	/*
+	logicSolveTestBtn = document.createElement("button");
+	logicSolveTestBtn.id = "logic-solve-test-btn";
+	logicSolveTestBtn.innerText = "(logic solve test)";
+	logicSolveTestBtn.addEventListener("click", clickLogicSolveTest);
+	testing.appendChild(logicSolveTestBtn);
+	*/
+	
+	//for line spacing
+	var breakLine = document.createElement("br");
+	testing.appendChild(breakLine);
+	
 	easyPuzzleBtn1 = document.createElement("button");
 	easyPuzzleBtn1.id = "easy-puzzle-btn-1";
 	easyPuzzleBtn1.innerText = "Test: Easy 1";
 	easyPuzzleBtn1.addEventListener("click", easyPuzzle1);
 	testing.appendChild(easyPuzzleBtn1);
 	
+	mediumPuzzleBtn1 = document.createElement("button");
+	mediumPuzzleBtn1.id = "medium-puzzle-btn-1";
+	mediumPuzzleBtn1.innerText = "Test: Med 1";
+	mediumPuzzleBtn1.addEventListener("click", mediumPuzzle1);
+	testing.appendChild(mediumPuzzleBtn1);
 	
 	hardPuzzleBtn1 = document.createElement("button");
 	hardPuzzleBtn1.id = "hard-puzzle-btn-1";
@@ -272,6 +373,27 @@ function loadPage() {
 	hardPuzzleBtn1.addEventListener("click", hardPuzzle1);
 	testing.appendChild(hardPuzzleBtn1);
 	
+	//for line spacing
+	var breakLine = document.createElement("br");
+	testing.appendChild(breakLine);
+	
+	easyPuzzleBtn2 = document.createElement("button");
+	easyPuzzleBtn2.id = "easy-puzzle-btn-2";
+	easyPuzzleBtn2.innerText = "Test: Easy 2";
+	easyPuzzleBtn2.addEventListener("click", easyPuzzle2);
+	testing.appendChild(easyPuzzleBtn2);
+	
+	mediumPuzzleBtn2 = document.createElement("button");
+	mediumPuzzleBtn2.id = "medium-puzzle-btn-2";
+	mediumPuzzleBtn2.innerText = "Test: Med 2";
+	mediumPuzzleBtn2.addEventListener("click", mediumPuzzle2);
+	testing.appendChild(mediumPuzzleBtn2);
+	
+	hardPuzzleBtn2 = document.createElement("button");
+	hardPuzzleBtn2.id = "hard-puzzle-btn-2";
+	hardPuzzleBtn2.innerText = "Test: Hard 2";
+	hardPuzzleBtn2.addEventListener("click", hardPuzzle2);
+	testing.appendChild(hardPuzzleBtn2);
 	
 }
 
@@ -328,17 +450,21 @@ function getImage(row, col, color) {
 
 //reset the value of all cells to 0
 function resetCells() {
-	difficultyIndex = 0;
-	for (var r = 0; r < 9; r++) {
-		for (var c = 0; c < 9; c++) {
-			setValue(0, r, c, "black");
-			board.rows[r].cells[c].setAttribute("value", 0);
-			var imps = [];
-			saveImpossibles(board.rows[r].cells[c], imps);
+	if (testMode) { //if in test mode, leave all red and black numbers
+		clearBlue();
+	} else {
+		difficultyIndex = 0;
+		for (var r = 0; r < 9; r++) {
+			for (var c = 0; c < 9; c++) {
+				setValue(0, r, c, "black");
+				board.rows[r].cells[c].setAttribute("value", 0);
+				var imps = [];
+				saveImpossibles(board.rows[r].cells[c], imps);
+			}
 		}
+		isBlank = true;
+		solved = turnIntoArray();
 	}
-	isBlank = true;
-	solved = turnIntoArray();
 }
 
 
@@ -558,10 +684,11 @@ function generatePuzzle() { // you must turn it into a grid before passing
 		//set isBlank to false
 		isBlank = false;
 	}
-	
+	console.log("Difficulty index: " + difficultyIndex);
 }
 
-//this is the rea method doing the work
+//GENERATE A FULL SUDOKU GRID - RANDOMIZED
+//this is the real method doing the work
 function generateNew(grid) {
 	
 	//console.log("Generating...");
@@ -587,6 +714,7 @@ function generateNew(grid) {
 				//loop through values
 				for (let n = 0; n <= nums.length; n++) {
 					//console.log("Trying number " + nums[n]);
+					difficultyIndex++;
 					grid[r][c] = nums[n];
 					if (validateCellFull(r, c, grid) && generateNew(grid)) {
 					//	console.log("Cell is valid, returning true");
@@ -631,7 +759,37 @@ function fullSolve(color) {
 			console.log("Error in solving.");
 		}
 	}
+	console.log("Difficulty index: " + difficultyIndex);
+}
+
+//this one creates a copy board first so that after solving, it changes it back to the original
+//returns true if it's possible to solve by logic
+function logicSolveTest() {
+	let color = "blue";
+	let solvable = true;
+	difficultyIndex = 0;
+	isBlank = false;
+	testMode = true;
 	
+	//copy board to temporary board
+	let tempArray = turnIntoArray();
+	let tempBoard = turnIntoBoard(tempArray);
+	
+	console.log("");
+	console.log("Testing logic solve.");
+	//first solve by logic
+	solveByLogic(color);
+	
+	//check if there are any zeros left
+	if (checkForZeros()) {
+		solvable = false;
+	}
+	console.log("Able to solve by logic?: " + solvable);
+	console.log("Difficulty index: " + difficultyIndex);
+	//turn the board back to the original
+	board = tempBoard;
+	
+	return solvable;
 }
 
 
@@ -660,10 +818,12 @@ function solveBruteForce(grid) { // you must turn it into a grid before passing
 		for (let c = 0; c < 9; c++) {
 			//make sure the value is 0
 			if (grid[r][c] == 0) { //not sure if it will come as string or not, it should be an integer though
+				
 				//console.log("Cell " + (r + 1) + "-" + (c + 1) + " is empty.");
 				//now loop through values
 				for (let n = 1; n <= 9; n++) {
 					//console.log("Testing it with value " + n);
+					difficultyIndex++;
 					grid[r][c] = n;
 					if (validateCellFull(r, c, grid) && solveBruteForce(grid)) {
 						//console.log("Cell is valid, returning true");
@@ -1007,6 +1167,7 @@ function solveByLogic(color) {
 			//console.log("Solving single solutions...");
 			//found helps determine when to keep going
 			var found = solveSingleSolutions(color);
+			difficultyIndex++;
 			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
@@ -1017,6 +1178,7 @@ function solveByLogic(color) {
 			//now solveBySet
 			//console.log("Solving by sets...");
 			found = solveBySets(color);
+			difficultyIndex++;
 			//console.log("Solutions found?: " + found);
 			
 			//if found is true, set solutionsFound to true
@@ -1080,9 +1242,11 @@ function solveBySets(color) {
 			
 			//then findNakedPair
 			findNakedPair(set);
+			difficultyIndex++;
 			
 			//first solveSetSingles
 			var found = solveSetSingles(set, color);
+			difficultyIndex++;
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -1092,6 +1256,7 @@ function solveBySets(color) {
 			
 			//then solveForSingleZeros
 			found = solveForSingleZeros(set, color);
+			difficultyIndex++;
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -1108,10 +1273,11 @@ function solveBySets(color) {
 			
 			//then findNakedPair
 			findNakedPair(set);
-			
+			difficultyIndex++;
 			
 			//first solveSetSingles
 			var found = solveSetSingles(set, color);
+			difficultyIndex++;
 			
 			//if found is true, set solutionsFound to true
 			if (found === true) {
@@ -1121,6 +1287,7 @@ function solveBySets(color) {
 			
 			//then solveForSingleZeros
 			found = solveForSingleZeros(set, color);
+			difficultyIndex++;
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -1137,9 +1304,11 @@ function solveBySets(color) {
 			
 			//then findNakedPair
 			findNakedPair(set);
+			difficultyIndex++;
 			
 			//first solveSetSingles
 			var found = solveSetSingles(set, color);
+			difficultyIndex++;
 			
 		
 			//if found is true, set solutionsFound to true
@@ -1150,6 +1319,7 @@ function solveBySets(color) {
 			
 			//then solveForSingleZeros
 			found = solveForSingleZeros(set, color);
+			difficultyIndex++;
 			//if found is true, set solutionsFound to true
 			if (found === true) {
 				solutionsFound = true;
@@ -1230,6 +1400,7 @@ function solveSetSingles(set, color) {
 		}
 		
 	}
+	difficultyIndex++;
 //	console.log("Solutions found?: " + found);
 	return found;
 }
@@ -1258,6 +1429,7 @@ function solveForSingleZeros(set, color) {
 	//console.log("Zeros in set: " + numZeros);
 	//if there's only one number equal to 0, figure out the solution to that cell
 	if (numZeros === 1) {
+		difficultyIndex++;
 		//console.log("Only one zero found in set.")
 		var row = parseInt(cell.getAttribute("row"));
 		var col = parseInt(cell.getAttribute("col"));
@@ -1324,7 +1496,7 @@ function solveSingleSolutions(color) {
 				
 			}
 		}
-		
+		difficultyIndex++;
 //		console.log("Single solutions found on board?: " + solutionsFound);
 		
 	} while (solutionsFound);
@@ -1697,6 +1869,8 @@ function easyPuzzle1() {
 	
 	isBlank = false;
 	
+	/*
+	
 	//now store it into solved and then redo all this
 	fullSolve("black");
 	
@@ -1729,27 +1903,95 @@ function easyPuzzle1() {
 	//printGrid(grid2);
 	//IT is successfully copied, the copy did not change the original
 	
-	/*
-	//validateCellFull(row, col, grid) - WORKING
-	console.log("");
-	grid[4][4] = 1;
-	var test1 = validateCellFull(4, 4, grid);
-	console.log("Is " + grid[4][4] + " valid is cell 5-5?: " + test1);
-	//grid[4][4] = 2;
-	//var test2 = validateCellFull(4, 4, grid);
-	//console.log("Is " + grid[4][4] + " valid is cell 5-5?: " + test2);
-	
-	//test solveBruteForce(grid); - WORKS
-	console.log("Testing solveBruteForce()");
-	var test2 = solveBruteForce(grid);
-	console.log("Return result: " + test2);
-	
-	//If it comes back true, store it back into the main board
-	if (test2) {
-		setBoardToNewGrid(grid, "blue");
-	}
 	*/
 	
+}
+
+function easyPuzzle2() {
+	//reset board just in case
+	resetCells();
+	
+	console.log('testing');
+	
+	//now set up a puzzle for the board
+	setValue(2, 0, 3, "black"); setValue(6, 0, 4, "black"); setValue(7, 0, 6, "black"); setValue(1, 0, 8, "black");
+	setValue(6, 1, 0, "black"); setValue(8, 1, 1, "black"); setValue(7, 1, 4, "black"); setValue(9, 1, 7, "black");
+	setValue(1, 2, 0, "black"); setValue(9, 2, 1, "black"); setValue(4, 2, 5, "black"); setValue(5, 2, 6, "black");
+	setValue(8, 3, 0, "black"); setValue(2, 3, 1, "black"); setValue(1, 3, 3, "black"); setValue(4, 3, 7, "black");
+	setValue(4, 4, 2, "black"); setValue(6, 4, 3, "black"); setValue(2, 4, 5, "black"); setValue(9, 4, 6, "black");
+	setValue(5, 5, 1, "black"); setValue(3, 5, 5, "black"); setValue(2, 5, 7, "black"); setValue(8, 5, 8, "black");
+	setValue(9, 6, 2, "black"); setValue(3, 6, 3, "black"); setValue(7, 6, 7, "black"); setValue(4, 6, 8, "black");
+	setValue(4, 7, 1, "black"); setValue(5, 7, 4, "black"); setValue(3, 7, 7, "black"); setValue(6, 7, 8, "black");
+	setValue(7, 8, 0, "black"); setValue(3, 8, 2, "black"); setValue(1, 8, 4, "black"); setValue(8, 8, 5, "black");
+	
+	isBlank = false;
+}
+
+function mediumPuzzle1() {
+
+	//reset board just in case
+	resetCells();
+	
+	console.log('testing');
+	
+	//now set up a puzzle for the board
+	setValue(6, 0, 3, "black"); setValue(9, 0, 5, "black");
+	setValue(7, 1, 1, "black"); setValue(3, 1, 2, "black");
+	setValue(1, 2, 1, "black"); setValue(4, 2, 2, "black"); setValue(5, 2, 5, "black"); setValue(8, 2, 8, "black");
+	setValue(8, 3, 5, "black"); setValue(1, 3, 7, "black");
+	setValue(7, 4, 0, "black"); setValue(5, 4, 2, "black"); setValue(2, 4, 7, "black");
+	
+	setValue(9, 6, 2, "black"); setValue(7, 6, 3, "black"); setValue(5, 6, 7, "black");
+	setValue(5, 7, 1, "black"); setValue(6, 7, 2, "black"); setValue(1, 7, 5, "black");
+	setValue(3, 8, 0, "black"); setValue(4, 8, 4, "black"); setValue(9, 8, 8, "black");
+	
+	isBlank = false;
+	
+	/*
+	//now store it into solved and then redo all this
+	fullSolve("black");
+	
+	//now do again
+	resetCells();
+	
+	
+	//now set up a puzzle for the board
+	setValue(6, 0, 3, "black"); setValue(9, 0, 5, "black");
+	setValue(7, 1, 1, "black"); setValue(3, 1, 2, "black");
+	setValue(1, 2, 1, "black"); setValue(4, 2, 2, "black"); setValue(5, 2, 5, "black"); setValue(8, 2, 8, "black");
+	setValue(8, 3, 5, "black"); setValue(1, 3, 7, "black");
+	setValue(7, 4, 0, "black"); setValue(5, 4, 2, "black"); setValue(2, 4, 7, "black");
+	
+	setValue(9, 6, 2, "black"); setValue(7, 6, 3, "black"); setValue(5, 6, 7, "black");
+	setValue(5, 7, 1, "black"); setValue(6, 7, 2, "black"); setValue(1, 7, 5, "black");
+	setValue(3, 8, 0, "black"); setValue(4, 8, 4, "black"); setValue(9, 8, 8, "black");
+	
+	isBlank = false;
+	
+	//testing grid
+	var grid = turnIntoArray();
+	printGrid(grid);
+	*/
+}
+
+function mediumPuzzle2() {
+	//reset board just in case
+	resetCells();
+	
+	console.log('testing');
+	
+	//now set up a puzzle for the board
+	setValue(8, 0, 1, "black"); setValue(3, 0, 7, "black"); setValue(2, 0, 8, "black");
+	setValue(4, 1, 0, "black"); setValue(6, 1, 5, "black"); setValue(5, 1, 6, "black");
+	setValue(3, 2, 4, "black"); setValue(1, 2, 6, "black");
+	setValue(3, 3, 2, "black"); setValue(6, 3, 3, "black"); setValue(5, 3, 5, "black"); setValue(4, 3, 6, "black");
+	setValue(1, 4, 0, "black"); setValue(6, 4, 8, "black");
+	setValue(4, 5, 2, "black"); setValue(8, 5, 3, "black"); setValue(7, 5, 5, "black"); setValue(9, 5, 6, "black");
+	setValue(9, 6, 2, "black"); setValue(5, 6, 4, "black");
+	setValue(8, 7, 2, "black"); setValue(7, 7, 3, "black"); setValue(9, 7, 8, "black");
+	setValue(6, 8, 0, "black"); setValue(2, 8, 1, "black"); setValue(8, 8, 7, "black");
+	
+	isBlank = false;
 }
 
 function hardPuzzle1() {
@@ -1771,6 +2013,8 @@ function hardPuzzle1() {
 	
 	isBlank = false;
 	
+	/*
+	
 	//now store it into solved and then redo all this
 	fullSolve("black");
 	
@@ -1790,6 +2034,8 @@ function hardPuzzle1() {
 	
 	isBlank = false;
 	
+	*/
+	
 	//TESTS
 	
 	/*
@@ -1797,19 +2043,40 @@ function hardPuzzle1() {
 	var imps = [1,2];
 	saveImpossibles(board.rows[8].cells[5], imps);
 	*/
-	
+	/*
 	//testing grid
 	//var grid = turnIntoArray();
 	//printGrid(grid);
 	
-	
+	*/
 }
 
+function hardPuzzle2() {
+	//reset board just in case
+	resetCells();
+	
+	console.log('testing');
+	
+	//now set up a puzzle for the board
+	setValue(2, 0, 1, "black"); setValue(6, 0, 2, "black"); setValue(3, 0, 8, "black");
+	
+	setValue(7, 2, 0, "black"); setValue(4, 2, 4, "black"); setValue(8, 2, 5, "black"); setValue(6, 2, 7, "black");
+	setValue(7, 3, 1, "black"); setValue(1, 3, 5, "black");
+	setValue(4, 4, 1, "black"); setValue(2, 4, 3, "black"); setValue(5, 4, 5, "black"); setValue(9, 4, 8, "black");
+	setValue(2, 5, 0, "black"); setValue(8, 5, 4, "black"); setValue(5, 5, 7, "black"); setValue(7, 5, 8, "black");
+	setValue(5, 6, 0, "black"); setValue(8, 6, 2, "black");
+	setValue(2, 7, 7, "black");
+	setValue(1, 8, 4, "black"); setValue(5, 8, 6, "black"); setValue(4, 8, 7, "black");
+	
+	isBlank = false;
+}
 
 
 //Variables
 var body = document.getElementById('body');
 var main = document.getElementById('main');
+
+var testMode; //when this is on, it allows test solving
 
 var user;
 var selectVal = 1;
@@ -1827,8 +2094,14 @@ var isBlank = true;
 var solveBtn;
 var generateBtn;
 var resetBoardBtn;
+var bruteForceBtn;
+var logicSolveTestBtn;
 var easyPuzzleBtn1;
+var easyPuzzleBtn2;
+var mediumPuzzleBtn1;
+var mediumPuzzleBtn2;
 var hardPuzzleBtn1;
+var hardPuzzleBtn2;
 
 //constants
 var VALUES = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];

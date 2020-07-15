@@ -4,6 +4,10 @@ main {
 	flex-wrap: wrap;
 }
 
+#test-mode-on {
+	background-color: green;
+}
+
 #user {
 	float:left;
 	display: flex;
