@@ -1,5 +1,50 @@
 @charset "ISO-8859-1";
 
+main {
+	flex-wrap: wrap;
+}
+
+#user {
+	float:left;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	padding-left: 20px;
+}
+
+#board {
+	position: relative;
+}
+
+#testing {
+	position: relative;
+    float:bottom;
+    margin-top: 500px;
+}
+
+
+#game {
+	float:left;
+	display: flex;
+	float:left;
+}
+
+.user-btn {
+	width: 43px;
+	height: 43px;
+	border: 2px solid black;
+	margin: 2px;
+}
+
+.selected-btn {
+	width: 45px;
+	height: 45px;
+	border: 3px solid red;
+	margin: 1px;
+}
+
 .cell {
 	display: flex;
 	justify-content: center;
@@ -9,15 +54,15 @@
 	font-weight: bold;
 	align-items: center;
     background: #ffffff;
-    width: 4vw;
-    height: 4vw;
+    width: 50px;
+    height: 50px;
     border: 1px solid black;
     margin: 0px;
 }
 
 .square {
-	width: 4vw;
-    height: 4vw;
+	width: 50px;
+    height: 50px;
     border: 1px solid black;
     margin: 0px;
 }

@@ -30,6 +30,42 @@
 </div>
 
 <h1 id="title">Sudoku</h1>
+I worked on a solver that can solve a puzzle by regular means without a brute force algorithm. In the end though, I
+ ended up creating one anyway to solve difficult puzzles and combining the two algorithms.<br><br>
+ What this means is the code became quite long lol. That's okay, the main goal was to challenge myself and 
+ I certainly accomplished that.
+ <br>
+ <br>
+
+
+<div id="game">
+	<table id="board">
+	</table>
+	
+</div>
+
+
+
+<div id="user">
+	
+	<img id="b1" class="selected-btn" src="/su/blue1.png"/>
+	<img id="b2" class="user-btn" src="/su/blue2.png"/>
+	<img id="b3" class="user-btn" src="/su/blue3.png"/>
+	<img id="b4" class="user-btn" src="/su/blue4.png"/>
+	<img id="b5" class="user-btn" src="/su/blue5.png"/>
+	<img id="b6" class="user-btn" src="/su/blue6.png"/>
+	<img id="b7" class="user-btn" src="/su/blue7.png"/>
+	<img id="b8" class="user-btn" src="/su/blue8.png"/>
+	<img id="b9" class="user-btn" src="/su/blue9.png"/>
+	<img id="blank" class="user-btn" src="/su/blank.png"/>
+	
+	<!-- 
+	<br>
+	<img id="active" src="/su/blank.png"/>
+	<label>Active Button</label>
+	 -->
+
+</div>
 
 
 

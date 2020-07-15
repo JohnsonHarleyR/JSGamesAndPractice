@@ -1,6 +1,17 @@
 //FUNCTIONS TO CHOOSE FROM
 
+//DONT FORGET ISBLANK
+
+//TODO Add to function that changes the cell's icon... upon calling it, check if the user changed it...
+//if they did, compare the user's answer to what it should be... if it's wrong, make the image red
+
+//TODO A function that compares the user's incomplete board to the correct answers, tells the user if an answer
+//is wrong by turning it red. If it's right, set that board cell to the user's answer, stop allowing it to change
+
+//TODO make it so you can only change a cell if it's value is set to 0
+
 //fullSolve(color) - solves the board fully - first uses the solveByLogic. If that fails, it uses brute force.
+//set the solved grid to this to use it later
 
 //buttonSolver() - for the solve button to call
 
@@ -45,26 +56,125 @@
 //excludeImpossibles(cell, set) //returns solution set without impossibles
 //excludeInSameGroup(cell)
 
-//Functions for buttons
+
+//USER METHODS
+
+
+
+
+//BUTTON METHODS
+
+//Change a blank button on the board
+function changeCell() {
+	if (this.getAttribute("value") === "0") { //only do it if the value is blank
+		//first check if it's the blank one
+		if (selectVal === 0) {
+			this.innerHTML = "<img class='square' src='/su/blank.png'/>";
+		} else {
+			//we will only be changing the IMAGE until later when we compare the answers to the solved version
+			this.innerHTML = "<img class='square' src='/su/blue" + selectVal + ".png'/>";
+		}
+		
+	}
+}
+
+//Select a button on the side
+function selectBtn() {
+	//place its value as the active value
+	selectVal = parseInt(this.getAttribute("value"));
+	//reset the class of all other similar buttons
+	btn1.className = "user-btn"; btn2.className = "user-btn"; btn3.className = "user-btn";
+	btn4.className = "user-btn"; btn5.className = "user-btn"; btn6.className = "user-btn";
+	btn7.className = "user-btn"; btn8.className = "user-btn"; btn9.className = "user-btn";
+	btnBlank.className = "user-btn";
+	//change the class of the active button so the user can see it
+	this.className = "selected-btn";
+}
 
 //A test method for now.
 function buttonSolver() { //JUST FOR BUTTON
+		
+	if (!isBlank) {
+		fullSolve("blue"); //the solve button solves in blue
+	}
 
-	fullSolve("blue"); //the solve button solves in blue
+	
 	
 }
-
 
 //On page load
 function loadPage() {
 	//set up an empty sudoku board	
-	board = document.createElement("table");
-	board.id = "board";
+	board = document.getElementById("board");
+	//board.id = "board";
 	board.class = "table";
 	board.innerHTML = "";
-	main.appendChild(board);
+	//main.appendChild(board);
 	
 	difficultyIndex = 0;
+	
+	//selection buttons
+	btn1 = document.getElementById("b1");
+	btn1.addEventListener("click", selectBtn);
+	var b1Val = document.createAttribute("value", 1);
+	btn1.setAttributeNode(b1Val);
+	b1Val.value = 1;
+	
+	btn2 = document.getElementById("b2");
+	btn2.addEventListener("click", selectBtn);
+	var b2Val = document.createAttribute("value", 2);
+	btn2.setAttributeNode(b2Val);
+	b2Val.value = 2;
+	
+	btn3 = document.getElementById("b3");
+	btn3.addEventListener("click", selectBtn);
+	var b3Val = document.createAttribute("value", 3);
+	btn3.setAttributeNode(b3Val);
+	b3Val.value = 3;
+	
+	btn4 = document.getElementById("b4");
+	btn4.addEventListener("click", selectBtn);
+	var b4Val = document.createAttribute("value", 4);
+	btn4.setAttributeNode(b4Val);
+	b4Val.value = 4;
+	
+	btn5 = document.getElementById("b5");
+	btn5.addEventListener("click", selectBtn);
+	var b5Val = document.createAttribute("value", 5);
+	btn5.setAttributeNode(b5Val);
+	b5Val.value = 5;
+
+	btn6 = document.getElementById("b6");
+	btn6.addEventListener("click", selectBtn);
+	var b6Val = document.createAttribute("value", 6);
+	btn6.setAttributeNode(b6Val);
+	b6Val.value = 6;
+
+	btn7 = document.getElementById("b7");
+	btn7.addEventListener("click", selectBtn);
+	var b7Val = document.createAttribute("value", 7);
+	btn7.setAttributeNode(b7Val);
+	b7Val.value = 7;
+	
+	btn8 = document.getElementById("b8");
+	btn8.addEventListener("click", selectBtn);
+	var b8Val = document.createAttribute("value", 8);
+	btn8.setAttributeNode(b8Val);
+	b8Val.value = 8;
+	
+	btn9 = document.getElementById("b9");
+	btn9.addEventListener("click", selectBtn);
+	var b9Val = document.createAttribute("value", 9);
+	btn9.setAttributeNode(b9Val);
+	b9Val.value = 9;
+	
+	btnBlank = document.getElementById("blank");
+	btnBlank.addEventListener("click", selectBtn);
+	var bBlankVal = document.createAttribute("value", 0);
+	btnBlank.setAttributeNode(bBlankVal);
+	bBlankVal.value = 0;
+	
+	
 	
 	//create all cells on the board
 	for (var r = 0; r < 9; r++) {
@@ -76,6 +186,7 @@ function loadPage() {
 			var b = c + 1;
 			
 			var cell = row.insertCell(c);
+			cell.addEventListener("click", changeCell);
 			cell.id = "c" + a + "" + b;
 			//cell.class = "cell";
 			
@@ -109,10 +220,12 @@ function loadPage() {
 	
 	
 	
+	
 	//set test buttons
+	
 	testing = document.createElement("div");
 	testing.id = "testing";
-	//testing.className = "testing";
+	testing.className = "testing";
 	testing.innerHTML = "Testing buttons:<br>";
 	main.appendChild(testing);
 	
@@ -204,11 +317,13 @@ function resetCells() {
 	for (var r = 0; r < 9; r++) {
 		for (var c = 0; c < 9; c++) {
 			setValue(0, r, c, "black");
+			board.rows[r].cells[c].setAttribute("value", 0);
 			var imps = [];
 			saveImpossibles(board.rows[r].cells[c], imps);
 		}
 	}
 	isBlank = true;
+	solved = turnIntoArray();
 }
 
 
@@ -417,6 +532,7 @@ function fullSolve(color) {
 		
 		if (solved) {
 			setBoardToNewGrid(grid, color);
+			solved = grid;
 			console.log("Solve was successful.");
 		} else {
 			console.log("Error in solving.");
@@ -1434,6 +1550,25 @@ function easyPuzzle1() {
 	
 	isBlank = false;
 	
+	//now store it into solved and then redo all this
+	fullSolve("black");
+	
+	//now do again
+	resetCells();
+	
+	
+	//now set up a puzzle for the board
+	setValue(2, 0, 0, "black"); setValue(5, 0, 2, "black"); setValue(7, 0, 5, "black"); setValue(6, 0, 8, "black");
+	setValue(4, 1, 0, "black"); setValue(9, 1, 3, "black"); setValue(6, 1, 4, "black"); setValue(2, 1, 7, "black");
+	setValue(8, 2, 4, "black"); setValue(4, 2, 7, "black"); setValue(5, 2, 8, "black");
+	setValue(9, 3, 0, "black"); setValue(8, 3, 1, "black"); setValue(7, 3, 4, "black"); setValue(4, 3, 5, "black");
+	setValue(5, 4, 0, "black"); setValue(7, 4, 1, "black"); setValue(8, 4, 3, "black"); setValue(2, 4, 5, "black"); setValue(6, 4, 7, "black"); setValue(9, 4, 8, "black");
+	setValue(6, 5, 3, "black"); setValue(3, 5, 4, "black"); setValue(5, 5, 7, "black"); setValue(7, 5, 8, "black");
+	setValue(7, 6, 0, "black"); setValue(5, 6, 1, "black"); setValue(2, 6, 4, "black");
+	setValue(6, 7, 1, "black"); setValue(5, 7, 4, "black"); setValue(1, 7, 5, "black"); setValue(2, 7, 8, "black");
+	setValue(3, 8, 0, "black"); setValue(4, 8, 3, "black"); setValue(5, 8, 6, "black"); setValue(8, 8, 8, "black");
+	
+	isBlank = false;
 	
 	//testing grid
 	var grid = turnIntoArray();
@@ -1489,6 +1624,25 @@ function hardPuzzle1() {
 	
 	isBlank = false;
 	
+	//now store it into solved and then redo all this
+	fullSolve("black");
+	
+	//now do again
+	resetCells();
+	
+	//now set up a puzzle for the board
+	setValue(4, 0, 0, "black");
+	setValue(9, 1, 5, "black");
+	setValue(7, 2, 6, "black"); setValue(8, 2, 7, "black"); setValue(5, 2, 8, "black");
+	setValue(7, 3, 2, "black"); setValue(4, 3, 4, "black"); setValue(8, 3, 5, "black"); setValue(5, 3, 7, "black");
+	setValue(1, 4, 2, "black"); setValue(3, 4, 3, "black");
+	setValue(6, 5, 2, "black"); setValue(7, 5, 4, "black");
+	setValue(8, 6, 0, "black"); setValue(6, 6, 1, "black"); setValue(9, 6, 6, "black"); setValue(3, 6, 8, "black");
+	setValue(7, 7, 0, "black"); setValue(5, 7, 5, "black"); setValue(6, 7, 7, "black"); setValue(2, 7, 8, "black");
+	setValue(3, 8, 2, "black"); setValue(7, 8, 3, "black");
+	
+	isBlank = false;
+	
 	//TESTS
 	
 	/*
@@ -1510,12 +1664,15 @@ function hardPuzzle1() {
 var body = document.getElementById('body');
 var main = document.getElementById('main');
 
+var user;
+var selectVal = 1;
+var btn1; var btn2; var btn3; var btn3; var btn4; var btn5; var btn6; var btn7; var btn8; var btnBlank;
+
 var board;
 var solved; //solved board
 var unsolved; //unsolved board
 
 var difficultyIndex = 0; //this is to help measure difficulty of solving a puzzle
-var endGrid; //this gets stored if the brute force solver comes into play
 
 var isBlank = true;
 
