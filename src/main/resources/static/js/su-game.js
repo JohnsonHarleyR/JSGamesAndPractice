@@ -10,6 +10,10 @@
 
 //TODO make it so you can only change a cell if it's value is set to 0
 
+//generatPuzzle()
+
+//generateNew(grid) - the method that creates a generated puzzle
+
 //fullSolve(color) - solves the board fully - first uses the solveByLogic. If that fails, it uses brute force.
 //set the solved grid to this to use it later
 
@@ -49,6 +53,9 @@
 //turnIntoBoard() - turn a grid back into a board
 
 //setAllSets(color) - set all cols, rows, groups - do this upon loading
+
+//shuffle(array) - borrowed from someone on GitHub (this is the only thing I borrowed.)  
+//https://github.com/coolaj86/knuth-shuffle
 
 
 //getImpossibles(cell)
@@ -245,7 +252,7 @@ function loadPage() {
 	generateBtn = document.createElement("button");
 	generateBtn.id = "generate-btn";
 	generateBtn.innerText = "Generate";
-	//generateBtn.addEventListener("click", generateBoard);
+	generateBtn.addEventListener("click", generatePuzzle);
 	testing.appendChild(generateBtn);
 	
 	//for line spacing
@@ -521,6 +528,82 @@ function getCellGroup(row, col) {
 	}
 }
 
+//GENERATE PUZZLE
+
+//this will be a lot like the brute force solver with a few things changed... Like randomizing the number
+//generation
+function generatePuzzle() { // you must turn it into a grid before passing
+	let grid;
+	resetCells();
+	
+	console.log("");
+	//only do it if the board is blank;
+	if(isBlank) {
+		console.log("Generating puzzle.");
+		grid = [];
+		for (let i = 0; i < 9; i++) {
+			let cells = [];
+			grid.push(cells);
+			for (let n = 0; n < 9; n++) {
+				cells.push(0);
+			}
+		}
+		grid = generateNew(grid);
+		
+		//After generating, set the solved puzzle to grid
+		solved = endGrid;
+		//eliminate some of the cells
+		//now set new puzzle to board
+		setBoardToNewGrid(endGrid, "black");
+		//set isBlank to false
+		isBlank = false;
+	}
+	
+}
+
+//this is the rea method doing the work
+function generateNew(grid) {
+	
+	//console.log("Generating...");
+	let empties = findGridZeros(grid);
+	shuffle(empties);
+	
+	//loop through all cells
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			
+			if (grid[r][c] == 0) {
+		
+			//	console.log("Looking at cell " + (r + 1) + "-" + (c + 1));
+				
+				//now put values 1-9 in a random order
+				let nums = genGridSolutions(r, c, grid);
+				shuffle(nums);
+				
+				if (nums[0] === undefined) {
+					return false;
+				}
+				
+				//loop through values
+				for (let n = 0; n <= nums.length; n++) {
+					//console.log("Trying number " + nums[n]);
+					grid[r][c] = nums[n];
+					if (validateCellFull(r, c, grid) && generateNew(grid)) {
+					//	console.log("Cell is valid, returning true");
+						return true;
+					}
+				//console.log("Not valid, setting it back to 0.");
+					grid[r][c] = 0;
+				}
+				return false;
+			}
+		}
+	}
+	endGrid = grid;
+	printGrid(grid);
+	return true;
+}
+
 
 
 //SOLVING METHODS
@@ -528,6 +611,8 @@ function getCellGroup(row, col) {
 //FULL SOLVE - using solveByLogic until it can't find solutions. Then use the brute force solver as backup.
 //(Logic Solver should be able to solve easy and medium puzzles, at least.)
 function fullSolve(color) {
+	console.log("");
+	console.log("Solving puzzle.");
 	//first solve by logic
 	solveByLogic(color);
 	
@@ -619,8 +704,42 @@ function setBoardToNewGrid(grid, color) {
 	
 }
 
+//genGridSolutions(row, col, grid) 
+function genGridSolutions(row, col, grid) {
+	//loop through all values
+	let values = [1,2,3,4,5,6,7,8,9];
+	let solutions = [];
+	for (let n = 0; n < values.length; n++) {
+		grid[row][col] = values[n];
+		if (validateCellFull(row, col, grid)) {
+			solutions.push(values[n]);
+		}
+		grid[row][col] = 0;
+	}
+
+	return solutions;
+}
+
+//findGridZeros(grid) - returns array with all empties
+function findGridZeros(grid) {
+	let empties = [];
+	for (let r = 0; r < 9; r++) {
+		for (let c = 0; c < 9; c++) {
+			if (grid[r][c] === 0) {
+				empties.push(grid[r][c]);
+			}
+		}
+	}
+	return empties;
+}
+
+
 //validateCellFull(row, col, grid)
 function validateCellFull(row, col, grid) {
+	
+	if (grid[row][col] === undefined) {
+		return false;
+	}
 	//console.log("");
 	//console.log("Validating cell...");
 	//get the cell group
@@ -1536,6 +1655,26 @@ function checkForZeros() {
 	return exist;
 }
 
+//Thank you to https://github.com/coolaj86/knuth-shuffle
+//for this method
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 
 //Test methods
