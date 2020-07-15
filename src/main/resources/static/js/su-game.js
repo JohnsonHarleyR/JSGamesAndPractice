@@ -236,13 +236,21 @@ function loadPage() {
 	solveBtn.addEventListener("click", buttonSolver);
 	testing.appendChild(solveBtn);
 	
-	
 	resetBoardBtn = document.createElement("button");
 	resetBoardBtn.id = "reset-board-btn";
 	resetBoardBtn.innerText = "Reset Board";
 	resetBoardBtn.addEventListener("click", resetCells);
 	testing.appendChild(resetBoardBtn);
 	
+	generateBtn = document.createElement("button");
+	generateBtn.id = "generate-btn";
+	generateBtn.innerText = "Generate";
+	//generateBtn.addEventListener("click", generateBoard);
+	testing.appendChild(generateBtn);
+	
+	//for line spacing
+	var breakLine = document.createElement("br");
+	testing.appendChild(breakLine);
 	
 	easyPuzzleBtn1 = document.createElement("button");
 	easyPuzzleBtn1.id = "easy-puzzle-btn-1";
@@ -1678,8 +1686,10 @@ var isBlank = true;
 
 //test buttons
 var solveBtn;
+var generateBtn;
 var resetBoardBtn;
 var easyPuzzleBtn1;
+var hardPuzzleBtn1;
 
 //constants
 var VALUES = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];

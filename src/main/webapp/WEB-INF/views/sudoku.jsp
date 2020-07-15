@@ -30,10 +30,8 @@
 </div>
 
 <h1 id="title">Sudoku</h1>
-I worked on a solver that can solve a puzzle by regular means without a brute force algorithm. In the end though, I
- ended up creating one anyway to solve difficult puzzles and combining the two algorithms.<br><br>
- What this means is the code became quite long lol. That's okay, the main goal was to challenge myself and 
- I certainly accomplished that.
+I worked on a solver to solve puzzles by regular means without a brute force algorithm. In the end though, I
+ created one anyway in order to solve the more difficult puzzles and then I combined the two algorithms.
  <br>
  <br>
 
