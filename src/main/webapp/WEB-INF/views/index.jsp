@@ -42,7 +42,7 @@ Click these links to see different practice projects:
 	<li><a href="/roadside-bingo">Roadside Bingo</a></li>
 	<li><a href="/sudoku">Sudoku</a></li>
 	<li><a href="/snake-game">Snake Game</a> <i>(not finished)</i></li>
-	<li><a href="/feedable-pet">Feedable Pet</a> <i>(not finished)</i></li>
+	<li><a href="/feedable-pet">Feedable Pet</a> <i>(getting close)</i></li>
 	<!-- <li><a href=""></a></li> -->
 </ul>
 

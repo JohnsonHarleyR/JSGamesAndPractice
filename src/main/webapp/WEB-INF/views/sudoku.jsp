@@ -31,7 +31,9 @@
 
 <h1 id="title">Sudoku</h1>
 I worked on a solver to solve puzzles by regular means without a brute force algorithm. In the end though, I
- created one anyway in order to solve the more difficult puzzles and then I combined the two algorithms.
+ created one anyway in order to solve the more difficult puzzles and then I combined the two algorithms.<br>
+ <i>(The only thing left is to improve the algorithm for choosing which cells to let the player solve. 
+ Better puzzles, basically.)</i>
  <br>
  <a href="http://www.sudokuessentials.com/how_to_play_sudoku.html">How to Play Sudoku</a>
  <br><br>

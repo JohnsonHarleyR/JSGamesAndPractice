@@ -135,8 +135,8 @@ public class Pet {
 	public void playWithPet() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
-		final int MAX = 30;
-		final int MIN = 10;
+		final int MAX = 40;
+		final int MIN = 15;
 		
 		int amount = (int) ((Math.random() * (MAX - MIN)) + MIN);
 		int orig = play;
@@ -176,8 +176,8 @@ public class Pet {
 	public void showPetLove() {
 		
 		//TODO make it so you can't play with a pet if it is too hungry - do that with javascript alert
-		final int MAX = 30;
-		final int MIN = 10;
+		final int MAX = 40;
+		final int MIN = 15;
 		
 		int amount = (int) ((Math.random() * (MAX - MIN)) + MIN);
 		int orig = play;
@@ -252,7 +252,7 @@ public class Pet {
 	
 	public void calculateMood() {
 		//take the average of the three needs
-		double average = (hunger + play + love) / 3;
+		double average = (getHunger() + getPlay() + getLove()) / 3;
 		
 		//now match the number according to mood
 		if (average >= 75) {
@@ -333,11 +333,11 @@ public class Pet {
 		long days = ChronoUnit.DAYS.between(birthday, today);
 		//System.out.println("Days since birth: " + days);
 		
-		if (progress < 150 || days < 1) { //also check time since birthday
+		if (progress < 200 || days < 1) { //also check time since birthday
 			stage = 1;
-		} else if (progress < 800 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
+		} else if (progress < 1000 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
 			stage = 2;
-		} else if (days >= 5 && progress > 800) { //find next stage up still
+		} else if (days >= 5 && progress > 1000) { //find next stage up still
 			stage = 3;
 		}
 	}
@@ -350,9 +350,9 @@ public class Pet {
 		if (stage == 1) {
 			minProgress = 0;
 		} else if (stage == 2) {
-			minProgress = 50;
+			minProgress = 200;
 		} else {
-			minProgress = 500;
+			minProgress = 1000;
 		}
 		
 		//System.out.println("Getting min progress: " + minProgress);
@@ -366,11 +366,11 @@ public class Pet {
 		System.out.println("Stage: " + stage);
 		
 		if (stage == 1) {
-			maxProgress = 50;
+			maxProgress = 199;
 		} else if (stage == 2) {
-			maxProgress = 500;
+			maxProgress = 999;
 		} else {
-			maxProgress = 1300;
+			maxProgress = 2499;
 		}
 		//System.out.println("Getting max progress: " + maxProgress);
 		//System.out.println("Current progress: " + progress);

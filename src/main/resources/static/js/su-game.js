@@ -1,3 +1,7 @@
+//The only thing this game still needs is a little work on the algorithm to set puzzles... To make sure the difficulty
+//does not only depend on how many cells are blank.
+
+
 //FUNCTIONS TO CHOOSE FROM
 
 //DONT FORGET ISBLANK
@@ -993,7 +997,7 @@ function generateFull() { // you must turn it into a grid before passing
 	let grid;
 	resetCells();
 	
-	console.log("");
+	//console.log("");
 	//only do it if the board is blank;
 	if(isBlank) {
 		console.log("Generating puzzle.");
@@ -1059,7 +1063,7 @@ function generateNew(grid) {
 		}
 	}
 	endGrid = grid;
-	printGrid(grid);
+	//printGrid(grid);
 	return grid;
 }
 
@@ -2461,10 +2465,10 @@ var allGroups;
 
 var instructions = "Generate a new puzzle by clicking a " +
 "level below the grid. Select one of the blue squares right of it, then click a blank square on the grid to change it " +
-"to that number.\n\nClick on 'Check Answers' to see how you're doing. The correct answers will" +
+"to that number.\n\nClick on 'Check Answers' to see how you're doing. The correct answers will " +
 "turn green while incorrect ones will turn red.\n\nYou gain 5 points for an incorrect answer and lose two points " +
 "for a wrong one. (It will not show anything below zero, but wrong answers will still count against you.) " +
-"You gain 30 points for solving the puzzle.\n\n(The test buttons are not part of the game, but feel free to" +
+"You gain 30 points for solving the puzzle.\n\n(The test buttons are not part of the game, but feel free to " +
 "play with them anyway. I am not responsible if it messes with your puzzle in weird ways lol.)";
 
 

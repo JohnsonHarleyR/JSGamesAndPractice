@@ -1,5 +1,6 @@
 package HarleyJohnson.JSPractice;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -136,6 +137,9 @@ public class PetController {
 			Model model) {
 		String newMessage = "";
 		
+		//get list of all pets
+		List<Pet> pets = petRepo.findAll();
+		
 		//use try catch for what message to give to the page
 		try {
 			newMessage = message;
@@ -144,6 +148,7 @@ public class PetController {
 		}
 		
 		model.addAttribute("message", newMessage);
+		model.addAttribute("pets", pets);
 		
 		return "pet/load-pet";
 	}

@@ -38,6 +38,50 @@ ${message}
 <button type="submit" id="load-pet">Submit</button>
 </form>
 
+<br><br>
+
+<h2>Pet List</h2>
+<table class="table" id="pet-table">
+
+<tr>
+	<th>
+	ID
+	</th>
+	<th>
+		Pet
+	</th>
+	<th>
+		Type
+	</th>
+	<th>
+		Color
+	</th>
+	<th>
+		Gender
+	</th>
+</tr>
+	
+	<c:forEach var="pet" items="${pets}">
+		<tr>
+			<td>
+			${pet.id}
+			</td>
+			<td>
+				${pet.name}
+			</td>
+			<td>
+				${pet.type}
+			</td>
+			<td>
+				${pet.color}
+			</td>
+			<td>
+				${pet.gender}
+			</td>
+		</tr>
+	</c:forEach>
+	
+</table>
 </main>
 
 </body>

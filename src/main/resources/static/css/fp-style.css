@@ -4,8 +4,12 @@
 	color: white;
 	border: 5px solid #13A521;
 	margin-right: 30px;
-	width: 275px;
-	height: 200px;
+	width: 200px;
+	height: 155px;
+}
+
+#pet-table {
+	width: 50%;
 }
 
 #td {
@@ -14,9 +18,9 @@
 }
 
 #stats {
-	width: 275px;
+	width: 200px;
 }
 
 #pet-image {
-	height: 199px;
+	height: 150px;
 }

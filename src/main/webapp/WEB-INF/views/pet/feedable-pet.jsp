@@ -77,7 +77,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 					<br>
 				</c:when>
 				<c:otherwise>
-					<a href="/feed?id=${pet.id}&min=10&max=30"><button id="feed">Feed</button></a>
+					<a href="/feed?id=${pet.id}&min=15&max=40"><button id="feed">Feed</button></a>
 					<a href="/play?id=${pet.id}"><button id="play">Play</button></a>
 					<a href="/love?id=${pet.id}"><button id="love">Cuddle</button></a>
 					<br>
