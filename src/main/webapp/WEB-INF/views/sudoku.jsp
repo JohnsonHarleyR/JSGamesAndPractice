@@ -33,8 +33,12 @@
 I worked on a solver to solve puzzles by regular means without a brute force algorithm. In the end though, I
  created one anyway in order to solve the more difficult puzzles and then I combined the two algorithms.
  <br>
- <br>
+ <a href="http://www.sudokuessentials.com/how_to_play_sudoku.html">How to Play Sudoku</a>
+ <br><br>
+ <button id="instructions">More Instructions</button>
+  <hr>
 
+<p id="score">Score: 0</p>
 
 <div id="game">
 	<table id="board">

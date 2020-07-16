@@ -12,9 +12,20 @@
 //TODO A function that compares the user's incomplete board to the correct answers, tells the user if an answer
 //is wrong by turning it red. If it's right, set that board cell to the user's answer, stop allowing it to change
 
+//loadNewBoard(board, grid)
+
 //setValue(value, row, col, color)
 
-//generatPuzzle() - the method that gets called to - first - generate the full grid
+//***checkPuzzle() - check the solutions the user has inputted
+//updateScore() - update the score label
+
+//generatePuzzle(min, max) - generate a new puzzle with a difficulty range (for how many to remove)
+	//generateEasy();
+	//generateMedium();
+	//generateHard()
+//removeCells(min, max) - Remove cells from grid according to range
+
+//generateFull() - the method that gets called to - first - generate the full grid
 
 //generateNew(grid) - the method that creates a generated grid
 
@@ -81,7 +92,9 @@
 
 //USER METHODS
 
-
+function seeInstructions() {
+	alert(instructions);
+}
 
 
 //BUTTON METHODS
@@ -101,7 +114,7 @@ function changeCell() {
 		//otherwise do it the normal way
 	} else {
 		if (this.getAttribute("value") === "0") { //only do it if the value is blank
-			
+			madeChange = true;
 			//first check if it's the blank one
 			if (selectVal === 0) {
 				this.innerHTML = "<img class='square' src='/su/blank.png'/>";
@@ -127,6 +140,35 @@ function selectBtn() {
 	btnBlank.className = "user-btn";
 	//change the class of the active button so the user can see it
 	this.className = "selected-btn";
+}
+
+/*
+ *  VERY_EASY(28,30,Iteration.RANDOM),
+    EASY(31,44,Iteration.RANDOM),
+    MODERATE(45,49,Iteration.S_LIKE),
+    HARD(49,54,Iteration.S_LIKE),
+    VERY_HARD(55,61,Iteration.LINEAR);
+    */
+
+//Generate an easy puzzle
+function generateEasy() {
+	let min = 31;
+	let max = 44;
+	generatePuzzle(min, max);
+}
+
+//Generate a medium puzzle
+function generateMedium() {
+	let min = 45;
+	let max = 49;
+	generatePuzzle(min, max);
+}
+
+//Generate a hard puzzle
+function generateHard() {
+	let min = 49;
+	let max = 54;
+	generatePuzzle(min, max);
 }
 
 //test mode
@@ -184,13 +226,15 @@ function clearBlue() {
 function loadPage() {
 	//set up an empty sudoku board	
 	board = document.getElementById("board");
-	//board.id = "board";
+	board.id = "board";
 	board.class = "table";
 	board.innerHTML = "";
 	//main.appendChild(board);
 	
 	difficultyIndex = 0;
 	testMode = false;
+	madeChange = false;
+	score = 0;
 	
 	//selection buttons
 	btn1 = document.getElementById("b1");
@@ -302,12 +346,53 @@ function loadPage() {
 	
 	//set test buttons
 	
+	
+	
 	testing = document.createElement("div");
 	testing.id = "testing";
 	testing.className = "testing";
-	testing.innerHTML = "Testing buttons:<br>";
+	testing.innerHTML = "Level:<br>";
 	main.appendChild(testing);
 	
+	
+	
+	generateEasyBtn = document.createElement("button");
+	generateEasyBtn.id = "generate-easy-btn";
+	generateEasyBtn.innerText = "Easy";
+	generateEasyBtn.addEventListener("click", generateEasy);
+	testing.appendChild(generateEasyBtn);
+	
+	generateMediumBtn = document.createElement("button");
+	generateMediumBtn.id = "generate-medium-btn";
+	generateMediumBtn.innerText = "Medium";
+	generateMediumBtn.addEventListener("click", generateMedium);
+	testing.appendChild(generateMediumBtn);
+	
+	generateHardBtn = document.createElement("button");
+	generateHardBtn.id = "generate-hard-btn";
+	generateHardBtn.innerText = "Hard";
+	generateHardBtn.addEventListener("click", generateHard);
+	testing.appendChild(generateHardBtn);
+	
+	//for line spacing
+	var breakLine0 = document.createElement("br");
+	testing.appendChild(breakLine0);
+	
+	checkBtn = document.createElement("button");
+	checkBtn.id = "check-btn";
+	checkBtn.innerText = "Check Answers";
+	checkBtn.addEventListener("click", checkPuzzle);
+	testing.appendChild(checkBtn);
+	
+	//for line spacing
+	var breakLine = document.createElement("br");
+	testing.appendChild(breakLine);
+	var breakLine1 = document.createElement("br");
+	testing.appendChild(breakLine1);
+	
+	var testText = document.createElement("text");
+	testText.innerHTML = "Testing:<br>";
+	testing.appendChild(testText);
 	
 	solveBtn = document.createElement("button");
 	solveBtn.id = "solve-btn";
@@ -324,12 +409,15 @@ function loadPage() {
 	generateBtn = document.createElement("button");
 	generateBtn.id = "generate-btn";
 	generateBtn.innerText = "Generate";
-	generateBtn.addEventListener("click", generatePuzzle);
+	generateBtn.addEventListener("click", generateFull);
 	testing.appendChild(generateBtn);
 	
+	
+	
 	//for line spacing
-	var breakLine = document.createElement("br");
-	testing.appendChild(breakLine);
+	var breakLine3 = document.createElement("br");
+	testing.appendChild(breakLine3);
+	
 	
 	testModeBtn = document.createElement("button");
 	testModeBtn.id = "test-mode-btn";
@@ -351,9 +439,16 @@ function loadPage() {
 	testing.appendChild(logicSolveTestBtn);
 	*/
 	
+	/*
 	//for line spacing
-	var breakLine = document.createElement("br");
-	testing.appendChild(breakLine);
+	var breakLine4 = document.createElement("br");
+	testing.appendChild(breakLine4);
+	var breakLine5 = document.createElement("br");
+	testing.appendChild(breakLine5);
+	
+	var testPuzzles = document.createElement("text");
+	testPuzzles.innerHTML = "Test Puzzles:<br>";
+	testing.appendChild(testPuzzles);
 	
 	easyPuzzleBtn1 = document.createElement("button");
 	easyPuzzleBtn1.id = "easy-puzzle-btn-1";
@@ -394,7 +489,64 @@ function loadPage() {
 	hardPuzzleBtn2.innerText = "Test: Hard 2";
 	hardPuzzleBtn2.addEventListener("click", hardPuzzle2);
 	testing.appendChild(hardPuzzleBtn2);
+	*/
 	
+	//for line spacing
+	var breakLineLast1 = document.createElement("br");
+	testing.appendChild(breakLineLast1);
+	var breakLineLast2 = document.createElement("br");
+	testing.appendChild(breakLineLast2);
+	
+}
+
+function loadNewBoard(board, grid) {
+	
+	board.innerHTML = "";
+	//main.appendChild(board);
+	
+	difficultyIndex = 0;
+	testMode = false;
+	
+	//create all cells on the board
+	for (var r = 0; r < 9; r++) {
+		
+		var row = board.insertRow(r);
+		for (var c = 0; c < 9; c++) {
+			
+			var a = r + 1;
+			var b = c + 1;
+			
+			var cell = row.insertCell(c);
+			cell.addEventListener("click", changeCell);
+			cell.id = "c" + a + "" + b;
+			//cell.class = "cell";
+			
+			var val = document.createAttribute("value", grid[r][c]); //default is 0
+		    cell.setAttributeNode(val);
+		    val.value = grid[r][c];
+		    
+		    var src = document.createAttribute("src", "su/blank.png"); //default is 0
+		    cell.setAttributeNode(src);
+		    src.value = "su/blank.png";
+		    
+		    var cellRow = document.createAttribute("row", r);
+		    cell.setAttributeNode(cellRow);
+		    cellRow.value = r;
+		    
+		    var cellCol = document.createAttribute("col", c);
+		    cell.setAttributeNode(cellCol);
+		    cellCol.value = c;
+		    
+		    var imps = document.createAttribute("impossibles", ""); //default is 0
+		    cell.setAttributeNode(imps);
+		    imps.value = "";
+		    
+		    cell.innerHTML = "<img id='" + "i" + a + b + "' class='square' src='" + cell.getAttribute('src') + "'/>";
+		}
+	}
+	
+	//set all sets to the correct cells
+	setAllSets();
 }
 
 //Set the number and also change the image
@@ -450,6 +602,8 @@ function getImage(row, col, color) {
 
 //reset the value of all cells to 0
 function resetCells() {
+	madeChange = false;
+	score = 0;
 	if (testMode) { //if in test mode, leave all red and black numbers
 		clearBlue();
 	} else {
@@ -654,11 +808,188 @@ function getCellGroup(row, col) {
 	}
 }
 
+//CHECK PUZZLE SOLUTIONS
+function checkPuzzle() { //- use the solved grid to check
+	if (!isBlank) {
+		//console.log("");
+		//console.log("Solved:");
+		//printGrid(solved);
+		//console.log("");
+		//console.log("Checking answers...");
+		//loop through all the cells
+		for (let r = 0; r < 9; r++) {
+			for (let c = 0; c < 9; c++) {
+				//console.log("Cell " + (r + 1) + "-" + (c + 1));
+				let cell = board.rows[r].cells[c];
+				let val = parseInt(board.rows[r].cells[c].getAttribute("value"));
+				//console.log("Value: " + val);
+				//get string of the innerHTML to check
+				let imageText = board.rows[r].cells[c].innerHTML;
+				//console.log("Image text: " + imageText);
+				
+				//make sure it's not equal to zero first and it's in blue
+				if (val === 0 && imageText.includes("blue")) {
+					let num = 0;
+					//find out what number it represents
+					if (imageText.includes("1.png")) {
+						num = 1;
+					} else if (imageText.includes("2.png")) {
+						num = 2;
+					} else if (imageText.includes("3.png")) {
+						num = 3;
+					}else if (imageText.includes("4.png")) {
+						num = 4;
+					}else if (imageText.includes("5.png")) {
+						num = 5;
+					}else if (imageText.includes("6.png")) {
+						num = 6;
+					}else if (imageText.includes("7.png")) {
+						num = 7;
+					}else if (imageText.includes("8.png")) {
+						num = 8;
+					}else if (imageText.includes("9.png")) {
+						num = 9;
+					}
+					//console.log("Num: " + num);
+					//console.log("Solved value: " + solved[r][c]);
+					
+					//if it's equal to the solved value,
+					if (solved[r][c] == num) {
+						//change it to black and set the board
+						//console.log("The same as solved.");
+						setValue(num, r, c, "green");
+						score += 5;
+					} else { //change the color to red but don't set the value
+						//console.log("Not the same as solved.");
+						let s = "<img class='square' src='/su/red" + num + ".png'/>";
+						board.rows[r].cells[c].innerHTML = s;
+						score -= 2;
+						
+					}
+					
+				}
+				
+			}
+		}
+		//make sure the score doesn't go below 0
+		/*if (score <= 0) {
+			score = 0;
+		}*/
+		if (madeChange) {
+			//check if there are any zeros left
+			let notFinished = checkForZeros();
+			if (notFinished) {
+				alert("Updating the grid!\n(Correct answers are green, wrong answers are red.");
+				
+			} else {
+				score += 30;
+				if (score >= 0) {
+					alert("Congratulations, puzzle is solved!\nFinal Score: " + score);
+				} else {
+					alert("Congratulations, puzzle is solved!\nFinal Score: " + 0);
+				}
+				
+			}
+		}
+		updateScore();
+		madeChange = false;
+	}
+	
+}
+
+//update the score
+function updateScore() {
+	if (score >= 0 ) {
+		scoreLabel.innerText = "Score: " + score;
+	} else {
+		scoreLabel.innerText = "Score: " + 0;
+	}
+	
+}
+
+
+
+
 //GENERATE PUZZLE
 
 //this will be a lot like the brute force solver with a few things changed... Like randomizing the number
 //generation
-function generatePuzzle() { // you must turn it into a grid before passing
+function generatePuzzle(min, max) { // you must turn it into a grid before passing
+	let grid;
+	resetCells();
+	
+	console.log("");
+	//only do it if the board is blank;
+	if(isBlank) {
+		console.log("Generating puzzle.");
+		grid = [];
+		for (let i = 0; i < 9; i++) {
+			let cells = [];
+			grid.push(cells);
+			for (let n = 0; n < 9; n++) {
+				cells.push(0);
+			}
+		}
+		grid = generateNew(grid);
+		solved = [];
+		
+		//After generating, set the solved puzzle to grid
+		for (let r = 0; r < 9; r++) {
+			let ro = [];
+			solved.push(ro);
+			for (let c = 0; c < 9; c++) {
+				let co = [];
+				ro[c] = co;
+				let va = JSON.parse(JSON.stringify(endGrid[r][c]));
+				co.push(parseInt(va));
+			}
+		}
+		
+		//solved = endGrid;
+		//remove cells according to level range
+		grid = removeCells(min, max, endGrid);
+		
+		//now set new puzzle to board
+		setBoardToNewGrid(endGrid, "black");
+		//set isBlank to false
+		isBlank = false;
+		
+		
+	}
+}
+
+//Remove cells from grid according to range - return grid
+function removeCells(min, max, grid) {
+	//get random range number
+	let range = max - min;
+	let numCells = Math.floor(Math.random() * range) + min;
+	
+	console.log("Removing " + numCells + " cells from grid.");
+	
+	//randomly remove cells
+	for (let n = 0; n < numCells; n++) {
+		let zero = true;
+		while (zero) { //make sure the cell isn't empty already
+			let row = Math.floor(Math.random() * 9);
+			let col = Math.floor(Math.random() * 9);
+			
+			//console.log("Grid value for " + (row + 1) + "-" + (col + 1) + ": " + grid[row][col]);
+			
+			if (grid[row][col] !== 0) {
+				//console.log("Scratch that, it equals 0.");
+				zero = false;
+				grid[row][col] = 0;
+			}
+		}
+		
+	}
+	return grid;
+}
+
+
+//this will be a lot like the brute force solver with a few things changed... Like randomizing the number
+//generation
+function generateFull() { // you must turn it into a grid before passing
 	let grid;
 	resetCells();
 	
@@ -729,7 +1060,7 @@ function generateNew(grid) {
 	}
 	endGrid = grid;
 	printGrid(grid);
-	return true;
+	return grid;
 }
 
 
@@ -2076,6 +2407,11 @@ function hardPuzzle2() {
 var body = document.getElementById('body');
 var main = document.getElementById('main');
 
+var instructBtn = document.getElementById('instructions');
+
+var score = 0;
+var scoreLabel = document.getElementById("score");
+
 var testMode; //when this is on, it allows test solving
 
 var user;
@@ -2089,13 +2425,20 @@ var unsolved; //unsolved board
 var difficultyIndex = 0; //this is to help measure difficulty of solving a puzzle
 
 var isBlank = true;
+var madeChange = false;
 
 //test buttons
 var solveBtn;
 var generateBtn;
 var resetBoardBtn;
+
+var generateEasyBtn;
+var generateMediumBtn;
+var generateHardBtn;
+
 var bruteForceBtn;
 var logicSolveTestBtn;
+
 var easyPuzzleBtn1;
 var easyPuzzleBtn2;
 var mediumPuzzleBtn1;
@@ -2116,10 +2459,19 @@ var allCols = [c1, c2, c3, c4, c5, c6, c7, c8, c9];
 var g11; var g12; var g13; var g21; var g22; var g23; var g31; var g32; var g33;
 var allGroups;
 
+var instructions = "Generate a new puzzle by clicking a " +
+"level below the grid. Select one of the blue squares right of it, then click a blank square on the grid to change it " +
+"to that number.\n\nClick on 'Check Answers' to see how you're doing. The correct answers will" +
+"turn green while incorrect ones will turn red.\n\nYou gain 5 points for an incorrect answer and lose two points " +
+"for a wrong one. (It will not show anything below zero, but wrong answers will still count against you.) " +
+"You gain 30 points for solving the puzzle.\n\n(The test buttons are not part of the game, but feel free to" +
+"play with them anyway. I am not responsible if it messes with your puzzle in weird ways lol.)";
+
 
 
 //Event Handlers
 body.onload = loadPage;
+instructBtn.onclick = seeInstructions;
 //solveBtn.onclick = solveByLogic;
 
 //test buttons
