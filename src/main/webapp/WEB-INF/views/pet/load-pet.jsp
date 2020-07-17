@@ -54,6 +54,9 @@ ${message}
 		Type
 	</th>
 	<th>
+		Stage
+	</th>
+	<th>
 		Color
 	</th>
 	<th>
@@ -71,6 +74,9 @@ ${message}
 			</td>
 			<td>
 				${pet.type}
+			</td>
+			<td>
+				${pet.stage}
 			</td>
 			<td>
 				${pet.color}

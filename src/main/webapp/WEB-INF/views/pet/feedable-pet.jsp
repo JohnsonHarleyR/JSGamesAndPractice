@@ -37,7 +37,7 @@ To be honest, this will probably end up as a Java application more than JavaScri
 It will include JavaScript, anyway.
 <br><br>
 The egg stage only needs "love". Once it hatches, you can feed and play with it.
-<br>(Feel free to look up Pet ID #1 to see a pet that isn't an egg.)
+<br>(There are pet IDs you can enter from the "Load Pet" page to see a pet that isn't an egg.)
 <br>
 <br>
 Also, an egg takes at least a day to level up and a baby takes 5 days. This is true no matter the progress.
