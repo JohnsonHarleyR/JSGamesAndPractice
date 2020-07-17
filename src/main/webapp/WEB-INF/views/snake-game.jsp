@@ -29,6 +29,8 @@
 </div>
 
 <h1 id="title">Snake Game</h1>
+You can move with the direction buttons on the keyboard or the buttons to the right.
+<hr>
 
 <label id="map">X: Y:</label>
 <br>
@@ -36,6 +38,9 @@
 </canvas>
 
 <div id="buttons">
+<button id="start" class="normal">Start Game</button>
+<br>
+
 <button id="up" class="direction">Up</button>
 <em id="center-btns"><button id="left" class="direction">Left</button><button id="right" class="direction">Right</button></em>
 <button id="down" class="direction">Down</button>
