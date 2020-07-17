@@ -278,7 +278,8 @@ function flagCell() {
 	
 	//do opposite based on if it's flagged or not
 	if (this.getAttribute("flagged") === "false" &&
-			this.getAttribute("src") === "ms/unclicked.png") {
+			this.getAttribute("src") === "ms/unclicked.png" &&
+			!gameOver) {
 		
 		//also make sure minesLeft doesn't equal 0 before flagging more
 		if (minesLeft !== 0) {
@@ -315,7 +316,9 @@ function flagCell() {
 	}
 	//now set mines left again
 	var top = document.getElementById("top");
-	top.innerHTML = "Mines left: " + minesLeft;
+	if (!gameOver) {
+		top.innerHTML = "Mines left: " + minesLeft;
+	}
 	
 	//check the game to make sure it's not complete
 	if (minesLeft === 0) {
