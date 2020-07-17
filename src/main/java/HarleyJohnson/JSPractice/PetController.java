@@ -3,6 +3,7 @@ package HarleyJohnson.JSPractice;
 import java.util.List;
 import java.util.Optional;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public class PetController {
 		if (pet == null) {
 			exists = false;
 		}
+		
+		//String PetAsJson = new Gson().toJson(pet);
 		
 		//Pet pet = new Pet("Gordon", "test", "male", "blue");
 		

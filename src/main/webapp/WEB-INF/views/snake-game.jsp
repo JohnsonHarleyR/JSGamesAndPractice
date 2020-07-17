@@ -30,10 +30,9 @@
 
 <h1 id="title">Snake Game</h1>
 
-
+<label id="map">X: Y:</label>
+<br>
 <canvas id="board">
-<img id="sprite" class="sprite" src="/sn/sprite.png"/> <!-- I'm not sure why it won't show up when I create an image
-I'll do it this way for now until I can get it to work the other way later -->
 </canvas>
 
 <div id="buttons">

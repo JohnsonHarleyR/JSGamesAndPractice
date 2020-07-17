@@ -1,12 +1,10 @@
+//This is my first attempt at a moving game so I ended up taking a lot from tutorials here:
+//https://www.w3schools.com/graphics/game_components.asp
+
 function loadPage() {
-	//set up
-	board.width = CANVAS_WIDTH;
-	board.height = CANVAS_HEIGHT;
-	
-	
-	
+
 	//set up main sprite
-	drawMainSprite(10, 150);
+	//drawMainSprite(10, 150);
 	
 	//TEST
 	//move = setInterval(moveSprite, 3000);
@@ -15,7 +13,21 @@ function loadPage() {
 }
 
 function startGame() {
+	myGameArea.start();
+	myGamePiece = new component(WIDTH, HEIGHT, "#FF39A2", 10, 150);
 	gameOver = false;
+}
+
+function updateGameArea() {
+	myGameArea.clear();
+	//check collision
+	myGamePiece.x += xDir; //this way it changes if the direction changes
+	myGamePiece.y += yDir;
+	myGamePiece.update();
+	myGamePiece.checkCollision();
+	
+	coord.innerText = "X: " + myGamePiece.x + " Y: " + myGamePiece.y;
+	
 }
 
 function drawMainSprite(x, y) { //test
@@ -36,7 +48,7 @@ function component(width, height, color, x, y) {
 	this.speedY = 0;
 	
 	this.update = function() {
-		ctx = board.context;
+		ctx = myGameArea.context;
 		ctx.fillStyle = color;
 		ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
@@ -45,28 +57,52 @@ function component(width, height, color, x, y) {
 		this.x += this.speedX;
 		this.y += this.speedY;
 	}
+	
+	this.checkCollision = function() {
+		console.log("Checking collision");
+		//first make the piece stop
+		if (this.x === 0) {
+			
+			xDir = 0;
+		}
+	}
 }
 
-function updateBoard() {
-	board.clear();
-	board.newPos();
-	board.update();
+
+function changeUp() {
+	//only do it if you're not going the opposite direction when it's hit
+	if (yDir !== SPEED) {
+		xDir = 0;
+		yDir = -SPEED;
+	}
+	//myGameArea.speedY -= SPEED;
 }
 
-function moveUp() {
-	board.speedY -= SPEED;
+function changeDown() {
+	//only do it if you're not going the opposite direction when it's hit
+	if (yDir !== -SPEED) {
+		xDir = 0;
+		yDir = SPEED;
+	}
+	//myGameArea.speedY += SPEED;
 }
 
-function moveDown() {
-	board.speedY += SPEED;
+function changeLeft() {
+	//only do it if you're not going the opposite direction when it's hit
+	if (xDir !== SPEED) {
+		xDir = -SPEED;
+		yDir = 0;
+	}
+	//myGameArea.speedX -= SPEED;
 }
 
-function moveLeft() {
-	board.speedX -= SPEED;
-}
-
-function moveRight() {
-	board.speedX += SPEED;
+function changeRight() {
+	//only do it if you're not going the opposite direction when it's hit
+	if (xDir !== -SPEED) {
+		xDir = SPEED;
+		yDir = 0;
+	}
+	//myGameArea.speedX += SPEED;
 }
 
 
@@ -83,43 +119,39 @@ function createSprite() {
 	return sprite;
 }
 
-//change the direction according to mouse or button pressed
-function changeDirection(direction) {
-	switch (direction) {
-	case "up":
-		moveX = 0;
-		moveY = -SPEED; //double check, if they go in wrong direction then change to opposite
-		break;
-	case "down":
-		moveX = 0;
-		moveY = SPEED;
-		break;
-	case "left":
-		moveX = -SPEED;
-		moveY = 0;
-		break;
-	case "right":
-		moveX = SPEED;
-		moveY = 0;
-		break;
+//Variables
+var myGameArea = {
+	canvas: document.getElementById('board'),
+	start: function() {
+		this.canvas.width = CANVAS_WIDTH;
+		this.canvas.height = CANVAS_HEIGHT;
+		this.context = this.canvas.getContext('2d');
+		//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.interval = setInterval(updateGameArea, INTERVAL);
+	},
+	clear: function() {
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
-	
-	//move sprite
-	moveSprite();
-	
 }
 
-//Variables
-var SPEED = 5;
-var GRAB_POINTS = 5;
-var CANVAS_WIDTH = 550;
-var CANVAS_HEIGHT = 400;
-var WIDTH = 15;
-var HEIGHT = 15;
+
+const SPEED = 4;
+const INTERVAL = 15;
+const GRAB_POINTS = 5;
+const CANVAS_WIDTH = 550;
+const CANVAS_HEIGHT = 400;
+const WIDTH = 15;
+const HEIGHT = 15;
 var IMAGE = "/sn/sprite.png";
 
+var coord = document.getElementById("map");
+
+var xDir = SPEED; //direction and speed of x - 0 means still
+var yDir = 0; //direction and speed of y - 0 means still
+
+var myGamePiece;
 var body = document.getElementById('body');
-var board = document.getElementById('board');
+//var board = document.getElementById('board');
 
 var upBtn = document.getElementById('up');
 var leftBtn = document.getElementById('left');
@@ -139,7 +171,7 @@ var moveY = 0;
 
 //Event Listeners
 body.onload = loadPage; //change this eventually so it doesn't start as soon as it loads
-upBtn.onclick = moveUp;
-leftBtn.onclick = moveLeft;
-rightBtn.onclick = moveRight;
-downBtn.onclick = moveDown;
+upBtn.onclick = changeUp;
+leftBtn.onclick = changeLeft;
+rightBtn.onclick = changeRight;
+downBtn.onclick = changeDown;
