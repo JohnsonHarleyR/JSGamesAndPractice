@@ -2464,9 +2464,9 @@ var g11; var g12; var g13; var g21; var g22; var g23; var g31; var g32; var g33;
 var allGroups;
 
 var instructions = "Generate a new puzzle by clicking a " +
-"level below the grid. Select one of the blue squares right of it, then click a blank square on the grid to change it " +
+"level below the grid. Select one of the blue squares right of the grid, then click a blank square on the grid to change it " +
 "to that number.\n\nClick on 'Check Answers' to see how you're doing. The correct answers will " +
-"turn green while incorrect ones will turn red.\n\nYou gain 5 points for an incorrect answer and lose two points " +
+"turn green while incorrect ones will turn red.\n\nYou gain 5 points for a correct answer and lose two points " +
 "for a wrong one. (It will not show anything below zero, but wrong answers will still count against you.) " +
 "You gain 30 points for solving the puzzle.\n\n(The test buttons are not part of the game, but feel free to " +
 "play with them anyway. I am not responsible if it messes with your puzzle in weird ways lol.)";
