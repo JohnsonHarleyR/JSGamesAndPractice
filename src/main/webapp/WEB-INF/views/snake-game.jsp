@@ -13,6 +13,9 @@
 <link id="style" href="/css/sn-style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+
 <title>Snake Game</title>
 </head>
 <body id="body">

@@ -12,6 +12,8 @@
 	crossorigin="anonymous">
 <link href="/css/ttt-style.css" rel="stylesheet" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+
 <meta charset="ISO-8859-1">
 <title>Tic Tac Toe</title>
 </head>
