@@ -2,6 +2,9 @@
 //https://www.w3schools.com/graphics/game_components.asp
 
 function loadPage() {
+	
+	color1 = "#FF39A2";
+	color2 = "#39FF3E";
 
 	startGame();
 }
@@ -15,13 +18,76 @@ function startGame() {
 	direct = "right";
 	
 	myGameArea.start();
-	myGamePiece = new component(WIDTH, HEIGHT, "#FF39A2", 10, 150, "right");
+	myGamePiece = new component(WIDTH, HEIGHT, color1, 10, 150, "right");
 	snakePieces.push(myGamePiece); //make this the head of the snake
 	secondGame = true;
 	
 	genGrabPiece();
 	
 	
+}
+
+//COLOR METHODS
+
+//change the color scheme
+function changeColor () {
+	//get the scheme to figure out what colors to set things to
+	var scheme = colorScheme.value;
+	
+	console.log("Changing color to " + scheme);
+	
+	//figure out which one it is
+	switch (scheme) {
+		case "b-default":
+			color1 = "#FF39A2";
+			color2 = "#39FF3E";
+			break;
+		case "b-aqua":
+			color1 = "#1A5BFF";
+			color2 = "#A451FF";
+			break;
+		case "b-jungle":
+			color1 = "#00E206";
+			color2 = "#BA5A00";
+			break;
+		case "b-ice":
+			color1 = "#4BF2FF";
+			color2 = "#1392FF";
+			break;
+		case "b-fire":
+			color1 = "#FF451C";
+			color2 = "#FFFE18";
+			break;
+	}
+	myGameArea.canvas.className = scheme;
+	startGame();
+}
+
+//change the speed/difficulty
+function changeSpeed () {
+	//get the scheme to figure out what colors to set things to
+	var sSpeed = document.getElementById("speed").value;
+	
+	
+	
+	//figure out which one it is
+	switch (sSpeed) {
+		case "slow":
+			speed = 10;
+			int = 55;
+			break;
+		case "normal":
+			speed = 15;
+			int = 55;
+			break;
+		case "fast":
+			speed = 20;
+			int = 50;
+			break;
+	}
+	
+	console.log("Changing speed to " + speed);
+	startGame();
 }
 
 //GAME METHODS
@@ -34,7 +100,7 @@ function genGrabPiece() {
 	var posX = Math.floor(Math.random() * (CANVAS_WIDTH - WIDTH));
 	var posY = Math.floor(Math.random() * (CANVAS_HEIGHT - HEIGHT));
 	
-	grabPiece = new component(WIDTH, HEIGHT, "#39FF3E", posX, posY, "none");
+	grabPiece = new component(WIDTH, HEIGHT, color2, posX, posY, "none");
 }
 
 //Add the piece to the end of the snake trail
@@ -76,7 +142,7 @@ function addToTrail() {
 	}
 	
 	//now add the piece to the train
-	snakePieces.push(new component(WIDTH, HEIGHT, "#FF39A2", posX, posY, lastPiece.direction));
+	snakePieces.push(new component(WIDTH, HEIGHT, color1, posX, posY, lastPiece.direction));
 }
 
 
@@ -229,9 +295,9 @@ function stopMove() {
 
 function changeUp() {
 	//only do it if you're not going the opposite direction when it's hit
-	if (yDir !== SPEED && !gameOver) {
+	if (yDir !== speed && !gameOver) {
 		xDir = 0;
-		yDir = -SPEED;
+		yDir = -speed;
 		
 		this.lastDirectection = this.directection;
 		this.direction = "up";
@@ -241,9 +307,9 @@ function changeUp() {
 
 function changeDown() {
 	//only do it if you're not going the opposite direction when it's hit
-	if (yDir !== -SPEED && !gameOver) {
+	if (yDir !== -speed && !gameOver) {
 		xDir = 0;
-		yDir = SPEED;
+		yDir = speed;
 		
 		this.lastDirectection = this.directection;
 		this.direction = "down";
@@ -253,8 +319,8 @@ function changeDown() {
 
 function changeLeft() {
 	//only do it if you're not going the opposite direction when it's hit
-	if (xDir !== SPEED && !gameOver) {
-		xDir = -SPEED;
+	if (xDir !== speed && !gameOver) {
+		xDir = -speed;
 		yDir = 0;
 		
 		this.lastDirectection = this.directection;
@@ -265,8 +331,8 @@ function changeLeft() {
 
 function changeRight() {
 	//only do it if you're not going the opposite direction when it's hit
-	if (xDir !== -SPEED && !gameOver) {
-		xDir = SPEED;
+	if (xDir !== -speed && !gameOver) {
+		xDir = speed;
 		yDir = 0;
 		
 		this.lastDirectection = this.directection;
@@ -281,7 +347,7 @@ var myGameArea = {
 	canvas: document.getElementById('board'),
 	start: function() {
 		console.log("");
-		xDir = SPEED;
+		xDir = speed;
 		yDir = 0;
 		this.canvas.width = CANVAS_WIDTH;
 		this.canvas.height = CANVAS_HEIGHT;
@@ -289,7 +355,7 @@ var myGameArea = {
 		this.clear();
 		//document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 		clearInterval(this.interval);
-		this.interval = setInterval(updateGameArea, INTERVAL);
+		this.interval = setInterval(updateGameArea, int);
 		console.log("Interval: " + this.interval);
 		window.addEventListener('keydown', function (e) {
 			myGameArea.key = e.keyCode;
@@ -306,8 +372,8 @@ var myGameArea = {
 }
 
 
-const SPEED = 15;
-const INTERVAL = 55;
+var speed = 15;
+var int = 55;
 const GRAB_POINTS = 10;
 const CANVAS_WIDTH = 550;
 const CANVAS_HEIGHT = 400;
@@ -315,13 +381,17 @@ const WIDTH = 15;
 const HEIGHT = 15;
 var IMAGE = "/sn/sprite.png";
 
+var color1;
+var color2;
+var colorScheme = document.getElementById("color-scheme");
+
 var score = 0; //game score
 var direct = "right"; //direction facing
 var lastDirect;
 
 var coord = document.getElementById("map");
 
-var xDir = SPEED; //direction and speed of x - 0 means still
+var xDir = speed; //direction and speed of x - 0 means still
 var yDir = 0; //direction and speed of y - 0 means still
 
 var myGamePiece;
@@ -335,6 +405,8 @@ var upBtn = document.getElementById('up');
 var leftBtn = document.getElementById('left');
 var rightBtn = document.getElementById('right');
 var downBtn = document.getElementById('down');
+var changeSchemeBtn = document.getElementById('change-scheme');
+var speedBtn = document.getElementById('change-speed');
 
 var mainSprite;
 var gameSnake = [];
@@ -354,6 +426,10 @@ upBtn.onclick = changeUp;
 leftBtn.onclick = changeLeft;
 rightBtn.onclick = changeRight;
 downBtn.onclick = changeDown;
+
+changeSchemeBtn.onclick = changeColor;
+speedBtn.onclick = changeSpeed;
+
 
 window.addEventListener('keydown', function (e) {
 	myGameArea.key = e.keyCode;

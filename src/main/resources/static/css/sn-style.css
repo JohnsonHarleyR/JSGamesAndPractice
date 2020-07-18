@@ -4,11 +4,44 @@ body {
 	margin-left: 100px;
 }
 
-#board {
+/* different board color schemes*/
+.b-default {
 	float:left;
 	background-color: black;
 	color: white;
-	border: 3px solid #FF39A2;
+	border: 5px solid #FF39A2;
+}
+
+.b-aqua {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 5px solid #1A5BFF;
+}
+
+.b-jungle {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 5px solid #00E206;
+}
+
+.b-ice {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 5px solid #4BF2FF;
+}
+
+.b-fire {
+	float:left;
+	background-color: black;
+	color: white;
+	border: 5px solid #FF451C;
+}
+
+.sub {
+	padding-top: 5px;
 }
 
 #buttons {
