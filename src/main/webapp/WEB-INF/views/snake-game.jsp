@@ -30,6 +30,7 @@
 
 <h1 id="title">Snake Game</h1>
 Hit 'S' to start a new game, or click the button. You can move with the direction buttons on the keyboard or the buttons to the right.
+<br><i>(Changing direction via touch screen might come too.)</i>
 <hr>
 
 <label id="map">X: Y:</label>
