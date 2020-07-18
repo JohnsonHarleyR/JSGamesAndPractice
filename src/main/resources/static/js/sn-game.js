@@ -3,33 +3,116 @@
 
 function loadPage() {
 
-	//set up main sprite
-	//drawMainSprite(10, 150);
-	
-	//TEST
-	//move = setInterval(moveSprite, 3000);
-	
 	startGame();
 }
 
 function startGame() {
-	console.log("");
-	console.log("Starting game.");
 	
+	score = 0;
 	gameOver = false;
+	snakePiece = undefined;
+	snakePieces = [];
+	direct = "right";
+	
 	myGameArea.start();
-	myGamePiece = new component(WIDTH, HEIGHT, "#FF39A2", 10, 150);
+	myGamePiece = new component(WIDTH, HEIGHT, "#FF39A2", 10, 150, "right");
+	snakePieces.push(myGamePiece); //make this the head of the snake
 	secondGame = true;
+	
+	genGrabPiece();
 	
 	
 }
 
+//GAME METHODS
+function addPoints () { //for when you score
+	score += GRAB_POINTS;
+}
+
+//create random sprites on screen to hit
+function genGrabPiece() {
+	var posX = Math.floor(Math.random() * (CANVAS_WIDTH - WIDTH));
+	var posY = Math.floor(Math.random() * (CANVAS_HEIGHT - HEIGHT));
+	
+	grabPiece = new component(WIDTH, HEIGHT, "#39FF3E", posX, posY, "none");
+}
+
+//Add the piece to the end of the snake trail
+function addToTrail() {
+	
+	//TODO Go back to make sure the trailing piece doesn't collide with the wall as it's generated
+	
+	//snakePieces
+	var lastPiece;
+	var lastX;
+	var lastY;
+	var posX;
+	var posY;
+	
+	//get position of last item in train
+	lastPiece = snakePieces[snakePieces.length - 1];
+		
+	lastX = lastPiece.x;
+	lastY = lastPiece.y;
+	
+	//figure out position
+	switch (lastPiece.direction) {
+	case("up"):
+		posX = lastX;
+		posY = lastY + HEIGHT;
+		break;
+	case("down"):
+		posX = lastX;
+		posY = lastY - HEIGHT;
+		break;
+	case("left"):
+		posX = lastX + WIDTH;
+		posY = lastY;
+		break;
+	case("right"):
+		posX = lastX - WIDTH;
+		posY = lastY;
+		break;
+	}
+	
+	//now add the piece to the train
+	snakePieces.push(new component(WIDTH, HEIGHT, "#FF39A2", posX, posY, lastPiece.direction));
+}
+
+
 function updateGameArea() {
-	myGameArea.clear();
-	//check collision
-	myGamePiece.x += xDir; //this way it changes if the direction changes
-	myGamePiece.y += yDir;
-	myGamePiece.update();
+	
+	//myGameArea.clear(); //to clear the board after game over
+	
+	if (!gameOver) {
+		myGameArea.clear();
+		
+		var lastX = myGamePiece.x;
+		var lastY = myGamePiece.y;
+		
+		myGamePiece.x += xDir; //this way it changes if the direction changes
+		myGamePiece.y += yDir;
+		myGamePiece.update();
+		grabPiece.update();
+		
+		for (var i = 0; i < snakePieces.length; i++) { //will probably have to alter this
+			if (i != 0) { //if it's not the first piece
+				var lastX2 = snakePieces[i].x;
+				var lastY2 = snakePieces[i].y;
+				
+				snakePieces[i].x = lastX;
+				snakePieces[i].y = lastY;
+				
+				lastX = lastX2;
+				lastY = lastY2;
+				
+				snakePieces[i].update();
+				
+			}
+	}
+		
+	}
+	
 	checkCollision();
 	
 	//Key codes
@@ -37,16 +120,17 @@ function updateGameArea() {
 	if (myGameArea.key && myGameArea.key == 40) {changeDown();}
 	if (myGameArea.key && myGameArea.key == 37) {changeLeft();}
 	if (myGameArea.key && myGameArea.key == 39) {changeRight();}
+	if (myGameArea.key && myGameArea.key == 83) {startGame();}
 	
 	if (!gameOver) {
-		coord.innerText = "X: " + myGamePiece.x + " Y: " + myGamePiece.y;
+		coord.innerHTML = "Score: " + score;
 	} else {
-		coord.innerText = "Game Over";
+		coord.innerHTML = "Score: " + score + " | Game Over";
 	}
 	
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, direction) {
 	console.log("");
 	console.log("Creating component.");
 	this.width = width;
@@ -65,6 +149,9 @@ function component(width, height, color, x, y) {
 	console.log("Speed Y: " + this.speedY);
 	console.log("X Direction: " + xDir);
 	console.log("Y Direction: " + yDir);
+	
+	this.direction = direction;
+	this.lastDirection = direction;
 	
 	this.update = function() {
 		ctx = myGameArea.context;
@@ -103,6 +190,35 @@ function checkCollision() {
 		myGamePiece.y = CANVAS_HEIGHT - HEIGHT;
 		gameOver = true;
 	}
+	
+	//check for collision with grabPiece
+	if ((myGamePiece.x >= grabPiece.x && myGamePiece.x <= grabPiece.x + WIDTH ||
+			myGamePiece.x + WIDTH >= grabPiece.x && myGamePiece.x + WIDTH <= grabPiece.x + WIDTH) &&
+			(myGamePiece.y >= grabPiece.y && myGamePiece.y <= grabPiece.y + HEIGHT ||
+			myGamePiece.y + HEIGHT >= grabPiece.y && myGamePiece.y + HEIGHT <= grabPiece.y + HEIGHT)) {
+		console.log("X: " + myGamePiece.x + " Y: " + myGamePiece.y);
+		genGrabPiece();
+		addPoints();
+		addToTrail();
+		//now add it to trail behind piece
+	}
+	
+	//Check with the same arguments whether there is collision with any trailing pieces
+	for (var i = 0; i < snakePieces.length; i++) {
+		if (i !== 0) {
+			if (i > 3 &&
+					(myGamePiece.x >= snakePieces[i].x && myGamePiece.x <= snakePieces[i].x + WIDTH ||
+					myGamePiece.x + WIDTH >= snakePieces[i].x && myGamePiece.x + WIDTH <= snakePieces[i].x + WIDTH) &&
+					(myGamePiece.y >= snakePieces[i].y && myGamePiece.y <= snakePieces[i].y + HEIGHT ||
+					myGamePiece.y + HEIGHT >= snakePieces[i].y && myGamePiece.y + HEIGHT <= snakePieces[i].y + HEIGHT)) {
+				console.log("Collision. First: " + myGamePiece.x + "-" + myGamePiece.y + " Second: " +
+						 snakePieces[i].x + "-" + snakePieces[i].y);
+				stopMove();
+				gameOver = true;
+				//now add it to trail behind piece
+			}
+		}
+	}
 }
 
 //stop moving
@@ -116,6 +232,9 @@ function changeUp() {
 	if (yDir !== SPEED && !gameOver) {
 		xDir = 0;
 		yDir = -SPEED;
+		
+		this.lastDirectection = this.directection;
+		this.direction = "up";
 	}
 	//myGameArea.speedY -= SPEED;
 }
@@ -125,6 +244,9 @@ function changeDown() {
 	if (yDir !== -SPEED && !gameOver) {
 		xDir = 0;
 		yDir = SPEED;
+		
+		this.lastDirectection = this.directection;
+		this.direction = "down";
 	}
 	//myGameArea.speedY += SPEED;
 }
@@ -134,6 +256,9 @@ function changeLeft() {
 	if (xDir !== SPEED && !gameOver) {
 		xDir = -SPEED;
 		yDir = 0;
+		
+		this.lastDirectection = this.directection;
+		this.direction = "left";
 	}
 	//myGameArea.speedX -= SPEED;
 }
@@ -143,6 +268,9 @@ function changeRight() {
 	if (xDir !== -SPEED && !gameOver) {
 		xDir = SPEED;
 		yDir = 0;
+		
+		this.lastDirectection = this.directection;
+		this.direction = "right";
 	}
 	//myGameArea.speedX += SPEED;
 }
@@ -178,14 +306,18 @@ var myGameArea = {
 }
 
 
-const SPEED = 4;
-const INTERVAL = 15;
-const GRAB_POINTS = 5;
+const SPEED = 15;
+const INTERVAL = 55;
+const GRAB_POINTS = 10;
 const CANVAS_WIDTH = 550;
 const CANVAS_HEIGHT = 400;
 const WIDTH = 15;
 const HEIGHT = 15;
 var IMAGE = "/sn/sprite.png";
+
+var score = 0; //game score
+var direct = "right"; //direction facing
+var lastDirect;
 
 var coord = document.getElementById("map");
 
@@ -193,6 +325,8 @@ var xDir = SPEED; //direction and speed of x - 0 means still
 var yDir = 0; //direction and speed of y - 0 means still
 
 var myGamePiece;
+var snakePieces = [];
+var grabPiece;
 var body = document.getElementById('body');
 //var board = document.getElementById('board');
 
@@ -220,3 +354,11 @@ upBtn.onclick = changeUp;
 leftBtn.onclick = changeLeft;
 rightBtn.onclick = changeRight;
 downBtn.onclick = changeDown;
+
+window.addEventListener('keydown', function (e) {
+	myGameArea.key = e.keyCode;
+	console.log("Key code: " + e.keyCode);
+})
+window.addEventListener('keyup', function (e) {
+	myGameArea.key = false;
+})

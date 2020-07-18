@@ -29,7 +29,7 @@
 </div>
 
 <h1 id="title">Snake Game</h1>
-You can move with the direction buttons on the keyboard or the buttons to the right.
+Hit 'S' to start a new game, or click the button. You can move with the direction buttons on the keyboard or the buttons to the right.
 <hr>
 
 <label id="map">X: Y:</label>
