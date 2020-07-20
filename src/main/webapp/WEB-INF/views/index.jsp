@@ -38,7 +38,6 @@
 <a href="https://github.com/JohnsonHarleyR">GitHub</a>)</sup></i>
 </p>
 
-
 Click these links to see different practice projects:
 <ul>
 	<li><a href="/TicTacToe">Tic Tac Toe</a></li>
@@ -46,15 +45,17 @@ Click these links to see different practice projects:
 	<li><a href="/roadside-bingo">Roadside Bingo</a></li>
 	<li><a href="/sudoku">Sudoku</a></li>
 	<li><a href="/snake-game">Snake Game</a> <i></i></li>
-	<li><a href="/feedable-pet">Feedable Pet</a> <i>(getting close)</i></li>
+	<li><a href="/feedable-pet">Feedable Pet</a> <!-- <i>(getting close)</i> --></li>
 	<!-- <li><a href=""></a></li> -->
 </ul>
 
 <b>More to come!</b>
 <br>
 <i>(Note: For now, these are best viewed on a laptop.)</i>
-
 <br><br>
+<button id="updates">Latest Updates</button>
+
+<br>
 <div id="comments" style="text-align:left;content:left;">
 	<hr>
 	<h2>Leave Comment</h2>
@@ -90,6 +91,8 @@ Click these links to see different practice projects:
 </div>
 
 </main>
+
+<script src="js/index-script.js"></script>
 
 </body>
 </html>
