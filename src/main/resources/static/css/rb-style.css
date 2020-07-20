@@ -1,21 +1,23 @@
 .cell-blue {
-	width:100px;
-	height:100px;
+	width:90px;
+	height:90px;
+	position: relative;
 	border: 2px solid black;
 	text-align: center;
 	background-color: #DDFEFD;
 }
 
 .cell-green {
-	width:100px;
-	height:100px;
+	width:90px;
+	height:90px;
+	position: relative;
 	border: 2px solid black;
 	text-align: center;
 	background-color: #DDFEE4;
 }
 
 .marker {
-	width:90px;
+	width:85px;
 }
 
 #board {

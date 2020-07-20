@@ -1,4 +1,15 @@
+/*Different pet home environments*/
 .home-default {
+	float:left;
+	background-color: #D9ECF9;
+	color: white;
+	border: 5px solid #146299;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
+.home-green {
 	float:left;
 	background-color: #ECFFE9;
 	color: white;
@@ -8,9 +19,53 @@
 	height: 155px;
 }
 
+.home-blue {
+	float:left;
+	background-color: #4FB0FF;
+	color: white;
+	border: 5px solid #05378B;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
+.home-pink {
+	float:left;
+	background-color: #FFE2F6;
+	color: white;
+	border: 5px solid #D10F82;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
+
+/*Other styles*/
+
 #pet-table {
 	width: 50%;
 }
+
+#dialogue {
+	width: 200px;
+}
+
+#information {
+	display: inline-block;
+}
+
+#left {
+	float: left;
+}
+
+#to-do {
+	display: inline-block;
+}
+
+#change-environment {
+	margin-top: 5px;
+}
+
 
 #td {
 	display: flex;

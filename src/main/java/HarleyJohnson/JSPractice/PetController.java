@@ -1,5 +1,6 @@
 package HarleyJohnson.JSPractice;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,24 @@ public class PetController {
 		model.addAttribute("pet", pet);
 		
 		return "pet/feedable-pet";
+	}
+	
+	@RequestMapping("/environment")
+	public String changeEnvironment(
+			@RequestParam("id") long id,
+			@RequestParam("environment") String environment,
+			Model model) {
+				
+		Pet pet;
+		Optional<Pet> tempPet = petRepo.findById(id);
+		pet = tempPet.get();
+		
+		//change the pet's environment
+		pet.setEnvironment(environment);
+		petRepo.save(pet);
+		session.setAttribute("pet", pet);
+		
+		return "redirect:/feedable-pet";
 	}
 	
 	@RequestMapping("/feed") 
@@ -143,6 +162,9 @@ public class PetController {
 		//get list of all pets
 		List<Pet> pets = petRepo.findAll();
 		
+		//reverse order
+		Collections.reverse(pets);
+		
 		//use try catch for what message to give to the page
 		try {
 			newMessage = message;
@@ -197,12 +219,12 @@ public class PetController {
 			@RequestParam(name = "name") String name,
 			@RequestParam(name = "type") String type,
 			@RequestParam(name = "gender") String gender,
-			@RequestParam(name = "color") String color
-			//add environment
+			@RequestParam(name = "color") String color,
+			@RequestParam(name = "environment") String environment
 			) {
 		boolean successful = true;
 		
-		Pet newPet = new Pet(name, type, gender, color, "default"); //change default after I have environments
+		Pet newPet = new Pet(name, type, gender, color, environment); //change default after I have environments
 		
 		//now save to a repo
 		petRepo.save(newPet);

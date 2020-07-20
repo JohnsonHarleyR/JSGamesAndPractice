@@ -59,6 +59,8 @@ public class Pet {
 	private int maxProgress;
 	@Transient
 	private int progressNumber;
+	@Transient
+	private long age;
 	
 	private LocalDateTime lastFeed;
 	private LocalDateTime lastPlay;
@@ -78,7 +80,7 @@ public class Pet {
 		
 		hunger = 80;
 		play = 80;
-		love = 80;
+		love = 45;
 		
 		stage = 1;
 		progress = 0;
@@ -333,7 +335,7 @@ public class Pet {
 		long days = ChronoUnit.DAYS.between(birthday, today);
 		//System.out.println("Days since birth: " + days);
 		
-		if (progress < 200 || days < 1) { //also check time since birthday
+		if (progress < 150 || days < 1) { //also check time since birthday
 			stage = 1;
 		} else if (progress < 1000 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
 			stage = 2;
@@ -350,9 +352,9 @@ public class Pet {
 		if (stage == 1) {
 			minProgress = 0;
 		} else if (stage == 2) {
-			minProgress = 200;
+			minProgress = 150;
 		} else {
-			minProgress = 1000;
+			minProgress = 700;
 		}
 		
 		//System.out.println("Getting min progress: " + minProgress);
@@ -366,11 +368,11 @@ public class Pet {
 		System.out.println("Stage: " + stage);
 		
 		if (stage == 1) {
-			maxProgress = 199;
+			maxProgress = 149;
 		} else if (stage == 2) {
-			maxProgress = 999;
+			maxProgress = 699;
 		} else {
-			maxProgress = 2499;
+			maxProgress = 1999;
 		}
 		//System.out.println("Getting max progress: " + maxProgress);
 		//System.out.println("Current progress: " + progress);
@@ -437,6 +439,12 @@ public class Pet {
 		lastLove = LocalDateTime.from(formatter.parse(timestampString));
 		
 		return love;
+	}
+	
+	public long getAge() {
+		LocalDateTime today = LocalDateTime.now();
+		age = ChronoUnit.DAYS.between(birthday, today);
+		return age;
 	}
 	
 	public String getImage() {

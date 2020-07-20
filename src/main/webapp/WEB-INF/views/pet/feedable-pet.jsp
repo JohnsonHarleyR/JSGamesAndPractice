@@ -23,6 +23,31 @@
 <!-- Header -->
 <section class="header">
 
+<c:choose>
+<c:when test="${!exists}">
+	<script>
+		var exists = false;
+	</script>
+</c:when>
+
+<c:otherwise>
+	<script>
+		var exists = true;
+		var pet = {
+				id: ${pet.id},
+				name: "${pet.name}",
+				age: ${pet.age},
+				stage: ${pet.stage},
+				mood: "${pet.mood}",
+				hunger: ${pet.hunger},
+				play: ${pet.play},
+				love: ${pet.love},
+				environment: "${pet.environment}"
+				
+		};
+	</script>
+</c:otherwise>
+</c:choose>
 
 
 </section>
@@ -55,7 +80,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 	<c:choose>
 		<c:when test="${exists}">
 		
-		
+			<div id="left">
 			<table id="pet-home" class="home-${pet.environment}">
 				<tr>
 				<td id="td">
@@ -64,16 +89,8 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 				</tr>
 			</table>
 			
-			<p id="information">
-			
-				<b>Pet Name:</b> ${pet.name}<br>
-				<b>Gender:</b> ${pet.gender}<br>
-				<b>Type:</b> ${pet.type}<br>
-				<b>Color:</b> ${pet.color}<br>
-				<b>Pet ID:</b> ${pet.id}<br>
-				<br>
-				
-				<!-- Put buttons here too -->
+			<div id="interact">
+			<!-- Put buttons here too -->
 				<c:choose>
 				<c:when test="${pet.stage == 1}">
 					<a href="/love?id=${pet.id}"><button id="feed">Warm the Egg</button></a>
@@ -86,11 +103,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 					<br>
 				</c:otherwise>
 				</c:choose>
-				
-
-			</p>
-		
-			
+			</div>
 			
 			<div id="stats">
 				
@@ -134,6 +147,42 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 				<a href="/create-pet"><button id="create-pet">Create Pet</button></a>
 				</div>
 			</div>
+			
+			</div>
+			
+			<div id="floatContainer" class="float-container">
+			  <label id="dialogue">"Feed me. I like tacos. Blah blah let's see what happens with longer dialogue."</label>
+			</div>
+			
+			<p id="information">
+			
+				<b>Pet Name:</b> ${pet.name}<br>
+				<b>Gender:</b> ${pet.gender}<br>
+				<b>Age:</b> ${pet.age} days<br>
+				<b>Type:</b> ${pet.type}<br>
+				<b>Color:</b> ${pet.color}<br>
+				<b>Pet ID:</b> ${pet.id}<br>
+				<br>
+				
+				<form action="/environment">
+					<input type="hidden" name="id" value="${pet.id}"/>
+					Environment:<br>
+					<Select id="environment" name="environment">
+					<option id="default" value="default">Default</option>
+						<option id="green" value="green">Green</option>
+						<option id="blue" value="blue">Blue</option>
+						<option id="pink" value="pink">Pink</option>
+					</Select><br>
+					<button id="change-environment">Change</button>
+				</form>
+
+			</p>
+			
+			
+		
+			
+			
+			
 		</c:when>
 		<c:otherwise>
 			<a href="/load-pet"><button>Load Pet</button></a><br>
@@ -146,6 +195,8 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 <br>
 <br>
 
+<!-- 
+<div id="to-do">
 <i>(Things to do: <br><s>1. Make the meters go up more when you feed/play/love.</s>
 <br>2. Add the real pet images.
 <br><s>3. Make the progress bar go up more slowly.</s>
@@ -153,6 +204,8 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 <br>5. Create alerts when the pet levels up
 <br>6. Allow user to change the pet's environment.
 <br>7. Create copy and paste code so people can display their pets elsewhere.)<br><br></i>
+</div>
+ -->
 
 </main>
 

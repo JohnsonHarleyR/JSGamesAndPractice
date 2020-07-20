@@ -42,7 +42,6 @@
 <label>Pet Type:</label>
 <select id="type" name="type">
 <option value="alien">Alien</option>
-<option value="test">Test</option>
 </select>
 
 <br>
@@ -57,6 +56,15 @@
 <select id="color" name="color">
 <option value="blue">Blue</option>
 <option value="green">Green</option>
+<option value="pink">Pink</option>
+</select>
+
+<br>
+<label>Environment Style:</label>
+<select id="environment" name="environment">
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+<option value="pink">Pink</option>
 </select>
 
 <br>

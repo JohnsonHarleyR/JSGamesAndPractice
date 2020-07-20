@@ -33,7 +33,7 @@
 
 <h1>Practicing with JavaScript</h1>
 <p>
-<i><sup>All projects are created by Harley Johnson. 
+<i><sup>All projects and artwork are created by Harley Johnson. 
 (<a href="https://www.linkedin.com/in/johnsonharleyr">LinkedIn</a> / 
 <a href="https://github.com/JohnsonHarleyR">GitHub</a>)</sup></i>
 </p>
@@ -51,6 +51,8 @@ Click these links to see different practice projects:
 </ul>
 
 <b>More to come!</b>
+<br>
+<i>(Note: For now, these are best viewed on a laptop.)</i>
 
 <br><br>
 <div id="comments" style="text-align:left;content:left;">
