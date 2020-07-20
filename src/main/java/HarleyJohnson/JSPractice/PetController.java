@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,6 +62,40 @@ public class PetController {
 		//now add both to the model
 		model.addAttribute("exists", exists);
 		model.addAttribute("pet", pet);
+		
+		return "pet/feedable-pet";
+	}
+	
+	@RequestMapping("/pet") //this allows someone to specify by an id
+	public String feedablePet2(
+			@RequestParam(name="id") long id,
+			Model model) {
+		
+		boolean exists = true;
+		
+		Pet pet;
+		Optional<Pet> tempPet = petRepo.findById(id);
+		
+		try {
+			pet = tempPet.get();
+			session.setAttribute("pet", pet);
+			model.addAttribute("pet", pet);
+		} catch (Exception e) {
+			exists = false;
+		}
+		
+		
+		//String PetAsJson = new Gson().toJson(pet);
+		
+		//Pet pet = new Pet("Gordon", "test", "male", "blue");
+		
+		//now grab parts of the pet to store in their own variable
+		//The 'get' methods are specialized, so I want to be sure they're retrieved properly?
+		//(I'll do this if it doesn't work)
+		
+		//now add both to the model
+		model.addAttribute("exists", exists);
+		
 		
 		return "pet/feedable-pet";
 	}
@@ -194,17 +229,14 @@ public class PetController {
 		try {
 			pet = tempPet.get();
 			session.setAttribute("pet", pet);
+			return "redirect:/pet?id=" + pet.getId();
 		} catch (Exception e) {
 			successful = false;
 		}
 		
 		//make it so there's a message that displays if it fails
-		if (successful) {
-			return "redirect:/feedable-pet";
-		} else {
-			String message = "Could not find.";
-			return "redirect:/load-pet?message=" + message;
-		}
+		String message = "Could not find.";
+		return "redirect:/load-pet?message=" + message;
 		
 	}
 	

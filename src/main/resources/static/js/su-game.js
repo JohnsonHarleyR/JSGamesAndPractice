@@ -862,7 +862,7 @@ function checkPuzzle() { //- use the solved grid to check
 						//change it to black and set the board
 						//console.log("The same as solved.");
 						setValue(num, r, c, "green");
-						score += 5;
+						score += SCORE_ADD;
 					} else { //change the color to red but don't set the value
 						//console.log("Not the same as solved.");
 						let s = "<img class='square' src='/su/red" + num + ".png'/>";
@@ -921,6 +921,8 @@ function updateScore() {
 function generatePuzzle(min, max) { // you must turn it into a grid before passing
 	let grid;
 	resetCells();
+	score = 0;
+	updateScore();
 	
 	console.log("");
 	//only do it if the board is blank;
@@ -1025,6 +1027,7 @@ function generateFull() { // you must turn it into a grid before passing
 //GENERATE A FULL SUDOKU GRID - RANDOMIZED
 //this is the real method doing the work
 function generateNew(grid) {
+	score = 0;
 	
 	//console.log("Generating...");
 	let empties = findGridZeros(grid);
@@ -2408,6 +2411,8 @@ function hardPuzzle2() {
 
 
 //Variables
+const SCORE_ADD = 5;
+
 var body = document.getElementById('body');
 var main = document.getElementById('main');
 
