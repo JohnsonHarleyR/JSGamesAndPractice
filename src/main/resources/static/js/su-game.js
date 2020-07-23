@@ -886,7 +886,7 @@ function checkPuzzle() { //- use the solved grid to check
 			//check if there are any zeros left
 			let notFinished = checkForZeros();
 			if (notFinished) {
-				alert("Updating the grid!\n(Correct answers are green, wrong answers are red.");
+				alert("Updating the grid!\n(Correct answers are green, wrong answers are red.)");
 				
 			} else {
 				score += 30;

@@ -2,12 +2,19 @@ function loadPage() {
 	console.log("Exists?: " + exists);
 	if (exists) {
 		changeDialogue();
-		setEnvironment();
+		if (home != null) { //if this is not null, none of the other ones are null either
+			environ.onchange = changeEnvironment;
+			setEnvironment();
+			petUrlBtn.onclick = getPetUrl;
+			span.onclick = spanClick;
+		}
+		
 	}
 }
 
 //shows an alert dialogue about where the idea came from
 function showInspiration() {
+	//console.log("Showing message...");
 	alert("During middle and high school, I would find similar pets like these on sites like Neopets.com and on GaiaOnline.com forums. " +
 	"My favorite ones were from KingdomOfKnuffel.com, which started as simple pets on a GaiaOnline forum similar to the ones I've made. (They didn't" +
 	 " have as many features back then, but have always had very detailed, elegant artwork.) The artist who made them inspired me (along with her programmer boyfriend) to want to create my own pets," +
@@ -221,7 +228,7 @@ function changeDialogue() {
 						dialogue.innerHTML = "*giggles*";
 				}
 				
-			} else {
+			} else if (pet.mood === "great") {
 				
 				//I'm not a Pokemon. / Am I a human too? / Why do the stars blink, are they alive? / 
 				
@@ -230,6 +237,8 @@ function changeDialogue() {
 					"\"Wanna know what I learned in school?\"", "\"Rubber bands last longer when they're refrigerated.\"",
 					"\"Should I be an astronaut?\"", "*tries to lick elbow* \"I guess it is impossible.\"", "\"I'm glad I've got you.\" <3",
 					"\"I heard you gotta look out for cooties.\"", "\"Hey, when can I see my friends at school again?\""];
+				
+				
 				//get random array item
 				var num = Math.floor(Math.random() * array.length);
 				dialogue.innerHTML = array[num];
@@ -267,8 +276,7 @@ var inspirBtn = document.getElementById('inspiration');
 
 //Event Handlers
 body.onload = loadPage();
-environ.onchange = changeEnvironment;
-petUrlBtn.onclick = getPetUrl;
-span.onclick = spanClick;
+
+
 window.onclick = windowClick;
 inspirBtn.onclick = showInspiration;
