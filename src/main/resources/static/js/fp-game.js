@@ -169,7 +169,7 @@ function changeDialogue() {
 						dialogue.innerHTML = array[num];
 						break;
 					case "play":
-						var array = ["\"Play with me?\"", "\"I'm still board...\""];
+						var array = ["\"Play with me?\"", "\"I'm still bored...\""];
 						//get random array item
 						var num = Math.floor(Math.random() * array.length);
 						dialogue.innerHTML = array[num];

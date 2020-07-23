@@ -1,3 +1,12 @@
+<!-- TO DO:
+-Fix shadow on baby alien pet graphics so it shows up better on a dark background.
+-FIX THE OBVIOUS GLITCH ON THE SNAKE GAME.
+-Draw/create a new egg graphic for pets.
+-Adjust alignment of elements on pet page.
+-Make the url text box wider on pet page.
+-Move the 'create pet' and 'load pet' buttons toward top of pet page.
+ -->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     

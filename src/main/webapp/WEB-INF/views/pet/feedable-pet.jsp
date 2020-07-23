@@ -61,11 +61,8 @@
 </div>
 
 <h1>Feedable Pet</h1>
-To be honest, this will probably end up as a Java application more than JavaScript, but we'll see.<br>
-It will include JavaScript, anyway.
-<br><br>
 The egg stage only needs "love". Once it hatches, you can feed and play with it.
-<br>(There are pet IDs you can enter from the "Load Pet" page to see a pet that isn't an egg.)
+<br><i>(There are pet IDs you can enter from the "Load Pet" page to see a pet that isn't an egg.)</i>
 <br>
 <br>
 Also, an egg takes at least a day to level up and a baby takes 5 days. This is true no matter the progress.
