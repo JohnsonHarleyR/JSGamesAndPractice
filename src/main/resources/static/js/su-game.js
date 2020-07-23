@@ -1,20 +1,23 @@
+//NOTES
+
+//WARNING: After changing a lot of elements, not all comments are 100% accurate. Most are, but some relate to an older
+//piece of code that I altered, or code that has been copied and re-used. 
+//(I'll go back and fix the comments when I have enough time... This is a one person show here lol.)
+
 //The only thing this game still needs is a little work on the algorithm to set puzzles... To make sure the difficulty
 //does not only depend on how many cells are blank.
 
 
-//FUNCTIONS TO CHOOSE FROM
-
-//DONT FORGET ISBLANK
+//DONT FORGET ABOUT ISBLANK
 
 //difficultyIndex - this increases as the computer searches for solutions. (To try to match the brute 
 //force algorithm - which is likely to rack up a lot of points, the logic solver will do it after every type of 
 //guess.)
 
-//TODO Add to function that changes the cell's icon... upon calling it, check if the user changed it...
-//if they did, compare the user's answer to what it should be... if it's wrong, make the image red
 
-//TODO A function that compares the user's incomplete board to the correct answers, tells the user if an answer
-//is wrong by turning it red. If it's right, set that board cell to the user's answer, stop allowing it to change
+
+//FUNCTIONS TO CHOOSE FROM
+
 
 //loadNewBoard(board, grid)
 

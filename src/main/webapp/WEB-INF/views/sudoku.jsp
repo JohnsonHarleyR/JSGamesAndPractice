@@ -55,6 +55,7 @@ I worked on a solver to solve puzzles by regular means without a brute force alg
 
 <div id="user">
 	
+	<img id="blank" class="user-btn" src="/su/blank.png"/>
 	<img id="b1" class="selected-btn" src="/su/blue1.png"/>
 	<img id="b2" class="user-btn" src="/su/blue2.png"/>
 	<img id="b3" class="user-btn" src="/su/blue3.png"/>
@@ -64,7 +65,6 @@ I worked on a solver to solve puzzles by regular means without a brute force alg
 	<img id="b7" class="user-btn" src="/su/blue7.png"/>
 	<img id="b8" class="user-btn" src="/su/blue8.png"/>
 	<img id="b9" class="user-btn" src="/su/blue9.png"/>
-	<img id="blank" class="user-btn" src="/su/blank.png"/>
 	
 	<!-- 
 	<br>

@@ -6,6 +6,15 @@ function loadPage() {
 	}
 }
 
+//shows an alert dialogue about where the idea came from
+function showInspiration() {
+	alert("During middle and high school, I would find similar pets like this on sites like Neopets.com and on GaiaOnline.com forums. " +
+	"My favorite ones are from KingdomOfKnuffel.com, which started with just simple pets on a GaiaOnline forum similar to the ones I've made. (They have " +
+	 "more detailed artwork for lol.) The artist who made them inspired me (along with her programmer boyfriend) to want to create my own pets, " +
+	 " but I wasn't skilled enough back then. That's why I'm " +
+	 "doing it now that I'm capable of both the art and coding. :) Maybe I'm add more detailed art too, who knows?");
+}
+
 function getPetUrl() {
 	petUrl.value = window.location.hostname + "/pet?id=" + pet.id;
 	urlModal.style.display = "block";
@@ -249,6 +258,8 @@ var petUrlBtn = document.getElementById('pet-url-btn');
 var urlModal = document.getElementById('url-modal');
 var span = document.getElementsByClassName("close")[0];
 
+var inspirBtn = document.getElementById('inspiration');
+
 //var changeEnviron = document.getElementById('change-environment');
 
 
@@ -260,3 +271,4 @@ environ.onchange = changeEnvironment;
 petUrlBtn.onclick = getPetUrl;
 span.onclick = spanClick;
 window.onclick = windowClick;
+inspirBtn.onclick = showInspiration;

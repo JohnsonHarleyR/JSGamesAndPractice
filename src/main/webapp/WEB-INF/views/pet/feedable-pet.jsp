@@ -61,11 +61,25 @@
 </div>
 
 <h1>Feedable Pet</h1>
+
+<sup><i>A lot of this is actually written in Java. Some of it is in JavaScript though so I wanted to include it anyway.</i></sup>
+
+ <br>
+
 The egg stage only needs "love". Once it hatches, you can feed and play with it.
 <br><i>(There are pet IDs you can enter from the "Load Pet" page to see a pet that isn't an egg.)</i>
 <br>
 <br>
 Also, an egg takes at least a day to level up and a baby takes 5 days. This is true no matter the progress.
+
+
+<br><br>
+
+<button id="inspiration">What inspired it?</button>
+
+
+
+
 <br>
 <hr>
 <br>
@@ -94,6 +108,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 					<br>
 				</c:when>
 				<c:otherwise>
+					<!-- Hunger is handled slightly differently for the sake of an idea later on. -->
 					<a href="/feed?id=${pet.id}&min=15&max=40"><button id="feed">Feed</button></a>
 					<a href="/play?id=${pet.id}"><button id="play">Play</button></a>
 					<a href="/love?id=${pet.id}"><button id="love">Cuddle</button></a>
@@ -177,7 +192,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 				  <!-- Modal content -->
 				  <div class="modal-content">
 				    <span class="close">&times;</span>
-				    <p>Copy and paste this link for others to see this pet:<br>
+				    <p>Copy and paste this link so others can see this pet:<br>
 				    <input type="text" id="pet-url"/></p>
 				  </div>
 				</div>
@@ -220,18 +235,6 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 
 <br>
 <br>
-
-<!-- 
-<div id="to-do">
-<i>(Things to do: <br><s>1. Make the meters go up more when you feed/play/love.</s>
-<br>2. Add the real pet images.
-<br><s>3. Make the progress bar go up more slowly.</s>
-<br><s>4. Fix the images so that the correct one always displays depending on mood.</s>
-<br>5. Create alerts when the pet levels up
-<br>6. Allow user to change the pet's environment.
-<br>7. Create copy and paste code so people can display their pets elsewhere.)<br><br></i>
-</div>
- -->
 
 </main>
 

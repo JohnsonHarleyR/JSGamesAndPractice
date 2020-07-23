@@ -1,11 +1,4 @@
-<!-- TO DO:
--Fix shadow on baby alien pet graphics so it shows up better on a dark background.
--FIX THE OBVIOUS GLITCH ON THE SNAKE GAME.
--Draw/create a new egg graphic for pets.
--Adjust alignment of elements on pet page.
--Make the url text box wider on pet page.
--Move the 'create pet' and 'load pet' buttons toward top of pet page.
- -->
+
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -14,7 +7,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
+
+<!-- TO DO:
+-Fix bug on "Feedable Pet" page by checking for null before proceeding in order to prevent it.
+-In snake game, put "speed" above "color scheme" because it's more important technically.
+-Maybe change the default speed to "slow" in snake game, as normal may be hard for most people.
+-Make adjustments to "Roadside Bingo" layout the grid doesn't have to re-adjust.
+-Fix shadow on baby alien pet graphics so it shows up better on a dark background.
+-FIX THE OBVIOUS GLITCH ON THE SNAKE GAME.
+-Draw/create a new egg graphic for pets.
+-Adjust alignment of elements on pet page.
+-Make the url text box wider on pet page.
+-Move the 'create pet' and 'load pet' buttons toward top of pet page.
+-Add owner name to pets (will be owner id later on when it is used on a website.)
+ -->
+
 <head>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -48,6 +57,8 @@
 </p>
 
 Click these links to see different practice projects:
+<br>
+<sup><i>(<b>Note:</b> For now, these are best viewed on a laptop.)</i></sup>
 <ul>
 	<li><a href="/TicTacToe">Tic Tac Toe</a></li>
 	<li><a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>--> </li>
@@ -59,8 +70,6 @@ Click these links to see different practice projects:
 </ul>
 
 <b>More to come!</b>
-<br>
-<i>(Note: For now, these are best viewed on a laptop.)</i>
 <br><br>
 <button id="updates">Latest Updates</button>
 
