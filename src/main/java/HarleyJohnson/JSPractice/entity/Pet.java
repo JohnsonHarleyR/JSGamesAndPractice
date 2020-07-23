@@ -122,7 +122,9 @@ public class Pet {
 		}
 		
 		//add to progress too
-		progress += amount;
+		if (orig < hunger) {
+			progress += amount;
+		}
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";
@@ -149,8 +151,11 @@ public class Pet {
 		System.out.println("Play increase: " + amount);
 		
 		//also take away hunger, they want to play more after eating
-		int hungerAmount = (int)(amount / 1.5);
-		hunger -= hungerAmount;
+		if (play != 100) {
+			int hungerAmount = (int)(amount / 1.5);
+			hunger -= hungerAmount;
+		}
+
 		
 		
 		//check if it's over 100 or hunger is less than 0
@@ -164,7 +169,9 @@ public class Pet {
 		}
 		
 		//add to progress too
-		progress += amount;
+		if (orig < play) {
+			progress += amount;
+		}
 		
 		//add player points here too
 		
@@ -182,7 +189,7 @@ public class Pet {
 		final int MIN = 15;
 		
 		int amount = (int) ((Math.random() * (MAX - MIN)) + MIN);
-		int orig = play;
+		int orig = love;
 		
 		love += amount;
 		
@@ -197,7 +204,9 @@ public class Pet {
 		//add player points here too
 		
 		//add to progress too
-		progress += amount;
+		if (orig < love) {
+			progress += amount;
+		}
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String pattern = "MMM dd, yyyy HH:mm:ss.SSSSSSSS";

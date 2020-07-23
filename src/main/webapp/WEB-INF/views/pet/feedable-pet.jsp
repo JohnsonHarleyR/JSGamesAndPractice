@@ -158,25 +158,54 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 			
 				<b>Pet Name:</b> ${pet.name}<br>
 				<b>Gender:</b> ${pet.gender}<br>
-				<b>Age:</b> ${pet.age} days<br>
+				<!-- Display "day" or "days" accordingly -->
+				<c:choose>
+					<c:when test="${pet.age == 1}">
+						<b>Age:</b> ${pet.age} day<br>
+					</c:when>
+					<c:otherwise>
+						<b>Age:</b> ${pet.age} days<br>
+					</c:otherwise>
+				</c:choose>
 				<b>Type:</b> ${pet.type}<br>
 				<b>Color:</b> ${pet.color}<br>
 				<b>Pet ID:</b> ${pet.id}<br>
+				
+				
+				<!-- modal content mostly taken from example on w3schools.com -->
+				
+				<!-- URL Modal Popup -->
+				<div id="url-modal" class="modal">
+				
+				  <!-- Modal content -->
+				  <div class="modal-content">
+				    <span class="close">&times;</span>
+				    <p>Copy and paste this link for others to see this pet:<br>
+				    <input type="text" id="pet-url"/></p>
+				  </div>
+				</div>
+				  
+				  <!-- Trigger/Open The Modal -->
+				  <br>
+				<button id="pet-url-btn">Pet Link</button>
 				<br>
+				<br>
+				
 				
 				<form action="/environment">
 					<input type="hidden" name="id" value="${pet.id}"/>
-					Environment:<br>
+					Background:<br>
 					<Select id="environment" name="environment">
-					<option id="default" value="default">Default</option>
-						<option id="green" value="green">Green</option>
-						<option id="blue" value="blue">Blue</option>
-						<option id="pink" value="pink">Pink</option>
+						<option value="default">Default</option>
+						<option value="pink">Pink</option>
+						<option value="red">Red</option>
+						<option value="blue">Blue</option>
+						<option value="green">Green</option>
+						<option value="black">Black</option>
+						<option value="white">White</option>
 					</Select><br>
-					<button id="change-environment">Keep Changes</button>
+					<button id="change-environment">Keep Change</button>
 				</form>
-
-			</p>
 			
 			
 		

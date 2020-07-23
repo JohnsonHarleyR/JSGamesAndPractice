@@ -9,6 +9,16 @@
 	height: 155px;
 }
 
+.home-red {
+	float:left;
+	background-color: #FBD0D0;
+	color: white;
+	border: 5px solid #AD0C04;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
 .home-green {
 	float:left;
 	background-color: #ECFFE9;
@@ -39,6 +49,25 @@
 	height: 155px;
 }
 
+.home-black {
+	float:left;
+	background-color: #3D3D3D;
+	color: white;
+	border: 5px solid #58DC00;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
+.home-white {
+	float:left;
+	background-color: #F2F2F2;
+	color: white;
+	border: 5px solid #123A90;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
 
 /*Other styles*/
 
@@ -78,4 +107,33 @@
 
 #pet-image {
 	height: 150px;
+}
+
+/*modal content mostly taken from example on w3schools.com*/
+
+.url-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+	margin: auto;
+	padding: 20px;
+	width: 80%;
+}
+
+.close {
+	display: flex;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }

@@ -6,6 +6,22 @@ function loadPage() {
 	}
 }
 
+function getPetUrl() {
+	petUrl.value = window.location.hostname + "/pet?id=" + pet.id;
+	urlModal.style.display = "block";
+}
+
+function spanClick() {
+	urlModal.style.display = "none";
+}
+
+//When the user clicks anywhere outside of the modal, close it
+function windowClick(event) {
+	  if (event.target == urlModal) {
+	    urlModal.style.display = "none";
+	  }
+	}
+
 function setEnvironment() {
 	//var environ = document.getElementById('')
 	console.log("Environment: " + pet.environment);
@@ -226,7 +242,12 @@ var exists =  document.getElementById('exists');
 var home = document.getElementById('pet-home');
 var image = document.getElementById('pet-image');
 var dialogue = document.getElementById('dialogue');
+
 var environ = document.getElementById('environment');
+var petUrl = document.getElementById('pet-url');
+var petUrlBtn = document.getElementById('pet-url-btn');
+var urlModal = document.getElementById('url-modal');
+var span = document.getElementsByClassName("close")[0];
 
 //var changeEnviron = document.getElementById('change-environment');
 
@@ -236,3 +257,6 @@ var environ = document.getElementById('environment');
 //Event Handlers
 body.onload = loadPage();
 environ.onchange = changeEnvironment;
+petUrlBtn.onclick = getPetUrl;
+span.onclick = spanClick;
+window.onclick = windowClick;

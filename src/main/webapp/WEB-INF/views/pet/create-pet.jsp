@@ -54,17 +54,25 @@
 <br>
 <label>Color:</label>
 <select id="color" name="color">
+<option value="pink">Pink</option>
+<option value="red">Red</option>
 <option value="blue">Blue</option>
 <option value="green">Green</option>
-<option value="pink">Pink</option>
+<option value="black">Black</option>
+<option value="white">White</option>
 </select>
 
 <br>
 <label>Environment Style:</label>
 <select id="environment" name="environment">
+<option value="default">Default</option>
+<option value="pink">Pink</option>
+<option value="red">Red</option>
 <option value="blue">Blue</option>
 <option value="green">Green</option>
-<option value="pink">Pink</option>
+<option value="black">Black</option>
+<option value="white">White</option>
+
 </select>
 
 <br>
