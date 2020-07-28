@@ -34,7 +34,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" /> 
 
-<title>Playing with JavaScript</title>
+<title>JavaScript Projects</title>
 
 </head>
 <body>
@@ -47,14 +47,14 @@
 <!-- MainBody -->
 <main class="container">
 
-<h1>Practicing with JavaScript</h1>
+<h1>JavaScript Projects</h1>
 <p>
 <i><sup>All projects and artwork are created by Harley Johnson. 
 (<a href="https://www.linkedin.com/in/johnsonharleyr">LinkedIn</a> / 
 <a href="https://github.com/JohnsonHarleyR">GitHub</a>)</sup></i>
 </p>
 
-Click these links to see different practice projects:
+Click these links to see projects I've created while learning JavaScript:
 <br>
 <sup><i>(<b>Note:</b> For now, these are best viewed on a laptop.)</i></sup>
 <ul>
