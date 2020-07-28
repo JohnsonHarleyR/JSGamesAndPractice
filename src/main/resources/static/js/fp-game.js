@@ -16,7 +16,7 @@ function loadPage() {
 function showInspiration() {
 	//console.log("Showing message...");
 	alert("During middle and high school, I would find similar pets like these on sites like Neopets.com and on GaiaOnline.com forums. " +
-	"My favorite ones were from KingdomOfKnuffel.com, which started as simple pets on a GaiaOnline forum similar to the ones I've made. (They didn't" +
+	"My favorite ones are from KingdomOfKnuffel.com, which before expanding to their own site started as simple pets on a GaiaOnline forum similar to the ones I've made. (They didn't" +
 	 " have as many features back then, but have always had very detailed, elegant artwork.) The artist who made them inspired me (along with her programmer boyfriend) to want to create my own pets," +
 	 " but I wasn't skilled enough as a teenager. That's why I'm " +
 	 "doing it now that I'm capable of both art and coding. :) (I may add more to the artwork too, who knows?)");

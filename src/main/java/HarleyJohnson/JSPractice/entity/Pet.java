@@ -38,10 +38,13 @@ public class Pet {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	private String owner;
 	private LocalDateTime birthday;
 	private String type; //type of pet
 	private String gender;
 	private int stage; //1 is egg, 2 is baby, 3 is child
+	@Transient
+	private int growStage;
 	private String color;
 	private String mood; // this will take the average of their need bars
 	@Transient
@@ -70,9 +73,10 @@ public class Pet {
 	
 	public Pet() {}
 	
-	public Pet(String name, String type, String gender, String color, String environment) {
+	public Pet(String name, String owner, String type, String gender, String color, String environment) {
 		super();
 		this.name = name;
+		this.owner = owner;
 		this.type = type;
 		this.gender = gender;
 		this.color = color;
@@ -151,7 +155,7 @@ public class Pet {
 		System.out.println("Play increase: " + amount);
 		
 		//also take away hunger, they want to play more after eating
-		if (play != 100) {
+		if (play < 100) {
 			int hungerAmount = (int)(amount / 1.5);
 			hunger -= hungerAmount;
 		}
@@ -345,14 +349,26 @@ public class Pet {
 		//System.out.println("Days since birth: " + days);
 		
 		if (progress < 150 || days < 1) { //also check time since birthday
-			stage = 1;
-		} else if (progress < 1000 && days >= 1) { //also check time since birthday - 1 day for egg, 5 days for baby
-			stage = 2;
-		} else if (days >= 5 && progress > 1000) { //find next stage up still
-			stage = 3;
+			growStage = 1;
+		} else if (progress < 12 && days < 5) { //also check time since birthday - 1 day for egg, 5 days for baby
+			growStage = 2;
+		} else if (days >= 5 && progress > 1200) { //find next stage up still
+			growStage = 3;
 		}
 	}
 	
+	public int getStage() {
+		return stage;
+	}
+
+	public void setStage(int stage) {
+		this.stage = stage;
+	}
+
+	public void setAge(long age) {
+		this.age = age;
+	}
+
 	public int getMinProgress() {
 		calculateStage();
 		
@@ -363,7 +379,7 @@ public class Pet {
 		} else if (stage == 2) {
 			minProgress = 150;
 		} else {
-			minProgress = 700;
+			minProgress = 1200;
 		}
 		
 		//System.out.println("Getting min progress: " + minProgress);
@@ -379,9 +395,9 @@ public class Pet {
 		if (stage == 1) {
 			maxProgress = 149;
 		} else if (stage == 2) {
-			maxProgress = 699;
+			maxProgress = 1199;
 		} else {
-			maxProgress = 1999;
+			maxProgress = 11999;
 		}
 		//System.out.println("Getting max progress: " + maxProgress);
 		//System.out.println("Current progress: " + progress);
@@ -489,10 +505,10 @@ public class Pet {
 		//System.out.println(startAmount + " out of " + endAmount + " is about " + percent + "%");
 		
 		
-		//if progress is over max, then reset progress percent to 90% because if it's showing, then the pet
-		//hasn't been alive long enough to level up, so keep it at 90.
+		//if progress is over max, then reset progress percent to 90% unless it is ready to grow
 		calculateStage();
-		if (percent >= 100) {
+		System.out.println("\nGrow Stage: " + getGrowStage());
+		if (percent >= 100 && getStage() == getGrowStage()) {
 			percent = 90;
 		}
 		
@@ -606,18 +622,20 @@ public class Pet {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	
+	
 
 	
 	//@return GET stage
-	public int getStage() {
+	public int getGrowStage() {
 		calculateStage();
-		return stage;
+		return growStage;
 	}
 
 	
 	//@param SET stage
-	public void setStage(int stage) {
-		this.stage = stage;
+	public void setGrowStage(int growStage) {
+		this.growStage = growStage;
 	}
 	
 	
@@ -764,21 +782,27 @@ public class Pet {
 		this.maxProgress = maxProgress;
 	}
 
-	@Override
-	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", birthday=" + birthday + ", type=" + type + ", gender=" + gender
-				+ ", stage=" + stage + ", color=" + color + ", mood=" + mood + ", image=" + image + ", hunger=" + hunger
-				+ ", play=" + play + ", love=" + love + ", progress=" + progress + ", percent=" + percent
-				+ ", minProgress=" + minProgress + ", maxProgress=" + maxProgress + ", progressNumber=" + progressNumber
-				+ ", lastFeed=" + lastFeed + ", lastPlay=" + lastPlay + ", lastLove=" + lastLove + ", environment="
-				+ environment + "]";
+	
+	//@return GET owner
+	public String getOwner() {
+		return owner;
 	}
 
 	
-	
-	
-	
-	
+	//@param SET owner
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	@Override
+	public String toString() {
+		return "Pet [id=" + id + ", name=" + name + ", owner=" + owner + ", birthday=" + birthday + ", type=" + type
+				+ ", gender=" + gender + ", stage=" + stage + ", growStage=" + growStage + ", color=" + color
+				+ ", mood=" + mood + ", image=" + image + ", hunger=" + hunger + ", play=" + play + ", love=" + love
+				+ ", progress=" + progress + ", percent=" + percent + ", minProgress=" + minProgress + ", maxProgress="
+				+ maxProgress + ", progressNumber=" + progressNumber + ", age=" + age + ", lastFeed=" + lastFeed
+				+ ", lastPlay=" + lastPlay + ", lastLove=" + lastLove + ", environment=" + environment + "]";
+	}
 	
 	
 

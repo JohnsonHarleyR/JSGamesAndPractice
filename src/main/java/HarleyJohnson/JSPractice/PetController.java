@@ -100,6 +100,30 @@ public class PetController {
 		return "pet/feedable-pet";
 	}
 	
+	
+	
+	//Make the pet grow up
+	@RequestMapping("/pet/grow")
+	public String growUp(
+			@RequestParam("id") long id) {
+		
+		//get the pet by its id
+		Optional<Pet> tempPet = petRepo.findById(id);
+		Pet pet = tempPet.get();
+		
+		//change the pets stage
+		pet.setStage(pet.getStage() + 1);
+		
+		//save pet
+		petRepo.save(pet);
+		
+		return "redirect:/pet?id=" + id;
+	}
+	
+	
+	
+	
+	//Change the pet's environment
 	@RequestMapping("/environment")
 	public String changeEnvironment(
 			@RequestParam("id") long id,
@@ -249,6 +273,7 @@ public class PetController {
 	@RequestMapping("/create-pet/submit")
 	public String createPetSubmit(
 			@RequestParam(name = "name") String name,
+			@RequestParam(name = "owner") String owner,
 			@RequestParam(name = "type") String type,
 			@RequestParam(name = "gender") String gender,
 			@RequestParam(name = "color") String color,
@@ -256,7 +281,7 @@ public class PetController {
 			) {
 		boolean successful = true;
 		
-		Pet newPet = new Pet(name, type, gender, color, environment); //change default after I have environments
+		Pet newPet = new Pet(name, owner, type, gender, color, environment); //change default after I have environments
 		
 		//now save to a repo
 		petRepo.save(newPet);

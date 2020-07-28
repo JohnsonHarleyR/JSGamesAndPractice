@@ -104,10 +104,22 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 			<!-- Put buttons here too -->
 				<c:choose>
 				<c:when test="${pet.stage == 1}">
+					<c:if test="${pet.growStage > pet.stage}">
+						<a href="/pet/grow?id=${pet.id}">
+							<button id="grow" type="submit">Help ${pet.name} Hatch!</button>
+						</a>
+						<br>
+					</c:if>
 					<a href="/love?id=${pet.id}"><button id="feed">Warm the Egg</button></a>
 					<br>
 				</c:when>
 				<c:otherwise>
+					<c:if test="${pet.growStage > pet.stage}">
+						<a href="/pet/grow?id=${pet.id}">
+							<button id="grow" type="submit">Help ${pet.name} Grow!</button>
+						</a>
+						<br>
+					</c:if>
 					<!-- Hunger is handled slightly differently for the sake of an idea later on. -->
 					<a href="/feed?id=${pet.id}&min=15&max=40"><button id="feed">Feed</button></a>
 					<a href="/play?id=${pet.id}"><button id="play">Play</button></a>
@@ -169,6 +181,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 			<p id="information">
 			
 				<b>Pet Name:</b> ${pet.name}<br>
+				<b>Owner:</b> ${pet.owner}<br>
 				<b>Gender:</b> ${pet.gender}<br>
 				<!-- Display "day" or "days" accordingly -->
 				<c:choose>

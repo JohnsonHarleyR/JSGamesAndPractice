@@ -39,6 +39,10 @@
 <input id="name" type="text" name="name" required />
 
 <br>
+<label>Owner:</label>
+<input id="owner" type="text" name="owner" required/>
+
+<br>
 <label>Pet Type:</label>
 <select id="type" name="type">
 <option value="alien">Alien</option>
