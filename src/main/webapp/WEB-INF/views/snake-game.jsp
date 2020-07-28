@@ -33,7 +33,8 @@
 
 <h1 id="title">Snake Game</h1>
 Hit 'S' to start a new game, or click the button. You can move with the direction buttons on the keyboard or the buttons to the right.
-<br><i>(<b>There is one glitch left to fix.</b> Changing direction via touch screen might come too.)</i>
+<br><i><b>(Note: I'm still figuring out the glitch. Please let me know if you run into it. </b>
+Changing direction via touch screen might come too.)</i>
 <hr>
 
 <label id="map">X: Y:</label>
@@ -45,9 +46,14 @@ Hit 'S' to start a new game, or click the button. You can move with the directio
 <button id="start" class="normal">Start Game</button>
 <br>
 
-<button id="up" class="direction">Up</button>
-<em id="center-btns"><button id="left" class="direction">Left</button><button id="right" class="direction">Right</button></em>
-<button id="down" class="direction">Down</button>
+<label>Speed:</label>
+<Select id="speed">
+<option id="slow" value="slow" selected>Slow</option>
+<option id="normal" value="normal">Normal</option>
+<option id="fast" value="fast">Fast</option>
+</Select>
+<button id="change-speed">Change</button>
+<sub class="sub">(Starts new game.)</sub>
 <br>
 
 <label>Color Scheme:</label>
@@ -60,16 +66,11 @@ Hit 'S' to start a new game, or click the button. You can move with the directio
 </Select>
 <button id="change-scheme">Change</button>
 <sub class="sub">(Starts new game.)</sub>
-<br>
+<br><br>
 
-<label>Speed:</label>
-<Select id="speed">
-<option id="slow" value="slow">Slow</option>
-<option id="normal" value="normal" selected>Normal</option>
-<option id="fast" value="fast">Fast</option>
-</Select>
-<button id="change-speed">Change</button>
-<sub class="sub">(Starts new game.)</sub>
+<button id="up" class="direction">Up</button>
+<em id="center-btns"><button id="left" class="direction">Left</button><button id="right" class="direction">Right</button></em>
+<button id="down" class="direction">Down</button>
 <br>
 
 </div>

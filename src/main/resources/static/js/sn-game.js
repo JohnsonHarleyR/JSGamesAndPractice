@@ -101,10 +101,13 @@ function genGrabPiece() {
 	var posY = Math.floor(Math.random() * (CANVAS_HEIGHT - HEIGHT));
 	
 	grabPiece = new component(WIDTH, HEIGHT, color2, posX, posY, "none");
+	grabPiece.className = "grab";
 }
 
 //Add the piece to the end of the snake trail
 function addToTrail() {
+	
+	console.log("Adding to trail.");
 	
 	//TODO Go back to make sure the trailing piece doesn't collide with the wall as it's generated
 	
@@ -142,7 +145,9 @@ function addToTrail() {
 	}
 	
 	//now add the piece to the train
-	snakePieces.push(new component(WIDTH, HEIGHT, color1, posX, posY, lastPiece.direction));
+	var tail = new component(WIDTH, HEIGHT, color1, posX, posY, lastPiece.direction);
+	tail.className = "tail";
+	snakePieces.push(tail);
 }
 
 
@@ -257,11 +262,39 @@ function checkCollision() {
 		gameOver = true;
 	}
 	
+	//Check whether there is collision with any trailing pieces
+	for (var i = 0; i < snakePieces.length; i++) {
+		if (snakePieces[i].className !== "grab" && i !== 0) {
+			if (i > 3 && 
+					(myGamePiece.x > snakePieces[i].x && myGamePiece.x < snakePieces[i].x + WIDTH ||
+					myGamePiece.x + WIDTH > snakePieces[i].x && myGamePiece.x < snakePieces[i].x + WIDTH) &&
+					(myGamePiece.y > snakePieces[i].y && myGamePiece.y < snakePieces[i].y + HEIGHT ||
+					myGamePiece.y + HEIGHT > snakePieces[i].y && myGamePiece.y < snakePieces[i].y + HEIGHT)) {
+				
+				//also make sure that piece is not in the same position as the grabpiece
+				if (grabPiece.x === snakePieces[i].x && grabPiece.y === snakePieces[i].y) {
+					//nothing
+				} else {
+					console.log("Collision. First: " + myGamePiece.x + "-" + myGamePiece.y + " Second: " +
+							 snakePieces[i].x + "-" + snakePieces[i].y);
+					console.log("Grab Piece coord: " + grabPiece.x + "-" + grabPiece.y);
+					console.log("Trail number: " + i);
+					console.log("Piece class: " + snakePieces[i].className);
+					stopMove();
+					gameOver = true;
+					//now add it to trail behind piece
+				}
+				
+			}
+		}
+	}
+	
 	//check for collision with grabPiece
 	if ((myGamePiece.x >= grabPiece.x && myGamePiece.x <= grabPiece.x + WIDTH ||
 			myGamePiece.x + WIDTH >= grabPiece.x && myGamePiece.x + WIDTH <= grabPiece.x + WIDTH) &&
 			(myGamePiece.y >= grabPiece.y && myGamePiece.y <= grabPiece.y + HEIGHT ||
 			myGamePiece.y + HEIGHT >= grabPiece.y && myGamePiece.y + HEIGHT <= grabPiece.y + HEIGHT)) {
+		
 		console.log("X: " + myGamePiece.x + " Y: " + myGamePiece.y);
 		genGrabPiece();
 		addPoints();
@@ -269,22 +302,7 @@ function checkCollision() {
 		//now add it to trail behind piece
 	}
 	
-	//Check with the same arguments whether there is collision with any trailing pieces
-	for (var i = 0; i < snakePieces.length; i++) {
-		if (i !== 0) {
-			if (i > 3 &&
-					(myGamePiece.x >= snakePieces[i].x && myGamePiece.x <= snakePieces[i].x + WIDTH ||
-					myGamePiece.x + WIDTH >= snakePieces[i].x && myGamePiece.x + WIDTH <= snakePieces[i].x + WIDTH) &&
-					(myGamePiece.y >= snakePieces[i].y && myGamePiece.y <= snakePieces[i].y + HEIGHT ||
-					myGamePiece.y + HEIGHT >= snakePieces[i].y && myGamePiece.y + HEIGHT <= snakePieces[i].y + HEIGHT)) {
-				console.log("Collision. First: " + myGamePiece.x + "-" + myGamePiece.y + " Second: " +
-						 snakePieces[i].x + "-" + snakePieces[i].y);
-				stopMove();
-				gameOver = true;
-				//now add it to trail behind piece
-			}
-		}
-	}
+	
 }
 
 //stop moving
@@ -372,7 +390,7 @@ var myGameArea = {
 }
 
 
-var speed = 15;
+var speed = 10;
 var int = 55;
 const GRAB_POINTS = 10;
 const CANVAS_WIDTH = 550;
