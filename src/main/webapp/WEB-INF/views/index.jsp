@@ -9,7 +9,6 @@
 <html>
 
 <!-- TO DO:
--Fix bug on "Feedable Pet" page by checking for null before proceeding in order to prevent it.
 -In snake game, put "speed" above "color scheme" because it's more important technically.
 -Maybe change the default speed to "slow" in snake game, as normal may be hard for most people.
 -Make adjustments to "Roadside Bingo" layout the grid doesn't have to re-adjust.
@@ -19,7 +18,6 @@
 -Adjust alignment of elements on pet page.
 -Make the url text box wider on pet page.
 -Move the 'create pet' and 'load pet' buttons toward top of pet page.
--Add owner name to pets (will be owner id later on when it is used on a website.)
  -->
 
 <head>
