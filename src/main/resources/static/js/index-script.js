@@ -1,7 +1,8 @@
 //Functions
 function readUpdates() {
 	console.log("updates");
-	alert("7/28/20: Worked on the Snake Game glitch. (Please leave a comment if you run into it, you'll know it when it happens.) " +
+	alert("\n7/28/20: Improved the alien pet graphics." +
+			"7/28/20: Worked on the Snake Game glitch. (Please leave a comment if you run into it, you'll know it when it happens.) " +
 			"Also, I rearranged buttons." +
 			"\n7/28/20: Added 'owner' field to pets. Made it so a button pops up so you can choose if/when the pet grows up." +
 			"\n7/23/20: Fixed pet page bug that existed when no pet was loaded." +
