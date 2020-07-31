@@ -60,6 +60,7 @@
 <select id="color" name="color">
 <option value="pink">Pink</option>
 <option value="red">Red</option>
+<option value="yellow">Yellow</option>
 <option value="blue">Blue</option>
 <option value="green">Green</option>
 <option value="black">Black</option>
@@ -72,6 +73,7 @@
 <option value="default">Default</option>
 <option value="pink">Pink</option>
 <option value="red">Red</option>
+<option value="yellow">Yellow</option>
 <option value="blue">Blue</option>
 <option value="green">Green</option>
 <option value="black">Black</option>

@@ -19,6 +19,16 @@
 	height: 155px;
 }
 
+.home-yellow {
+	float:left;
+	background-color: #FFFDCE;
+	color: white;
+	border: 5px solid #FEF606;
+	margin-right: 30px;
+	width: 200px;
+	height: 155px;
+}
+
 .home-green {
 	float:left;
 	background-color: #ECFFE9;

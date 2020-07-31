@@ -225,6 +225,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 						<option value="default">Default</option>
 						<option value="pink">Pink</option>
 						<option value="red">Red</option>
+						<option value="yellow">Yellow</option>
 						<option value="blue">Blue</option>
 						<option value="green">Green</option>
 						<option value="black">Black</option>
