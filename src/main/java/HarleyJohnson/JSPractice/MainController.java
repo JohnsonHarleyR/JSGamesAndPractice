@@ -133,6 +133,12 @@ public class MainController {
 		return "snake-game";
 	}
 	
+	@RequestMapping("/css-animate")
+	public String cssAnimate(Model model) {
+		
+		return "css-animate";
+	}
+	
 	
 
 	

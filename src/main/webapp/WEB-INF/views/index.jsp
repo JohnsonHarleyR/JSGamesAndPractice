@@ -71,7 +71,27 @@ Click these links to see projects I've created while learning JavaScript:
 <br><br>
 <button id="updates">Latest Updates</button>
 
+<br><br>
+
+<h1>Other Projects</h1>
+These are other coding projects that may not fall under the JavaScript Category.
 <br>
+<ul>
+	<li><a href="/css-animate">CSS Animation</a> <i>(not finished)</i> </li>
+
+	<!-- <li><a href=""></a></li> -->
+</ul>
+
+<b>More to come!</b>
+<br><br>
+<!-- <button id="updates">Latest Updates</button>  -->
+
+
+
+
+
+
+
 <div id="comments" style="text-align:left;content:left;">
 	<hr>
 	<h2>Leave Comment</h2>
@@ -84,12 +104,6 @@ Click these links to see projects I've created while learning JavaScript:
 		<select id="topic" name="topic" required>
 			<option value="general">General</option>
 			<option value="bugs">Code Bugs</option>
-			<option value="ttt">Tic Tac Toe</option>
-			<option value="ms">Minesweeper</option>
-			<option value="rb">Roadside Bingo</option>
-			<option value="su">Sudoku</option>
-			<option value="sg">Snake Game</option>
-			<option value="fp">Feedable Pet</option>
 		</select>
 		<br>
 		<label>Your Name: </label>
