@@ -36,6 +36,7 @@
 		var pet = {
 				id: ${pet.id},
 				name: "${pet.name}",
+				owner: "${pet.owner}",
 				age: ${pet.age},
 				stage: ${pet.stage},
 				mood: "${pet.mood}",

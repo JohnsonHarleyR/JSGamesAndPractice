@@ -270,6 +270,13 @@ public class PetController {
 		return "pet/create-pet";
 	}
 	
+	//creating user's first pet
+	@RequestMapping("/first-pet")
+	public String firstPet() {
+		
+		return "pet/first-pet";
+	}
+	
 	@RequestMapping("/create-pet/submit")
 	public String createPetSubmit(
 			@RequestParam(name = "name") String name,

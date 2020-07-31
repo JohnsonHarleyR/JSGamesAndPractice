@@ -87,6 +87,7 @@ public class Pet {
 		love = 45;
 		
 		stage = 1;
+		growStage = 1;
 		progress = 0;
 		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -348,9 +349,9 @@ public class Pet {
 		long days = ChronoUnit.DAYS.between(birthday, today);
 		//System.out.println("Days since birth: " + days);
 		
-		if (progress < 150 || days < 1) { //also check time since birthday
+		if (days < 1 || progress < 150) { //also check time since birthday
 			growStage = 1;
-		} else if (progress < 12 && days < 5) { //also check time since birthday - 1 day for egg, 5 days for baby
+		} else if (days < 5 || progress < 1200) { //also check time since birthday - 1 day for egg, 5 days for baby
 			growStage = 2;
 		} else if (days >= 5 && progress > 1200) { //find next stage up still
 			growStage = 3;

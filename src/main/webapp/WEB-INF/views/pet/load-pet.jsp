@@ -65,6 +65,9 @@ ${message}
 	<th>
 		Gender
 	</th>
+	<th>
+		Owner
+	</th>
 </tr>
 	
 	<c:forEach var="pet" items="${pets}">
@@ -86,6 +89,9 @@ ${message}
 			</td>
 			<td>
 				${pet.gender}
+			</td>
+			<td>
+				${pet.owner}
 			</td>
 		</tr>
 	</c:forEach>
