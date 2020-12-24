@@ -156,7 +156,7 @@ function changeDialogue() {
 			}
 			
 		//Else if it's a child
-		} else {
+		} else if (pet.stage == 3){
 			
 			//first go according to mood
 			if (pet.mood === "bad") {
@@ -218,14 +218,14 @@ function changeDialogue() {
 						dialogue.innerHTML = array[num];
 						break;
 					case "love":
-						var array = ["\I love you.\" :)", "\"I wanna give you a hug.\"", "\"You are the best!.\""];
+						var array = ["\I love you.\" :)", "\"I wanna give you a hug.\"", "\"You are the best!\"",
+							"\"You're my favorite.\""];
 						//get random array item
 						var num = Math.floor(Math.random() * array.length);
 						dialogue.innerHTML = array[num];
-						dialogue.innerHTML = "\I love you.\" :)";
 						break;
 					default:
-						dialogue.innerHTML = "*giggles*";
+						dialogue.innerHTML = "\I love you.\" :)";
 				}
 				
 			} else if (pet.mood === "great") {
@@ -242,11 +242,103 @@ function changeDialogue() {
 				//get random array item
 				var num = Math.floor(Math.random() * array.length);
 				dialogue.innerHTML = array[num];
-				
-				
 			}
+		// else if it's an adult
+		} else {
+			//first go according to mood
+			if (pet.mood === "bad") {
+				//find out greatest need
+				switch (need) {
+					case "hunger":
+						dialogue.innerHTML = "\"I'm starving right now.\"", "\"When are you going to feed me?\"";
+						break;
+					case "play":
+						dialogue.innerHTML = "\"I'm starving right now.\"", "\"I thought being an adult would be fun..\"";
+						break;
+					case "love":
+						dialogue.innerHTML = "Grown ups need hugs too.\"", "Attention is a normal human need.\"";
+						break;
+					default:
+						dialogue.innerHTML = "\"I am not in good condition right now.\"";
+				}
+				
+			} else if (pet.mood === "okay") {
+				//find out greatest need
+				switch (need) {
+					case "hunger":
+						var array = ["\"Can you hear my belly rumble?\"", "\"Hey, what's for dinner?\"",
+							"\"It's hard to think straight on an empty stomach.\""];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					case "play":
+						var array = ["\"I'm kinda bored.\"", "\"What is there to do?\"",
+							"\"Wanna do something together?\""];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					case "love":
+						var array = ["\"We should spend some time together.\"", "\"Can I hug you?\"",
+							"\"Please don't go anywhere.\""];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					default:
+						dialogue.innerHTML = "\"Let's do something.\"";
+				}
+				
+			} else if ( pet.mood === "good") {
+				//find out greatest need
+				switch (need) {
+					case "hunger":
+						var array = ["\"Should we have a snack?\"", "\"Let's get Chinese.\"",
+							"\"What's your favorite restaurant?\"", "\"A full belly is a happy belly.\"",
+							"\"Tacos or pizza?\""];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					case "play":
+						var array = ["\"Checkers or chess?\"", "\"Let's play a video game together.\"",
+							"\"We should watch a new movie or something.\"", "\"What's your favorite activity?\"",
+							"\"You're so much fun.\"",];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					case "love":
+						var array = ["\Aw come here!\"", "\"At least we have each other.\"", "\You'e the best human.\"",
+							"Thanks for always being here."];
+						//get random array item
+						var num = Math.floor(Math.random() * array.length);
+						dialogue.innerHTML = array[num];
+						break;
+					default:
+						dialogue.innerHTML = "You're awesome.";
+				}
+				
+			} else if (pet.mood === "great") {
+				
+				//I'm not a Pokemon. / Am I a human too? / Why do the stars blink, are they alive? / 
+				
+				//start an array with random things to say
+				var array = ["\I am on a seafood diet. I see food and I eat it.\"", "\"I'm not arguing, I'm just explaining why I am right.\"",
+					"\"Celery is 95% water and 100% not pizza.\"", "\"A good mood like is like a balloon, one prick is all it takes to ruin it.\"",
+					"\"Any of us has the capacity to light up a room. Some when they enter, others when they leave it.\"", "\"Doing nothing is hard, you never know when you are done.\"",
+					"\"People say nothing is impossible, but I do nothing every day.\"– A. A. Milne", "\"Friends don't let friends do stupid things... alone.\"",
+					"\"When nothing goes right, go left.\"", "\"I'm not short, I'm fun-sized.\"", "\"Life is a one time offer, use it well.\"",
+					"\"Laugh at your problems, everybody else does.\"", "\"It's okay if you don't like me. Not everyone has good taste.\"",
+					"\"I used to think I was indecisive, but now I'm not sure.\"", "\"Never go to a doctor whose office plants have died.\""];
+				
+				
+				//get random array item
+				var num = Math.floor(Math.random() * array.length);
+				dialogue.innerHTML = array[num];
 			
-			
+			}
 		}
 		
 	}

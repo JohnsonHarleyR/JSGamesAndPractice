@@ -12,7 +12,6 @@
 	crossorigin="anonymous">
 <link href="/css/an-style.css" rel="stylesheet" />
 
-
 <meta charset="ISO-8859-1">
 <title>CSS Animation</title>
 </head>
@@ -44,8 +43,7 @@
 </div>
 
 <div class="message">Thanks to Coding Artist on Youtube.com 
-	<br>for teaching me something new.
-	<br><i>(This project is not original.)</i></div>
+	<br>for teaching me something new.</div>
 
 
 

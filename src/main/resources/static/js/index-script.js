@@ -1,7 +1,8 @@
 //Functions
 function readUpdates() {
 	console.log("updates");
-	alert("7/30/20: Added yellow aliens to feedable pets.." +
+	alert("12/23/20: Added new images to stage 4 for almost all pets. Red and white still need stage 4 images." +
+			"\n7/30/20: Added yellow aliens to feedable pets." +
 			"\n7/30/20: Fix bug where feedable pet won't grow." +
 			"\n7/28/20: Improved the alien pet graphics." +
 			"\n7/28/20: Worked on the Snake Game glitch. (Please leave a comment if you run into it, you'll know it when it happens.) " +

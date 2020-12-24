@@ -26,9 +26,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
-<!-- 
-<link href="/style.css" rel="stylesheet" />
- -->
+<link href="/css/style.css" rel="stylesheet" />
 
 <meta charset="ISO-8859-1">
 
@@ -38,6 +36,12 @@
 
 </head>
 <body>
+<div class="right-decor-2"></div>
+<div class="right-decor-1"></div>
+<div class="right-decor"></div>
+<div class="right-decor2"></div>
+<div class="right-decor3"></div>
+<div class="left-decor"></div>
 
 <!-- Header -->
 <section class="header">
@@ -45,7 +49,7 @@
 </section>
 
 <!-- MainBody -->
-<main class="container">
+<main class="main">
 
 <h1>JavaScript Projects</h1>
 <p>
@@ -54,35 +58,44 @@
 <a href="https://github.com/JohnsonHarleyR">GitHub</a>)</sup></i>
 </p>
 
+
+<!-- Animation here -->
+<div class="container">
+	<div class="bunny">
+		
+	</div>
+</div>
+
+
+
 Click these links to see projects I've created while learning JavaScript:
 <br>
-<sup><i>(<b>Note:</b> For now, these are best viewed on a laptop.)</i></sup>
-<ul>
-	<li><a href="/TicTacToe">Tic Tac Toe</a></li>
-	<li><a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>--> </li>
-	<li><a href="/roadside-bingo">Roadside Bingo</a></li>
-	<li><a href="/sudoku">Sudoku</a></li>
-	<li><a href="/snake-game">Snake Game</a> <i></i></li>
-	<li><a href="/feedable-pet">Feedable Pet</a> <!-- <i>(getting close)</i> --></li>
+<i class="note">(<b>Note:</b> For now, these are best viewed on a laptop.)</i>
+<p class="projects">
+	<a href="/TicTacToe">Tic Tac Toe</a>
+	<a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>-->
+	<a href="/roadside-bingo">Roadside Bingo</a>
+	<a href="/sudoku">Sudoku</a>
+	<a href="/snake-game">Snake Game</a>
+	<a href="/feedable-pet">Feedable Pet</a> <!-- <i>(getting close)</i> -->
 	<!-- <li><a href=""></a></li> -->
-</ul>
+</p>
 
-<b>More to come!</b>
+<b class="more">More to come!</b>
+<button class="btn" id="updates">Latest Updates</button>
+
 <br><br>
-<button id="updates">Latest Updates</button>
 
-<br><br>
-
-<h1>Other Projects</h1>
-These are other coding projects that may not fall under the JavaScript Category.
+<h1>Other Projects and Practice</h1>
+These are other coding projects that may not fall under the JavaScript category.
 <br>
-<ul>
-	<li><a href="/css-animate">CSS Animation</a> <i>(not finished)</i> </li>
+<p class="projects">
+	<a href="/css-animate">CSS Animation <i>(practice)</i> </a>
 
 	<!-- <li><a href=""></a></li> -->
-</ul>
+</p>
 
-<b>More to come!</b>
+<b class="more">More to come!</b>
 <br><br>
 <!-- <button id="updates">Latest Updates</button>  -->
 
@@ -92,8 +105,8 @@ These are other coding projects that may not fall under the JavaScript Category.
 
 
 
-<div id="comments" style="text-align:left;content:left;">
-	<hr>
+<div id="comments">
+	<hr class="split">
 	<h2>Leave Comment</h2>
 	<a href="/comments">See all comments</a>
 	<br><br>
@@ -115,7 +128,7 @@ These are other coding projects that may not fall under the JavaScript Category.
 		<textarea name="comment" rows="5" cols="50" maxlength="1000"
 			placeholder="what would you like to say?" required></textarea>
 		<br>
-		<button type="submit">Add Comment</button>
+		<button class="btn" type="submit">Add Comment</button>
 	</form>
 	<br>
 </div>

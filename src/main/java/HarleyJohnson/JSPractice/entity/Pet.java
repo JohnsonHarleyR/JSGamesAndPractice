@@ -110,6 +110,7 @@ public class Pet {
 	//Egg should take 1 day and 50 pts
 	//Baby should take at least 5 days and 500 pts
 	//Child is permanent for now - add more stages later
+	//(These have been adjusted - the point system.)
 	
 	public void feedPet(int min, int max) {
 		
@@ -229,6 +230,9 @@ public class Pet {
 		} else if (stage == 2) {
 			//35 points down every 8 hours (480 minutes)
 			rate = 0.000897464408526;
+		} else if (stage == 3){
+			//30 points down every 8 hours (480 minutes)
+			rate = 0.000743072799872;
 		} else {
 			//30 points down every 8 hours (480 minutes)
 			rate = 0.000743072799872;
@@ -246,6 +250,9 @@ public class Pet {
 			rate = 0.00371905918857; //20 points an hour
 		} else if (stage == 3) {
 			rate = 0.00270864882496; ////15 points an hour - the older, the lower the decay
+		}  else {
+			//30 points down every 8 hours (480 minutes)
+			rate = 0.00270864882496;
 		}
 		return rate;
 	}
@@ -259,6 +266,8 @@ public class Pet {
 			rate = 0.00371905918857; //20 points an hour
 		} else if (stage == 2) {
 			rate = 0.00270864882496; //15 points an hour
+		} else if (stage == 3) {
+			rate = 0.0017560085943; //10 points an hour - the older, the lower the decay
 		} else {
 			rate = 0.0017560085943; //10 points an hour - the older, the lower the decay
 		}
@@ -353,8 +362,10 @@ public class Pet {
 			growStage = 1;
 		} else if (days < 5 || progress < 1200) { //also check time since birthday - 1 day for egg, 5 days for baby
 			growStage = 2;
-		} else if (days >= 5 && progress > 1200) { //find next stage up still
+		} else if (days < 20 || progress < 3000) { 
 			growStage = 3;
+		} else if (days >= 20 && progress >= 3000) {
+			growStage = 4;
 		}
 	}
 	
@@ -379,8 +390,10 @@ public class Pet {
 			minProgress = 0;
 		} else if (stage == 2) {
 			minProgress = 150;
-		} else {
+		} else if (stage == 3) {
 			minProgress = 1200;
+		} else {
+			minProgress = 3000;
 		}
 		
 		//System.out.println("Getting min progress: " + minProgress);
@@ -397,8 +410,10 @@ public class Pet {
 			maxProgress = 149;
 		} else if (stage == 2) {
 			maxProgress = 1199;
+		} else if (stage == 3) {
+			maxProgress = 2999;
 		} else {
-			maxProgress = 11999;
+			maxProgress = 100000;
 		}
 		//System.out.println("Getting max progress: " + maxProgress);
 		//System.out.println("Current progress: " + progress);

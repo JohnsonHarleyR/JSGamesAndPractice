@@ -124,7 +124,14 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 					<!-- Hunger is handled slightly differently for the sake of an idea later on. -->
 					<a href="/feed?id=${pet.id}&min=15&max=40"><button id="feed">Feed</button></a>
 					<a href="/play?id=${pet.id}"><button id="play">Play</button></a>
-					<a href="/love?id=${pet.id}"><button id="love">Cuddle</button></a>
+					<c:choose>
+						<c:when test="${pet.stage != 4}">
+							<a href="/love?id=${pet.id}"><button id="love">Cuddle</button></a>
+						</c:when>
+						<c:otherwise>
+							<a href="/love?id=${pet.id}"><button id="love">Hug</button></a>
+						</c:otherwise>
+					</c:choose>
 					<br>
 				</c:otherwise>
 				</c:choose>
@@ -157,7 +164,7 @@ Also, an egg takes at least a day to level up and a baby takes 5 days. This is t
 				  <div id="love" class="progress-bar bg-warning" role="progressbar" style="width: ${pet.love}%" aria-valuenow="${pet.love}" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
 				
-				<c:if test="${pet.stage != 3}"> <!-- If it's the last stage, it doesn't need a progress bar -->
+				<c:if test="${pet.stage != 4}"> <!-- If it's the last stage, it doesn't need a progress bar -->
 				<br>
 				<label id="progress-label">Progress</label>
 				<br>
