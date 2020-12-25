@@ -1,4 +1,6 @@
 
+// FIXED - FOUND A BUG WHERE IF YOU CLICK CARDS TOO FAST, IT CAN MESS WITH THE GAME
+
 /* NOTES:
  * 
  * -First ask if on laptop or phone (this game will take it into account from the beginning.)
@@ -13,6 +15,12 @@
  * medium - 5x8 = 20 matches
  * hard - 5x10 = 25 matches
  * extra hard - 5x10 = 30 matches
+ * 
+  * super easy - 2x3 = 3 matches
+ * easy - 3x4 = 6 matches
+ * medium - 4x5 = 10 matches
+ * hard - 5x6 = 15 matches
+ * extra hard - 5x8 = 20 matches
  * 
  * 
  * BASIC STEPS:
@@ -33,8 +41,15 @@
 
 //functions
 
+function loadPage() {
+	
+}
+
 //New Game - eventually this will be the onload before the set game
 // it is where the number of rows and cols will be decided
+function newGame() {
+	
+}
 
 //Set Game
 function setGame() {
@@ -50,6 +65,20 @@ function setGame() {
 	game.innerHTML = "";
 	main.appendChild(game);
 	
+	//set the number of moves the player has taken
+	moves = 0;
+	
+	//add moves message for the board
+	movesMsg = document.createElement("section");
+	movesMsg.id = "moves";
+	movesMsg.innerHTML = "Moves: " + moves;
+	game.appendChild(movesMsg);
+	
+	//add regular message for the board
+	message = document.createElement("section");
+	message.id = "message";
+	message.innerHTML = "Let's begin!";
+	game.appendChild(message);
 	
 	//set up board
 	board = document.createElement("table");
@@ -58,16 +87,18 @@ function setGame() {
 	board.innerHTML = "";
 	game.appendChild(board);
 	
-	
 	//set the number of rows and cols
-	rows = 4; //for now, keep them at the default
-	cols = 5;
+	rows = 3; //for now, keep them at the default
+	cols = 4;
 	
 	
 	//find number of cards
-	var numCards = rows * cols;
+	numCards = rows * cols;
 	//find num of matches - which is half the cards
-	var numMatches = (rows * cols) / 2;
+	numMatches = (rows * cols) / 2;
+	
+	cardsFlipped = 0;
+	flipping = false;
 	
 	//Create variables for front and back images of cards
 	var cardFronts = [numCards];
@@ -79,14 +110,55 @@ function setGame() {
 	
 	//add the front urls
 	for (var i = 0; i < numCards; i++) {
-		var tempNum = i + 1;
 		cardFronts[i] = "/mt/front.png";
 	}
 	
-	//add the back urls
+	//add a temporary placeholder for back urls
 	for (var i = 0; i < numCards; i++) {
-		var tempNum = i + 1;
-		cardBacks[i] = "/mt/card" + 1 + ".png"; //temporarily make them all the same
+		cardBacks[i] = "/mt/blank.png";
+	}
+	
+	//add the back urls
+	//console.log("Setting up images to match.") //test
+	for (var i = 0; i < numCards; i++) {
+		var tempImg; //for testing if an image can be a random image or not
+		var timesUsed; //to count how many times an image has already been used
+		
+		//console.log("Setting image " + i + "."); //test
+		
+		do {
+			timesUsed = 0; //before counting how many times an image is used
+			//select a random match image based on how many different matches were calculated
+			var num = Math.floor(Math.random() * numMatches + 1);
+			//console.log("Num: " + num);
+			tempImg = "/mt/card" + num + ".png"; //randomized image
+			//console.log("Temp image: " + tempImg); //test
+			
+			//now determine if this random image is ok to use or not
+			//if it's not then repeat until an appropriate image is found
+			
+			//loop through cardBacks to see how many times this card has been used already
+			for (var n = 0; n < cardBacks.length; n++) {
+				//add to timesUsed each time it's found
+				//console.log("CardBacks[n]: " + cardBacks[n]); //test
+				if (cardBacks[n] === tempImg) {
+					timesUsed++;
+				}
+			}
+			//if it's been used less than two times, make that cardBack img equal the tempImg
+			if (timesUsed < 2) {
+				cardBacks[i] = tempImg;
+				//console.log("Card set successfully!"); //test
+			} else { //for test
+				//console.log("Unsuccessful, finding different card..."); //test
+			}
+		//if the random image has already been used twice, repeat this step all over for this card
+		//in order to select a different image
+		} while (timesUsed > 1);
+		
+		
+		//var tempNum = i + 1;
+		//cardBacks[i] = "/mt/card" + 1 + ".png"; //temporarily make them all the same
 	}
 	
 	
@@ -118,14 +190,6 @@ function setGame() {
 			//flipped.value = false;
 			
 			/*
-			//determine background color
-			var temp = count + 1;
-			if (temp % 2 === 0) {
-				cell.className = "cell-green";
-			} else {
-				cell.className = "cell-blue";
-			}
-			
 			var text = document.createAttribute("text", cellTexts[count]);
 		    cell.setAttributeNode(text);
 		    text.value = cellTexts[count];
@@ -150,7 +214,7 @@ function flipCard() {
 	
 	
 	//ONLY DO ANY OF THIS IF THE "flipped" ATTRIBUTE IS FALSE
-	if (this.getAttribute("flipped") === "false") {
+	if (this.getAttribute("flipped") === "false" && flipping === false) {
 		//console.log("Flipped found false."); //test
 		
 		//set the "flipNum" - this determines how many cards are currently flipped for a match
@@ -168,25 +232,46 @@ function flipCard() {
 		
 		//now check if it's the second card flipped to find a match
 		if (flipNum === 2) {
-			console.log("Second card flipped.")
+			//console.log("Second card flipped.")
 			
 			//set flip2 to the card's back image
 			flip2 = this;
 			
+			//add to number of moves taken
+			moves += 1;
+			movesMsg.innerHTML = "Moves: " + moves;
+			
 			//check for a match
 			if (flip1.getAttribute("match") === flip2.getAttribute("match")) {
-				console.log("There's a match!"); //test
+				//console.log("There's a match!"); //test
 				
 				//if it's a match, set the "flipped" attributes to true
 				flip1.setAttribute("flipped", true);
 				flip2.setAttribute("flipped", true);
+				//give a message
+				message.innerHTML = "It's a match!";
+				
+				//add to the number of cards flipped
+				cardsFlipped += 2;
 				
 			} else { //if it's not a match
-				console.log("Not a match."); //test
-				
-				//delay for a few seconds before flipping cards back over
+				//console.log("Not a match."); //test
+				flipping = true;
 				
 				//perhaps display a message?
+				message.innerHTML = "Not a match.";
+				
+				//delay for a few seconds before flipping cards back over
+				setTimeout(function(){
+					console.log("Pausing..."); //test
+					//flip both cards back to front card
+					flip1.innerHTML = '<img class="card" src="'+ frontImg + '">';
+					flip2.innerHTML = '<img class="card" src="'+ frontImg + '">';
+					flipping = false;
+				}, 1000);
+				
+				
+				
 			}
 			
 			
@@ -195,26 +280,27 @@ function flipCard() {
 			flipNum = 0;
 		}
 	} else { //temp test
-		console.log("Card already flipped.");
+		//console.log("Card already flipped.");
 	}
 	
+	//Check if all the cards are flipped. If they are all flipped, give a message saying the game
+	//is done.
+	if (cardsFlipped === numCards) {
+		message.innerHTML = "Congrats, you did it!";
+	}
 	
-	
-	
-}
-
-//Check if a match has been found.
-function checkMatch() {
 	
 }
 
 
 //variables
-var rows = 4;
-var cols = 5;
+var rows = 2;
+var cols = 3;
 
 var game;
 var board;
+var message;
+var movesMsg;
 
 var newGameBtn;
 
@@ -232,9 +318,17 @@ var start = "<div id='navigation'><a href='/'>Go Back</a></div>" +
 var frontImg = "/mt/front.png";
 
 //game variables
+var numCards;
+var numMatches;
+var cardsFlipped; //count how many cards have been flipped
+
 var flipNum = 0;
 var flip1; //to see if there's a match
 var flip2; //see if there's a match
+
+var moves = 0; //how many moves the player has taken
+
+var flipping = false; //to prevent bugs, won't let you flip another card if in the middle of matching
 
 
 

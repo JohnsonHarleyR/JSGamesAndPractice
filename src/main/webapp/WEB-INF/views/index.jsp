@@ -79,7 +79,7 @@ Click these links to see projects I've created while learning JavaScript:
 	<li><a href="/sudoku">Sudoku</a></li>
 	<li><a href="/snake-game">Snake Game</a></li>
 	<li><a href="/feedable-pet">Feedable Pet</a></li> <!-- <i>(getting close)</i> -->
-	<li><i>(not finished) </i><a href="/matching-game">Matching Game</a></li>
+	<li><i>(near finished) </i><a href="/matching-game">Matching Game</a></li>
 	<!-- <li><a href="/matching">hjh</a></li> -->
 	</ul>
 </p>
