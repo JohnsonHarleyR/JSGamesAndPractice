@@ -7,6 +7,7 @@
 
 .card {
 	border: 1px solid black;
-	width: 100px;
-	height: 120px;
+	width: 80px;
+	height: 96px;
 }
+/* different sizes: 80x96, 90x108, 100x120 */

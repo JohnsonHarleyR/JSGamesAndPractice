@@ -99,16 +99,23 @@ function setGame() {
 		for (var c = 0; c < cols; c++) {
 			
 			//Insert cell/card
-			var card = row.insertCell(c);
-			card.className = "card";
+			var card = row.insertCell(0);
+			//Note: for some reason, the alignment gets messed up if I add a class name.
+			//This does not happen with the roadside bingo game though. It's weird.
+			//card.className = "card"; 
 			card.id = "card" + r + "" + c;
-			card.innerHTML = '<img src="'+ frontImg + '">'; //for now set the image this way
+			card.innerHTML = '<img class="card" src="'+ frontImg + '">'; //for now set the image this way
 			//set an attribute to it to give the name of the image underneath
 			card.setAttribute("match", cardBacks[count]);
-			//cell.addEventListener("click", markSpace); //the space to add code to flip over card
+			card.addEventListener("click", flipCard); //flip over card
 			
-			console.log(card.id + " has a back image of " + card.getAttribute("match") + ".");
+			//console.log(card.id + " has a back image of " + card.getAttribute("match") + ".");
 			
+			//Set an attribute about whether a card has been flipped. This only becomes true after there's
+			//a match.
+			card.setAttribute("flipped", false);
+			//card.setAttributeNode(flipped);
+			//flipped.value = false;
 			
 			/*
 			//determine background color
@@ -130,9 +137,74 @@ function setGame() {
 			
 			count++;
 		}
-		console.log("Row " + r + " done.");
+		//console.log("Row " + r + " done.");
 	}
 	
+}
+
+function flipCard() {
+	
+	//Set it so that it keeps the image flipped for a few seconds before flipping back if it's the
+	//second card.
+	//Also add a "flip" sound if possible, after the rest is finished
+	
+	
+	//ONLY DO ANY OF THIS IF THE "flipped" ATTRIBUTE IS FALSE
+	if (this.getAttribute("flipped") === "false") {
+		//console.log("Flipped found false."); //test
+		
+		//set the "flipNum" - this determines how many cards are currently flipped for a match
+		flipNum += 1;
+		
+		//make it so the image changes to the one on the other side (the "match" image)
+		console.log(this.getAttribute("match")); //test
+		this.innerHTML = '<img class="card" src="'+ this.getAttribute("match") + '">';
+		
+		//check for cards flipped and set the match cards aka "flip1" and "flip2"
+		if (flipNum === 1) {
+			//set flip1 to the card's back image
+			flip1 = this;
+		}
+		
+		//now check if it's the second card flipped to find a match
+		if (flipNum === 2) {
+			console.log("Second card flipped.")
+			
+			//set flip2 to the card's back image
+			flip2 = this;
+			
+			//check for a match
+			if (flip1.getAttribute("match") === flip2.getAttribute("match")) {
+				console.log("There's a match!"); //test
+				
+				//if it's a match, set the "flipped" attributes to true
+				flip1.setAttribute("flipped", true);
+				flip2.setAttribute("flipped", true);
+				
+			} else { //if it's not a match
+				console.log("Not a match."); //test
+				
+				//delay for a few seconds before flipping cards back over
+				
+				//perhaps display a message?
+			}
+			
+			
+			
+			// set the flipNum number back to 0
+			flipNum = 0;
+		}
+	} else { //temp test
+		console.log("Card already flipped.");
+	}
+	
+	
+	
+	
+}
+
+//Check if a match has been found.
+function checkMatch() {
 	
 }
 
@@ -152,13 +224,17 @@ var main = document.getElementById('main');
 var start = "<div id='navigation'><a href='/'>Go Back</a></div>" +
 		"<h1>Matching Game</h1>" + 
 		"Click on a difficulty to start a new game.<br>" +
-		"Also, you can change the board to fit either a computer or phone!";
+		"Also, you can change the board to fit either a computer or phone!<br><br>";
 //Add buttons about layout to select difficulty
 //Add ability to change layout based on whether it's on a phone or computer
 
 //images
 var frontImg = "/mt/front.png";
-//set the card backs after the game board loads
+
+//game variables
+var flipNum = 0;
+var flip1; //to see if there's a match
+var flip2; //see if there's a match
 
 
 
