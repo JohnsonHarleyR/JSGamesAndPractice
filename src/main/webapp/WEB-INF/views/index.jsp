@@ -72,13 +72,16 @@ Click these links to see projects I've created while learning JavaScript:
 <br>
 <i class="note">(<b>Note:</b> For now, these are best viewed on a laptop.)</i>
 <p class="projects">
-	<a href="/TicTacToe">Tic Tac Toe</a>
-	<a href="/minesweeper">Minesweeper</a><!--  <i>(not finished)</i>-->
-	<a href="/roadside-bingo">Roadside Bingo</a>
-	<a href="/sudoku">Sudoku</a>
-	<a href="/snake-game">Snake Game</a>
-	<a href="/feedable-pet">Feedable Pet</a> <!-- <i>(getting close)</i> -->
-	<!-- <li><a href=""></a></li> -->
+	<ul>
+	<li><a href="/TicTacToe">Tic Tac Toe</a></li>
+	<li><a href="/minesweeper">Minesweeper</a></li><!--  <i>(not finished)</i>-->
+	<li><a href="/roadside-bingo">Roadside Bingo</a></li>
+	<li><a href="/sudoku">Sudoku</a></li>
+	<li><a href="/snake-game">Snake Game</a></li>
+	<li><a href="/feedable-pet">Feedable Pet</a></li> <!-- <i>(getting close)</i> -->
+	<li><i>(not finished) </i><a href="/matching-game">Matching Game</a></li>
+	<!-- <li><a href="/matching">hjh</a></li> -->
+	</ul>
 </p>
 
 <b class="more">More to come!</b>

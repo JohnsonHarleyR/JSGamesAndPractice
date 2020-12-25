@@ -33,12 +33,12 @@ main {
 
 a {
 	font-size: 20px;
-	color: #FF5CD7;
+	color: #FF2EB6; /*FF5CD7*/
 	font-weight: bold;
 }
 
 a:hover {
-	color: #BC1D95;
+	color: #C10E83;
 }
 
 sup a, sup a:hover {

@@ -1,0 +1,12 @@
+@charset "ISO-8859-1";
+
+#board {
+	float:left;
+	padding-right:30px;
+}
+
+.card {
+	border: 1px solid black;
+	width: 100px;
+	height: 120px;
+}
