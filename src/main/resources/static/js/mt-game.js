@@ -4,19 +4,15 @@
 /* NOTES:
  * 
  * -First ask if on laptop or phone (this game will take it into account from the beginning.)
+ * (Add the above part later if I wish.)
  * -Start by using colors to match, change to images after the game is set up properly
  * 
  * Board sizes:
  * (If it's on the phone, have the larger number be spread vertically, if it's on a
  * computer, have it spread out horizontally.)
  * 
- * super easy - 4x5 = 10 matches
- * easy - 5x6 = 15 matches
- * medium - 5x8 = 20 matches
- * hard - 5x10 = 25 matches
- * extra hard - 5x10 = 30 matches
  * 
-  * super easy - 2x3 = 3 matches
+ * super easy - 2x3 = 3 matches
  * easy - 3x4 = 6 matches
  * medium - 4x5 = 10 matches
  * hard - 5x6 = 15 matches
@@ -41,19 +37,12 @@
 
 //functions
 
-function loadPage() {
-	
-}
-
-//New Game - eventually this will be the onload before the set game
+//Load page - this will be the onload before the set game
 // it is where the number of rows and cols will be decided
-function newGame() {
+function loadPage() {
+//console.log("Loading page...");
 	
-}
-
-//Set Game
-function setGame() {
-	//console.log("Loading page...");
+	//NOTE: We will have to see if remaking the table works each time a new level is clicked
 	
 	//clear main to reload it
 	main.innerHTML = start;
@@ -65,13 +54,79 @@ function setGame() {
 	game.innerHTML = "";
 	main.appendChild(game);
 	
+	//Add section to start new game
+	setButtons(); //now has its own method to avoid repetition
+	
+	
+}
+
+//Add section for new game buttons
+function setButtons() {
+	//Add section to start new game
+	newGame = document.createElement("section");
+	newGame.id = "newGameSection";
+	newGame.className = "newGameSection";
+	newGame.innerHTML = "New Game:<br>";
+	game.appendChild(newGame);
+	
+	superEasy = document.createElement("button");
+	superEasy.id = "SuperEasyBtn";
+	superEasy.className = "button";
+	superEasy.innerText = "Super Easy";
+	superEasy.addEventListener("click", superEasyGame);
+	newGame.appendChild(superEasy);
+	
+	easy = document.createElement("button");
+	easy.id = "easyBtn";
+	easy.className = "button";
+	easy.innerText = "Easy";
+	easy.addEventListener("click", easyGame);
+	newGame.appendChild(easy);
+	
+	medium = document.createElement("button");
+	medium.id = "mediumBtn";
+	medium.className = "button";
+	medium.innerText = "Medium";
+	medium.addEventListener("click", mediumGame);
+	newGame.appendChild(medium);
+	
+	hard = document.createElement("button");
+	hard.id = "hardBtn";
+	hard.className = "button";
+	hard.innerText = "Hard";
+	hard.addEventListener("click", hardGame);
+	newGame.appendChild(hard);
+	
+	veryHard = document.createElement("button");
+	veryHard.id = "veryHardBtn";
+	veryHard.className = "button";
+	veryHard.innerText = "Very Hard";
+	veryHard.addEventListener("click", veryHardGame);
+	newGame.appendChild(veryHard);
+	
+	
+}
+
+//Clear the stage for a new game
+function clearStage() {
+	game.innerHTML = ""
+}
+
+
+//Set Game
+function setGame() {
+	
+	//clear everything but reset buttons
+	clearStage();
+	setButtons();
+	
 	//set the number of moves the player has taken
 	moves = 0;
 	
 	//add moves message for the board
 	movesMsg = document.createElement("section");
 	movesMsg.id = "moves";
-	movesMsg.innerHTML = "Moves: " + moves;
+	movesMsg.innerHTML = "<br>Moves: 0";
 	game.appendChild(movesMsg);
 	
 	//add regular message for the board
@@ -86,11 +141,6 @@ function setGame() {
 	//board.className = "table";
 	board.innerHTML = "";
 	game.appendChild(board);
-	
-	//set the number of rows and cols
-	rows = 3; //for now, keep them at the default
-	cols = 4;
-	
 	
 	//find number of cards
 	numCards = rows * cols;
@@ -239,7 +289,7 @@ function flipCard() {
 			
 			//add to number of moves taken
 			moves += 1;
-			movesMsg.innerHTML = "Moves: " + moves;
+			movesMsg.innerHTML = "<br>Moves: " + moves;
 			
 			//check for a match
 			if (flip1.getAttribute("match") === flip2.getAttribute("match")) {
@@ -288,9 +338,50 @@ function flipCard() {
 	if (cardsFlipped === numCards) {
 		message.innerHTML = "Congrats, you did it!";
 	}
-	
-	
 }
+
+//Set the level and game
+//Super easy game
+function superEasyGame() {
+	//set the number of rows and cols
+	rows = 2;
+	cols = 3;
+	
+	setGame();
+}
+
+function easyGame() {
+	//set the number of rows and cols
+	rows = 3;
+	cols = 4;
+	
+	setGame();
+}
+
+function mediumGame() {
+	//set the number of rows and cols
+	rows = 4;
+	cols = 5;
+	
+	setGame();
+}
+
+function hardGame() {
+	//set the number of rows and cols
+	rows = 5;
+	cols = 6;
+	
+	setGame();
+}
+
+function veryHardGame() {
+	//set the number of rows and cols
+	rows = 5;
+	cols = 8;
+	
+	setGame();
+}
+
 
 
 //variables
@@ -302,7 +393,13 @@ var board;
 var message;
 var movesMsg;
 
-var newGameBtn;
+//game level buttons
+var newGame; //section for buttons
+var superEasy;
+var easy;
+var medium;
+var hard;
+var veryHard;
 
 var body = document.getElementById('body');
 var main = document.getElementById('main');
@@ -333,4 +430,4 @@ var flipping = false; //to prevent bugs, won't let you flip another card if in t
 
 
 //Event handlers
-body.onload = setGame; //this will change to only happen when a new game level is clicked.
+body.onload = loadPage;

@@ -16,7 +16,7 @@
 <meta charset="ISO-8859-1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-<title>Insert title here</title>
+<title>Matching Game</title>
 </head>
 
 <body id="body">
