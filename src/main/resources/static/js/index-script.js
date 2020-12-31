@@ -1,7 +1,9 @@
 //Functions
 function readUpdates() {
 	console.log("updates");
-	alert("12/25/20: Started a matching game, finished it almost all the way." +
+	alert("12/29/30: Started creating artist tools, learning to match a color to a grayscale value." +
+			"\n12/27/20: Finished the matching game." +
+			"\n12/25/20: Started a matching game, finished it almost all the way." +
 			"\n12/23/20: Added new images to stage 4 for almost all pets. Red and white still need stage 4 images." +
 			"\n7/30/20: Added yellow aliens to feedable pets." +
 			"\n7/30/20: Fix bug where feedable pet won't grow." +

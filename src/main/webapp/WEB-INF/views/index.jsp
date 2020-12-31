@@ -68,7 +68,9 @@
 
 
 
-Click these links to see projects I've created while learning JavaScript:
+Click these links to see projects I've created while learning JavaScript.
+<br>
+All of these are created from scratch rather than basing them on a tutorial.
 <br>
 <i class="note">(<b>Note:</b> For now, these are best viewed on a laptop.)</i>
 <p class="projects">
@@ -79,7 +81,8 @@ Click these links to see projects I've created while learning JavaScript:
 	<li><a href="/sudoku">Sudoku</a></li>
 	<li><a href="/snake-game">Snake Game</a></li>
 	<li><a href="/feedable-pet">Feedable Pet</a></li> <!-- <i>(getting close)</i> -->
-	<li><i>(near finished) </i><a href="/matching-game">Matching Game</a></li>
+	<li><a href="/matching-game">Matching Game</a></li>
+	<li><i>(not finished) </i><a href="/artist-tools">Artist Tools & Training</a></li>
 	<!-- <li><a href="/matching">hjh</a></li> -->
 	</ul>
 </p>

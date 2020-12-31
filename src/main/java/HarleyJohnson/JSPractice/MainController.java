@@ -133,6 +133,12 @@ public class MainController {
 		return "snake-game";
 	}
 	
+	@RequestMapping("/artist-tools")
+	public String artistTools(Model model) {
+		
+		return "artist-tools";
+	}
+	
 	@RequestMapping("/matching-game")
 	public String matchingGame(Model model) {
 		

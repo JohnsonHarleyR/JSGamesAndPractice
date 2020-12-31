@@ -1,0 +1,66 @@
+/* value scale */
+
+.value {
+	height: 50px;
+	width: 50px;
+}
+
+.vtext {
+	text-align: center;
+}
+
+#v1 {
+	background: #FFFFFF;
+	/* rgb(255,255,255); */
+}
+#v2 {
+	background: #EDEDED;
+	/* rgb(237,237,237); */
+}
+
+#v3 {
+	background: #E2E2E2;
+	/* rgb(226,226,226); */
+}
+
+#v4 {
+	background: #C9C9C9;
+	/* rgb(201,201,201); */
+}
+
+#v5 {
+	background: #B0B0B0;
+	/* rgb(176,176,176); */
+}
+
+#v6 {
+	background: #848484;
+	/* rgb(132,132,132); */
+}
+
+#v7 {
+	background: #5E5E5E;
+	/* rgb(94,94,94); */
+}
+
+#v8 {
+	background: #343434;
+	/* rgb(52,52,52); */
+}
+
+#v9 {
+	background: #0E0E0E;
+	/* rgb(14,14,14); */
+}
+
+
+/* black and white conversion section */
+#c1 {
+	background: #7050EE;
+	/* rgb(112,80,238); */
+}
+
+#c2 {
+	background: #8F8F8F;
+	/* rgb(100,142,9); */
+}

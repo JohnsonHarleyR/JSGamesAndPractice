@@ -6,7 +6,7 @@ html {
 
 
 body {
-	background-color: #ABFFFF;
+	background-color: #FFFFFF;
 	height: 100%;
 	font-size: 22px;
 	margin-left: 16%;
@@ -87,17 +87,21 @@ h2 {
 
 .btn {
 	margin-top: 10px;
-	background-color: #0A717B;
+	background-color: #6F3907;
 	width: 175px;
 	color: #ffffff;
-	border: 1px solid #6F3907;
+	border: 1px solid #522B06;
+}
+
+.btn:hover {
+	color: #E8E7E4;
 }
 
 .left-decor {
 	height: 100%;
 	margin: 0;
 	width: 15%;
-	background-color: #0C5359;
+	background-color: #522B06;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -111,7 +115,7 @@ h2 {
 	height: 100%;
 	margin: 0;
 	width: 50%;
-	background-color: #A4FFFF;
+	background-color: #FAFAFA;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -123,7 +127,7 @@ h2 {
 	height: 100%;
 	margin: 0;
 	width: 40%;
-	background-color: #97FFFF;
+	background-color: #F6F5F4;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -135,7 +139,7 @@ h2 {
 	height: 100%;
 	margin: 0;
 	width: 30%;
-	background-color: #83FFFF;
+	background-color: #F1F1EF;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -147,7 +151,7 @@ h2 {
 	height: 100%;
 	margin: 0;
 	width: 20%;
-	background-color: #75FBFB;
+	background-color: #ECECEA;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -159,7 +163,7 @@ h2 {
 	height: 100%;
 	margin: 0;
 	width: 10%;
-	background-color: #68F6F6;
+	background-color: #E8E7E4;
 	position: absolute;
 	top: 0;
 	bottom: 0;
